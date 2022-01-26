@@ -228,10 +228,10 @@ class AromeCartePourCanvas(Frame):
 
         return zones_zoom[num_zone]
 
-
 class CarteMonoParam(AromeCartePourCanvas):
     """Renvoie la carte de températures à deux mètre prévue
         par Arome 0.025° ou 0.01°."""
+
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
                  type_carte,zoom,verification):
 
