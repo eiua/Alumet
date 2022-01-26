@@ -63,6 +63,15 @@ class Application(Tk):
 
         self.creer_barre_menus()# création de la barre des menus
 
+        # Échelle pour échéances
+        scale_9 = Scale(self,length = 600, orient = HORIZONTAL,
+                        sliderlength = 25,
+                        label = "Échéance de prévision +(**)H:",
+                        from_ = 0, to = 114, tickinterval = 6,
+                        resolution = 1,showvalue = 1,
+                        command = self.regler_echeance)
+        scale_9.pack()
+
     def creer_barre_menus(self):
         """Barre de menus de l’interface graphique."""
 
