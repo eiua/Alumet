@@ -1,0 +1,145 @@
+10m_wind: {
+###########################
+### Copié des parametres hindcasts
+    category: S,
+    generation: SY05,
+    originator: ECMW,
+    mod_res_vers: T159,
+    nvar_abr: WS-,
+    level: 0010m,
+    region: Euro,
+    spa_res: 100d,
+    #start_date_F: set in ECMWF.py
+    #end_date_F: set in ECMWF.py
+    var_type: INS,
+    view: MAP,
+    temp_res: 06h,
+    lead_time: 07m,
+    bias_adj: qbc,
+    #stats: set in ECMWF.py
+    ens_num: NA-,
+    emi_scenario: NA-,
+    ene_scenario: NA-,
+    tra_fun: NA---,
+    #instant: True,
+    about_wind: True,
+    na: uas,
+    na_2: vas,
+    short_var: u10,
+    short_var_2: v10,
+    field_units: ms,
+    anomalies_units: ms,
+    term: 860,
+    nb_lats: 46,
+    nb_lons: 68,
+    nb_mb_f: 51
+    }
+AROME_0.025: {
+    t_fichiers: ["00H06H","07H12H","13H18H","19H24H","25H30H","31H36H",
+                  "37H42H"]
+}
+AROME_0.01: {
+    t_fichiers: ["00H","01H","02H","03H","04H","05H","06H","07H","08H","09H",
+                  "10H","11H","12H","13H","14H","15H","16H","17H","18H","19H",
+                  "20H","21H","22H","23H","24H","25H","26H","27H","28H","29H",
+                  "30H","31H","32H","33H","34H","35H","36H","37H","38H","39H",
+                  "40H","41H","42H"]
+}
+ARPEGE_0.1: {
+    t_fichiers: ["00H12H","13H24H","25H36H","37H48H","49H60H","61H72H",
+                  "73H84H","85H96H","97H102H","103H114H"]
+}
+ARPEGE_0.5: {
+    t_fichiers: ["00H24H","27H48H","51H72H","75H102H","105H114H"]
+}
+T2m: {
+###########################
+## Copié des parametres hindcasts
+    #niveau: 0002m,
+    shortName_grib: 2t, #clé grib pour la température à 2m
+    conversion_unite: -273.15, #passage de K à °C
+    unite: °C,
+    unite_phy: K,
+    levels_colorbar: [-34,44,1],
+    levels_contours: [-40,48,4],
+    cmap_carte: nipy_spectral,
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+    }
+Hu2m: {
+    #niveau: 0002m,
+    shortName_grib: 2r, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: "%",
+    unite_phy: r/r_sat,
+    levels_colorbar: [0,100,5],
+    levels_contours: [0,100,5],
+    cmap_carte: binary,
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+neige: {
+    #niveau: 0002m,
+    shortName_grib: snom, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: kg.m-2,
+    unite_phy: kg.m-2,
+    levels_colorbar: [0,100,5],
+    levels_contours: [0,100,5],
+    cmap_carte: binary,
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+Precips: {
+    #niveau: 0002m,
+    shortName_grib: tp, #clé grib pour les précipitations
+    conversion_unite: 0, #passage de m vers mm
+    unite: kg.m-2,
+    unite_phy: kg.m-2,
+    levels_colorbar: [0,100,5],
+    levels_contours: [0,100,5],
+    cmap_carte: binary,
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+Pmer: {
+###########################
+## Copié des parametres hindcasts
+    #niveau: 0002m,
+    shortName_grib: msl, #clé grib pour la température à 2m
+    conversion_unite: -273.15, #passage de K à °C
+    unite: °C,
+    unite_phy: K,
+    levels_colorbar: [850,1100,5],
+    levels_contours: [850,1100,5],
+    cmap_carte: nipy_spectral,
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+    }
+Psol: {
+###########################
+## Copié des parametres hindcasts
+    #niveau: 0002m,
+    shortName_grib: sp, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: hPa,
+    unite_phy: hPa,
+    levels_colorbar: [85000,110000,500],
+    levels_contours: [85000,110000,500],
+    cmap_carte: nipy_spectral,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP2,
+    paquet_ARPEGE_0.5: SP2
+    }
+    
