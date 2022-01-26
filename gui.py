@@ -46,6 +46,21 @@ class Application(Tk):
                                      command=self.saisir_date_du_run)
         boutton_date_du_run.pack()
 
+        lab_run = Label(self, text="===========================")
+        lab_run.pack()
+
+        # Initalisation de la case à cocher pour le zoom.
+        self.chk = 0
+        self.ck = IntVar()
+        zones = ("Domaines modèles entier (par défaut)","Zoom Sud-Est France",
+                 "Zoom Toulouse Garonne Ariège","Zoom Grand Sud France",
+                 "Zoom Lus Genève Charlieu","Zoom Grand Mont Blanc",
+                 "Zoom Savoie","Zoom Écrins",)
+        for zone in range(len(zones)):
+            check_1 = Checkbutton(self,text = zones[zone],variable=zone,
+                                  command=partial(self.regler_zoom,zone))
+            check_1.pack()
+
         self.creer_barre_menus()# création de la barre des menus
 
     def creer_barre_menus(self):
@@ -263,3 +278,16 @@ class Application(Tk):
                                                              resolution=res,
                                                              verification = 0)
         self.telecharger_donnees.telecharger_donnes_modeles(paquet)
+
+    def regler_zoom(self,zone):
+        """Réglage de la zone de zoom"""
+
+        self.chk = self.ck.get()
+        self.chk = zone
+        self.event_generate('<Control-Z>')
+
+    def regler_echeance(self,f):
+        """Réglage de l’échéance d’intérêt"""
+
+        self.echh = int(f)
+        self.event_generate('<Control-Z>')
