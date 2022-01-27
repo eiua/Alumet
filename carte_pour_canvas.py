@@ -64,7 +64,7 @@ class AromeCartePourCanvas(Frame):
         self.paquet = ha.load_config("paquet_" + self.modele + \
                                      "_" + self.resolution)
         self.nws_precip_colors = ha.load_config("nws_precip_colors")
-
+        self.levels = ha.load_config("levels")
     def construire_noms(self):
         """Renvoie les différentes chaines de caractères
         qui serviront de titre,
@@ -235,8 +235,7 @@ class AromeCartePourCanvas(Frame):
         return zones_zoom[num_zone]
 
 class CarteMonoParam(AromeCartePourCanvas):
-    """Renvoie la carte de températures à deux mètre prévue
-        par Arome 0.025° ou 0.01°."""
+    """Renvoie une carte à un seul paramètre météo."""
 
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
                  type_carte,zoom,verification):
@@ -329,9 +328,18 @@ class CarteMonoParam(AromeCartePourCanvas):
         if self.verification == 1:
             print("fin contour")
 
-        bb = ax.pcolormesh(lons,lats,tt,vmin=ln,vmax=lx,
-                           cmap=self.cmap_carte,
-                           transform=ccrs.PlateCarree())
+        if self.type_de_carte == "Neige":
+            nws_precip_colors = self.nws_precip_colors
+            precip_colormap = mcolors.ListedColormap(nws_precip_colors)
+            levels = self.levels
+            norm = mcolors.BoundaryNorm(levels, len(levels))
+
+            bb=plt.pcolormesh(lons, lats, tt, norm=norm, cmap=precip_colormap,
+                          transform=ccrs.PlateCarree())
+        else:
+            bb = ax.pcolormesh(lons,lats,tt,vmin=ln,vmax=lx,
+                               cmap=self.cmap_carte,
+                               transform=ccrs.PlateCarree())
 
         csb = plt.colorbar(bb, shrink=0.9, pad=0, aspect=20)
 
@@ -376,7 +384,8 @@ class CarteMonoParam(AromeCartePourCanvas):
         del nom
 
 class CarteCumuls(AromeCartePourCanvas):
-    """Renvoie une carte ."""
+    """Renvoie une carte pour un paramètre à cumul, comme les précipitations
+    ou le rayonnement visible descendant (DSW)."""
 
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
                  type_carte,zoom,verification):
@@ -474,6 +483,9 @@ class CarteCumuls(AromeCartePourCanvas):
 
         tete = tt2 - tt1
 
+#        if self.type_de_carte == "Precips":
+#            tete = tete
+
         del tt1
         del tt2
 
@@ -491,12 +503,12 @@ class CarteCumuls(AromeCartePourCanvas):
         else:
             nws_precip_colors = self.nws_precip_colors
             precip_colormap = mcolors.ListedColormap(nws_precip_colors)
+            levels = self.levels
+#            levels = [0.1, 0.2, 0.5, 1, 2, 3, 5, 7.5, 10, 20, 30, 50,
+#            60, 80, 100, 200]
+            norm = mcolors.BoundaryNorm(levels, len(levels))
 
-            levels = [0.1, 0.2, 0.5, 1, 2, 3, 5, 7.5, 10, 20, 30, 50,
-            60, 80, 100, 200]
-            norm = mcolors.BoundaryNorm(levels, 15)
-
-            cs=plt.pcolormesh(lons, lats, tt, cmap=precip_colormap,
+            cs=plt.pcolormesh(lons, lats, tt, norm=norm, cmap=precip_colormap,
                           transform=ccrs.PlateCarree())
 
         csb = plt.colorbar(cs, shrink=0.9, pad=0, aspect=20)
