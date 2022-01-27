@@ -63,6 +63,7 @@ class AromeCartePourCanvas(Frame):
         self.cmap_carte = ha.load_config("cmap_carte")
         self.paquet = ha.load_config("paquet_" + self.modele + \
                                      "_" + self.resolution)
+        self.nws_precip_colors = ha.load_config("nws_precip_colors")
 
     def construire_noms(self):
         """Renvoie les différentes chaines de caractères
@@ -373,3 +374,163 @@ class CarteMonoParam(AromeCartePourCanvas):
         del tt
         del titre
         del nom
+
+class CarteCumuls(AromeCartePourCanvas):
+    """Renvoie une carte ."""
+
+    def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
+                 type_carte,zoom,verification):
+
+        AromeCartePourCanvas.__init__(self,date_du_run,modele,resolution,
+                                         echeance,type_carte,zoom)
+
+        Frame.__init__(self)
+
+        self.date_du_run = date_du_run
+        self.verification = verification
+        self.canev=canev
+        self.echeance = echeance
+
+    def envoyer_carte_vers_gui(self):
+        print("CarteCumuls: ",self.type_de_carte)
+        self.load_config()
+        self.construire_noms()
+
+        if self.zoom >=1:
+            coords = self.zones_zoom(self.zoom-1)
+
+        print(self.trouver_indice_echeance())
+
+        indice_echeance_1,indice_echeance_2,nom_fichier1,nom_fichier2 = self.\
+            trouver_indice_echeance()
+
+        if self.echeance > 0:
+            grbs_1 = pygrib.open(nom_fichier1)
+
+            for gg in grbs_1.select(shortName = self.shortName_grib):
+                print(gg)
+            gt_1 = grbs_1.select(shortName = self.shortName_grib)[indice_echeance_1]
+
+        grbs_2 = pygrib.open(nom_fichier2)
+        gt_2 = grbs_2.select(shortName = self.shortName_grib)[indice_echeance_2]
+
+        ech_mois = str(gt_2.validityDate)[4:6]
+        ech_jour = str(gt_2.validityDate)[6:8]
+
+        if gt_2.validityTime<1000:
+            ech_heure = str(gt_2.validityTime)[0]
+        else:
+            ech_heure = str(gt_2.validityTime)[0:2]
+
+        print("Champ: ",gt_2.shortName,"  Validité: ",gt_2.validityDate,
+              " à ",gt_2.validityTime)
+
+        validite ="Prévision pour le " + ech_jour + "/" + ech_mois+ \
+            " " + ech_heure + "H"
+
+        if self.verification == 1:
+            print(gt_1)
+            print(gt_2)
+
+        if self.echeance == 0:
+            if self.zoom == 0:
+                tt2, lats, lons = gt_2.data()
+                grbs_2.close()
+            elif self.zoom >= 1:
+
+                lat11 = coords[1][0]
+                print(lat11)
+                lat22 = coords[1][1]
+                lon11 = coords[1][2]
+                lon22 = coords[1][3]
+                tt2, lats, lons = gt_2.data(lat1=lat11,lat2=lat22,
+                                            lon1=lon11,lon2=lon22)
+                grbs_2.close()
+
+            tt1 = 0
+
+        else:
+            if self.zoom == 0:
+                tt1, lats, lons = gt_1.data()
+                tt2, lats, lons = gt_2.data()
+                grbs_1.close()
+                grbs_2.close()
+            elif self.zoom >= 1:
+                lat11 = coords[1][0]
+                print(lat11)
+                lat22 = coords[1][1]
+                lon11 = coords[1][2]
+                lon22 = coords[1][3]
+                tt1, lats, lons = gt_1.data(lat1=lat11,lat2=lat22,
+                                            lon1=lon11,lon2=lon22)
+                tt2, lats, lons = gt_2.data(lat1=lat11,lat2=lat22,
+                                            lon1=lon11,lon2=lon22)
+                grbs_1.close()
+                grbs_2.close()
+
+        if self.echeance > 0:
+            del gt_1
+        del gt_2
+
+        tete = tt2 - tt1
+
+        del tt1
+        del tt2
+
+        tt = np.ma.masked_less(tete, 0.1)
+
+        del tete
+
+        f,ax = self.dessiner_fond_carte(lons,lats)
+
+        origin='lower'
+
+        if self.type_de_carte == "DSW":
+            cs=plt.pcolormesh(lons, lats, tt, cmap=self.cmap_carte,
+                          transform=ccrs.PlateCarree())
+        else:
+            nws_precip_colors = self.nws_precip_colors
+            precip_colormap = mcolors.ListedColormap(nws_precip_colors)
+
+            levels = [0.1, 0.2, 0.5, 1, 2, 3, 5, 7.5, 10, 20, 30, 50,
+            60, 80, 100, 200]
+            norm = mcolors.BoundaryNorm(levels, 15)
+
+            cs=plt.pcolormesh(lons, lats, tt, cmap=precip_colormap,
+                          transform=ccrs.PlateCarree())
+
+        csb = plt.colorbar(cs, shrink=0.9, pad=0, aspect=20)
+        #csb.set_label("mm")
+
+        if self.echeance < 10:
+            titre = self.titre_0 + "\n" + validite
+            nom = self.nom_0 + str(self.echeance)+'H.png'
+        else:
+            titre = self.titre_10 + "\n" + validite
+            nom = self.nom_10 + str(self.echeance)+'H.png'
+
+        if self.verification == 1:
+            print(titre)
+            print(nom)
+        plt.text(0.5,0.97,titre,horizontalalignment='center',
+                 verticalalignment='center', transform = ax.transAxes)
+        #plt.title(titre)
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        plt.show()
+
+        #self.canev.get_tk_widget().destroy()
+        self.canev = FigureCanvasTk(f, self.master)
+        self.canev.show()
+        self.canev.get_tk_widget().pack(expand=True)
+
+        toolbar = NavigationToolbar2Tk(self.canev, self.master)
+        toolbar.update()
+        self.canev._tkcanvas.pack(expand=True)
+
+        plt.close()
+        del tt
+        del titre
+        del nom
+
+        print("coucou")
+

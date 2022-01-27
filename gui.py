@@ -103,7 +103,14 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Pmer"))
-
+        menu_arome.add_command(label="Précipitations", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Precips"))
+        menu_arome.add_command(label="Rayonnement visible descendant (SW)", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","DSW"))
 
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
@@ -331,6 +338,16 @@ class Application(Tk):
 
         self.can.delete(ALL)
         self.c2 = CarteMonoParam(self,self.can,self.date_du_run,
+                           modele,resolution,echeance=self.echh,
+                           type_carte=variable,zoom = self.chk,
+                           verification = 0)
+        self.c2.envoyer_carte_vers_gui()
+
+    def DessinerCarteCumuls(self,modele,resolution,variable):
+        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+        self.can.delete(ALL)
+        self.c2 = CarteCumuls(self,self.can,self.date_du_run,
                            modele,resolution,echeance=self.echh,
                            type_carte=variable,zoom = self.chk,
                            verification = 0)
