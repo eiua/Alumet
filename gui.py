@@ -10,8 +10,8 @@ from functools import partial
 import threading
 
 # Import des librairies internes à Lumet
-from telechargement_modeles import *
-
+from TelechargementModeles import *
+from carte_pour_canvas import *
 # Classe d'interface graphique, les objets de cette classe
 # sont appelées dans le main du projet.
 
@@ -21,7 +21,7 @@ class Application(Tk):
     def __init__(self):
         Tk.__init__(self)        # constructeur de la classe parente
 
-        self.date_du_run = self.obtenir_date_du_run()
+        self.date_du_run = self.ObtenirDateDuRun()
         lab_run = Label(self, text="\nPrévisions en date du " + \
                         self.date_du_run[6:8] + "/"+ \
                         self.date_du_run[4:6] + "/" + self.date_du_run[0:4]+\
@@ -43,7 +43,7 @@ class Application(Tk):
 
         boutton_date_du_run = Button(self, height=1,
                                      text="Valider date du run",
-                                     command=self.saisir_date_du_run)
+                                     command=self.SaisirDateDuRun)
         boutton_date_du_run.pack()
 
         lab_run = Label(self, text="===========================")
@@ -58,57 +58,82 @@ class Application(Tk):
                  "Zoom Savoie","Zoom Écrins",)
         for zone in range(len(zones)):
             check_1 = Checkbutton(self,text = zones[zone],variable=zone,
-                                  command=partial(self.regler_zoom,zone))
+                                  command=partial(self.ReglerZoom,zone))
             check_1.pack()
 
-        self.creer_barre_menus()# création de la barre des menus
+        self.CreerBarreMenus()# création de la barre des menus
 
+        # Initalisation du paramètre d'échéance
+        #pour les cartes à afficher par lumet.
+        self.echh = 0
         # Échelle pour échéances
         scale_9 = Scale(self,length = 600, orient = HORIZONTAL,
                         sliderlength = 25,
                         label = "Échéance de prévision +(**)H:",
                         from_ = 0, to = 114, tickinterval = 6,
                         resolution = 1,showvalue = 1,
-                        command = self.regler_echeance)
+                        command = self.ReglerEcheance)
         scale_9.pack()
 
-    def creer_barre_menus(self):
+        # Initialisation du canevas qui sera modifié pour créer
+        #et afficher les différentes cartes
+        self.can = Canvas(self, width =50, height =50, bg ="white")
+        self.can.pack(side =TOP, padx =5, pady =5)
+
+    def CreerBarreMenus(self):
         """Barre de menus de l’interface graphique."""
 
         menu_bar = Menu(self)
 
         menu_arome = Menu(menu_bar, tearoff=0)
+        menu_arome.add_command(label="Température à 2m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","T2m"))
+        menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
+        menu_arome.add_command(label="Humidité relative à 2m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu2m"))
+        menu_arome.add_command(label="Hauteur de neige", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Neige"))
+        menu_arome.add_command(label="Pression au niveau de la mer 0.025° ", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Pmer"))
 
-        menu_tele_modeles = Menu(menu_bar,tearoff=0)  
-        
+
+        menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
         menu_tele_base.add_command(label="Arome 0.025°: SP1",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","SP1"))
         menu_tele_base.add_command(label="Arome 0.025°: IP5",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","IP5"))
         menu_tele_base.add_command(label="Arome 0.01°: SP1",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.01","SP1"))
         menu_tele_base.add_command(label="Arpege 0.1°: SP1",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","SP1"))        
         menu_tele_base.add_command(label="Arpege 0.1°: IP4",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","IP4"))        
         menu_tele_base.add_command(label="Arpege 0.5°: SP1",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","SP1"))        
         menu_tele_base.add_command(label="Arpege 0.5°: IP4",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","IP4"))
         menu_tele_modeles.add_cascade(label="Téléchargement paquets de base",
                              underline=0,menu=menu_tele_base)
@@ -117,47 +142,47 @@ class Application(Tk):
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: SP2 - "+\
                                       "paramètres additionnels à la surface",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","SP2"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: SP3 - " + \
                                       "paramètres additionnels (2) à la surface",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","SP3"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: IP1 - "+ \
                                       "paramètres courants en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","IP1"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: IP2 - "+\
                                       "paramètres additionnels en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","IP2"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: IP3 - "+\
                                       "paramètres additionnels (2) en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","IP3"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: IP4 - "+\
                                             "paramètres additionnels (3) en niveaux isobares",
                                             command=partial(
-                                            self.telechargement_modeles,"AROME",
+                                            self.TelechargementModeles,"AROME",
                                             "0.025","IP4"))          
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: HP1 - "+\
                                       "paramètres courants en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","HP1"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: HP2 - "+\
                                       "paramètres additionnels en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","HP2"))
         menu_tele_params_tous_1.add_command(label="Arome 0.025°: HP3 - "+\
                                       "paramètres additionnels (2) en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.025","HP3"))
         menu_tele_modeles.add_cascade(label="Télé add AROME 0.025",
                              underline=0,menu=menu_tele_params_tous_1)
@@ -166,17 +191,17 @@ class Application(Tk):
         menu_tele_params_tous_2.add_command(label="Arome 0.01°: SP2 - "+\
                                       "paramètres additionnels à la surface",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.01","SP2"))
         menu_tele_params_tous_2.add_command(label="Arome 0.01°: SP3 - " + \
                                       "paramètres additionnels (2) à la surface",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.01","SP3"))
         menu_tele_params_tous_2.add_command(label="Arome 0.01°: HP1 - "+ \
                                       "paramètres courants en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"AROME",
+                                      self.TelechargementModeles,"AROME",
                                       "0.01","HP1"))
         menu_tele_modeles.add_cascade(label="Télé add AROME 0.01",
                              underline=0,menu=menu_tele_params_tous_2)
@@ -185,37 +210,37 @@ class Application(Tk):
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: SP2 - "+\
                                       "paramètres additionnels à la surface",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","SP2"))
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: IP1 - "+ \
                                       "paramètres courants en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","IP1"))
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: IP2 - "+\
                                       "paramètres additionnels en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","IP2"))
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: IP3 - "+\
                                       "paramètres additionnels (2) en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","IP3"))
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: IP4 - "+\
                                             "paramètres additionnels (3) en niveaux isobares",
                                             command=partial(
-                                            self.telechargement_modeles,"ARPEGE",
+                                            self.TelechargementModeles,"ARPEGE",
                                             "0.1","IP4"))          
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: HP1 - "+\
                                       "paramètres courants en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","HP1"))
         menu_tele_params_tous_3.add_command(label="Arpege 0.1°: HP2 - "+\
                                       "paramètres additionnels en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.1","HP2"))
         menu_tele_modeles.add_cascade(label="Télé add ARPEGE 0.1",
                              underline=0,menu=menu_tele_params_tous_3)  
@@ -224,41 +249,41 @@ class Application(Tk):
         menu_tele_params_tous_4.add_command(label="Arpege 0.5°: SP2 - "+\
                                       "paramètres additionnels à la surface",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","SP2"))
         menu_tele_params_tous_4.add_command(label="Arpege 0.5°: IP1 - "+ \
                                       "paramètres courants en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","IP1"))
         menu_tele_params_tous_4.add_command(label="Arpege 0.5°: IP2 - "+\
                                       "paramètres additionnels en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","IP2"))
         menu_tele_params_tous_4.add_command(label="Arpege 0.5°: IP3 - "+\
                                       "paramètres additionnels (2) en niveaux isobares",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","IP3"))       
         menu_tele_params_tous_4.add_command(label="Arpege 0.5°: HP1 - "+\
                                       "paramètres courants en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","HP1"))
         menu_tele_params_tous_4.add_command(label="Arpege 0.5°: HP2 - "+\
                                       "paramètres additionnels en niveaux hauteur",
                                       command=partial(
-                                      self.telechargement_modeles,"ARPEGE",
+                                      self.TelechargementModeles,"ARPEGE",
                                       "0.5","HP2"))
         menu_tele_modeles.add_cascade(label="Télé add ARPEGE 0.5",
                              underline=0,menu=menu_tele_params_tous_4)  
         menu_bar.add_cascade(label="Téléchargements données modèles",
-                             underline=0,menu=menu_tele_modeles)  
+                             underline=0,menu=menu_tele_modeles)
 
         self.config(menu=menu_bar)
 
-    def obtenir_date_du_run(self):
+    def ObtenirDateDuRun(self):
         """Obtenir une date du run à partir de la date du lancement de lumet"""
 
         mod = "AROME"
@@ -268,7 +293,7 @@ class Application(Tk):
                                             verification = 0)
         return daterun.donner_date_du_run()
 
-    def saisir_date_du_run(self):
+    def SaisirDateDuRun(self):
         """Saisie manuelle de la date d’un run antérieur pour lequel on dispose
         des données."""
 
@@ -277,7 +302,7 @@ class Application(Tk):
         self.event_generate('<Control-Z>')
         print(self.date_du_run)
 
-    def telechargement_modeles(self,mod,res,paquet):
+    def TelechargementModeles(self,mod,res,paquet):
         """Téléchargement des données des modèles météos."""
 
         #mod = "AROME"
@@ -288,15 +313,25 @@ class Application(Tk):
                                                              verification = 0)
         self.telecharger_donnees.telecharger_donnes_modeles(paquet)
 
-    def regler_zoom(self,zone):
+    def ReglerZoom(self,zone):
         """Réglage de la zone de zoom"""
 
         self.chk = self.ck.get()
         self.chk = zone
         self.event_generate('<Control-Z>')
 
-    def regler_echeance(self,f):
+    def ReglerEcheance(self,f):
         """Réglage de l’échéance d’intérêt"""
 
         self.echh = int(f)
         self.event_generate('<Control-Z>')
+
+    def DessinerCarteMonoParam(self,modele,resolution,variable):
+        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+        self.can.delete(ALL)
+        self.c2 = CarteMonoParam(self,self.can,self.date_du_run,
+                           modele,resolution,echeance=self.echh,
+                           type_carte=variable,zoom = self.chk,
+                           verification = 0)
+        self.c2.envoyer_carte_vers_gui()

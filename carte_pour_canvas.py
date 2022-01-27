@@ -71,13 +71,18 @@ class AromeCartePourCanvas(Frame):
 
         titre_00 = ""
         
-        if self.type_de_carte == "T2m":
-            #sp1_ip5 = "SP1"
-            titre_00 = 'T2m (°C)'
-            if self.zoom == 0:
-                nom_00 = '/T2m'
-            elif self.zoom == 1:
-                nom_00 = '/T2m_zoom'
+#        if self.type_de_carte == "T2m":
+ #           titre_00 = self.type_de_carte + " " + self.unite
+  #          if self.zoom == 0:
+   #             nom_00 = "/" + self.type_de_carte
+    #        elif self.zoom == 1:
+     #           nom_00 = "/" + "_zoom"
+
+        titre_00 = self.type_de_carte + " " + self.unite
+        if self.zoom == 0:
+            nom_00 = "/" + self.type_de_carte
+        elif self.zoom == 1:
+            nom_00 = "/" + "_zoom"
 
         self.nom_fichier_1 = "./donnees/" + self.modele +\
             "_"+ self.resolution+"/" + self.modele + "_"+ self.resolution +\
@@ -256,8 +261,8 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-#        for g in grbs:
-#            print(g.shortName,g)
+        for g in grbs:
+            print(g.shortName,g)
         
         gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
 
@@ -302,7 +307,7 @@ class CarteMonoParam(AromeCartePourCanvas):
         f,ax = self.dessiner_fond_carte(lons,lats)
 
         origin='lower'
-        
+
         print(self.levels_colorbar)
         print(self.levels_colorbar[0])
         ln = int(self.levels_colorbar[0])

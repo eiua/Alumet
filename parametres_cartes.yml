@@ -76,21 +76,21 @@ Hu2m: {
     unite_phy: r/r_sat,
     levels_colorbar: [0,100,5],
     levels_contours: [0,100,5],
-    cmap_carte: binary,
+    cmap_carte: Purples,
     paquet_AROME_0.025: SP1,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
-neige: {
+Neige: {
     #niveau: 0002m,
-    shortName_grib: snom, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: sprate, #clé grib pour le cumul de neige
+    conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
     levels_colorbar: [0,100,5],
     levels_contours: [0,100,5],
-    cmap_carte: binary,
+    cmap_carte: gist_heat_r,
     paquet_AROME_0.025: SP1,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP1,
@@ -114,12 +114,12 @@ Pmer: {
 ###########################
 ## Copié des parametres hindcasts
     #niveau: 0002m,
-    shortName_grib: msl, #clé grib pour la température à 2m
-    conversion_unite: -273.15, #passage de K à °C
-    unite: °C,
-    unite_phy: K,
-    levels_colorbar: [850,1100,5],
-    levels_contours: [850,1100,5],
+    shortName_grib: prmsl, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: hPa,
+    unite_phy: hPa,
+    levels_colorbar: [94000,106000,500],
+    levels_contours: [94000,106000,500],
     cmap_carte: nipy_spectral,
     paquet_AROME_0.025: SP1,
     paquet_AROME_0.01: SP2,
