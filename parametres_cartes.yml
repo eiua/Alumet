@@ -160,8 +160,8 @@ Psol: {
     conversion_unite: 0, #passage de K à °C
     unite: hPa,
     unite_phy: hPa,
-    levels_colorbar: [85000,110000,500],
-    levels_contours: [85000,110000,500],
+    levels_colorbar: [85000,110000,1000],
+    levels_contours: [85000,110000,1000],
     cmap_carte: nipy_spectral,
     nws_precip_colors: 0,
     levels: 0,

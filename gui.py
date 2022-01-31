@@ -86,6 +86,7 @@ class Application(Tk):
         menu_bar = Menu(self)
 
         menu_arome = Menu(menu_bar, tearoff=0)
+        menu_arome.add_label("Arome 0.025°")
         menu_arome.add_command(label="Température à 2m", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
@@ -103,6 +104,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Pmer"))
+        menu_arome.add_command(label="Pression à la surface 0.025° ", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Psol"))
         menu_arome.add_command(label="Précipitations", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteCumuls,
@@ -111,7 +116,7 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","DSW"))
-
+        menu_arome.add_separator()
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
         menu_tele_base.add_command(label="Arome 0.025°: SP1",

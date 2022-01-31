@@ -261,8 +261,8 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-        for g in grbs:
-            print(g.shortName,g)
+        #for g in grbs:
+         #   print(g.shortName,g)
         
         gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
 
@@ -416,8 +416,8 @@ class CarteCumuls(AromeCartePourCanvas):
         if self.echeance > 0:
             grbs_1 = pygrib.open(nom_fichier1)
 
-            for gg in grbs_1.select(shortName = self.shortName_grib):
-                print(gg)
+#            for gg in grbs_1.select(shortName = self.shortName_grib):
+#                print(gg)
             gt_1 = grbs_1.select(shortName = self.shortName_grib)[indice_echeance_1]
 
         grbs_2 = pygrib.open(nom_fichier2)
