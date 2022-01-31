@@ -91,6 +91,14 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","T2m"))
+        menu_arome.add_command(label="Vent moyen à 10m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vent_Moy"))
+        menu_arome.add_command(label="Vent rafales à 10m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vent_Raf"))
         menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
         menu_arome.add_command(label="Humidité relative à 2m", underline=3,
                                accelerator="CTRL+N",
@@ -135,6 +143,14 @@ class Application(Tk):
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.01","T2m"))
         menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
+        menu_arome.add_command(label="Vent moyen à 10m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Vent_Moy"))
+        menu_arome.add_command(label="Vent rafales à 10m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Vent_Raf"))
         menu_arome.add_command(label="Humidité relative à 2m", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,

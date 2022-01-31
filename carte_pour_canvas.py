@@ -65,6 +65,9 @@ class AromeCartePourCanvas(Frame):
                                      "_" + self.resolution)
         self.nws_precip_colors = ha.load_config("nws_precip_colors")
         self.levels = ha.load_config("levels")
+        # Pour le vent, ajout de la composante meridienne
+        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf":
+            self.shortName_grib_2 = ha.load_config("shortName_grib_2")
     def construire_noms(self):
         """Renvoie les différentes chaines de caractères
         qui serviront de titre,
@@ -278,7 +281,9 @@ class CarteMonoParam(AromeCartePourCanvas):
             print(g.shortName,g)
         
         gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
-
+        #Pour le vent, ajout de la composante méridienne
+        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf":
+            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
         print("Échéance: ",self.echeance)
         print("indice échéance 1: ",indice_echeance)
 
@@ -295,6 +300,8 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         if self.zoom == 0:
             tt, lats, lons = gt.data()#(lat1=43,lat2=47,lon1=2.25,lon2=7.5)
+            if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf":
+                tt2, lats,lons = gt2.data()
         elif self.zoom >= 1:
 
             lat11 = coords[1][0]
@@ -305,6 +312,9 @@ class CarteMonoParam(AromeCartePourCanvas):
 
             tt, lats, lons = gt.data(lat1=lat11,lat2=lat22,
                                      lon1=lon11,lon2=lon22)
+            if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf":
+                tt2, lats, lons = gt2.data(lat1=lat11,lat2=lat22,
+                                         lon1=lon11,lon2=lon22)
             print(lats[0,0],lats[-1,-1])
             print(lons[0,0],lons[-1,-1])
 
@@ -313,6 +323,8 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         del gt
         grbs.close()
+        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf":
+            tt = np.sqrt(tt**2 + tt2**2)*3.6 # fusion des composante et passage de m/s vers km/h
 
         tt = (tt + self.conversion_unite)
         tt = tt.astype(int)
@@ -341,7 +353,7 @@ class CarteMonoParam(AromeCartePourCanvas):
         if self.verification == 1:
             print("fin contour")
 
-        if self.type_de_carte == "Neige":
+        if self.type_de_carte == "Neige" or self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf":
             nws_precip_colors = self.nws_precip_colors
             precip_colormap = mcolors.ListedColormap(nws_precip_colors)
             levels = self.levels
