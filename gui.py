@@ -116,6 +116,18 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","DSW"))
+        menu_arome.add_command(label="Nébulosité basse", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","NebulBas"))
+        menu_arome.add_command(label="Nébulosité moyenne", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","NebulMoy"))
+        menu_arome.add_command(label="Nébulosité haute", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","NebulHaut"))
         menu_arome.add_separator()
         menu_arome.add_command(label="Cartes Arome 0.01°")
         menu_arome.add_command(label="Température à 2m", underline=3,
@@ -139,6 +151,18 @@ class Application(Tk):
 #                               accelerator="CTRL+N",
 #                               command=partial(self.DessinerCarteCumuls,
 #                                               "AROME","0.01","Total_Water_Precips"))
+        menu_arome.add_command(label="Nébulosité basse", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","NebulBas"))
+        menu_arome.add_command(label="Nébulosité moyenne", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","NebulMoy"))
+        menu_arome.add_command(label="Nébulosité haute", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","NebulHaut"))
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
         menu_tele_base.add_command(label="Arome 0.025°: SP1",

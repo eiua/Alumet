@@ -86,6 +86,54 @@ Hu2m: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
+NebulBas: {
+    #niveau: 0002m,
+    shortName_grib: lcc, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: "%",
+    unite_phy: r/r_sat,
+    levels_colorbar: [0,100,10],
+    levels_contours: [0,100,10],
+    cmap_carte: Reds,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+NebulMoy: {
+    #niveau: 0002m,
+    shortName_grib: mcc, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: "%",
+    unite_phy: r/r_sat,
+    levels_colorbar: [0,100,10],
+    levels_contours: [0,100,10],
+    cmap_carte: Greens,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+NebulHaut: {
+    #niveau: 0002m,
+    shortName_grib: hcc, #clé grib pour la température à 2m
+    conversion_unite: 0, #passage de K à °C
+    unite: "%",
+    unite_phy: r/r_sat,
+    levels_colorbar: [0,100,10],
+    levels_contours: [0,100,10],
+    cmap_carte: Blues,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
 Neige: {
     #niveau: 0002m,
     shortName_grib: sprate, #clé grib pour le cumul de neige
