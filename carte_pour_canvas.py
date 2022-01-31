@@ -127,12 +127,25 @@ class AromeCartePourCanvas(Frame):
         if self.resolution == "0.01":
 
             indice_echeance_2 = 0
+            indice_echeance_1 = 0
             t_fichier = str(self.echeance).zfill(2) + 'H'
+            t_fichier1 = 0
             nom_fichier2 = self.nom_fichier_1 + t_fichier + self.nom_fichier_2
+            nom_fichier1 = self.nom_fichier_1 + t_fichier + self.nom_fichier_2
+            # Pour les paramètres météos cumulés
+            if self.echeance == 0:
+                indice_echeance_1 == indice_echeance_2
+                nom_fichier1 = nom_fichier2
+            else:
+                indice_echeance_1 = indice_echeance_2 - 1
+                t_fichier1 = str(self.echeance-1).zfill(2) + 'H'
+                nom_fichier1 = self.nom_fichier_1 + t_fichier1 + self.nom_fichier_2
 
             print("t_fichier:",t_fichier)
             print("nom_fichier:",nom_fichier2)
-
+            print("t_fichier:",t_fichier1)
+            print("nom_fichier:",nom_fichier1)
+            
         else:
             for i in range(len(self.t_fichiers)):
                 t_fichier2 = self.t_fichiers[i]
@@ -169,7 +182,7 @@ class AromeCartePourCanvas(Frame):
                 self.nom_fichier_2
             print("nom_fichier1:",nom_fichier1)
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Precips":
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips":
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:
@@ -261,8 +274,8 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-        #for g in grbs:
-         #   print(g.shortName,g)
+        for g in grbs:
+            print(g.shortName,g)
         
         gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
 

@@ -86,7 +86,7 @@ class Application(Tk):
         menu_bar = Menu(self)
 
         menu_arome = Menu(menu_bar, tearoff=0)
-        menu_arome.add_label("Arome 0.025°")
+        menu_arome.add_command(label="Cartes Arome 0.025°")
         menu_arome.add_command(label="Température à 2m", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
@@ -117,6 +117,28 @@ class Application(Tk):
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","DSW"))
         menu_arome.add_separator()
+        menu_arome.add_command(label="Cartes Arome 0.01°")
+        menu_arome.add_command(label="Température à 2m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","T2m"))
+        menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
+        menu_arome.add_command(label="Humidité relative à 2m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Hu2m"))
+#        menu_arome.add_command(label="Hauteur de neige", underline=3,
+#                               accelerator="CTRL+N",
+#                               command=partial(self.DessinerCarteMonoParam,
+#                                               "AROME","0.01","Neige"))
+        menu_arome.add_command(label="Pression à la surface 0.01° ", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Psol"))
+#        menu_arome.add_command(label="Précipitations", underline=3,
+#                               accelerator="CTRL+N",
+#                               command=partial(self.DessinerCarteCumuls,
+#                                               "AROME","0.01","Total_Water_Precips"))
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
         menu_tele_base.add_command(label="Arome 0.025°: SP1",
