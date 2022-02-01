@@ -165,10 +165,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.01","Psol"))
-#        menu_arome.add_command(label="Précipitations", underline=3,
-#                               accelerator="CTRL+N",
-#                               command=partial(self.DessinerCarteCumuls,
-#                                               "AROME","0.01","Total_Water_Precips"))
+        menu_arome.add_command(label="Précipitations", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.01","Total_Water_Precips"))
         menu_arome.add_command(label="Nébulosité basse", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
