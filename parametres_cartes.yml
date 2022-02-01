@@ -78,8 +78,8 @@ CAPE_INS: {
     conversion_unite: 0, #passage de K à °C
     unite: m2.s-2,
     unite_phy: K,
-    levels_colorbar: [0,7000,500],
-    levels_contours: [0,7000,500],
+    levels_colorbar: [0,3500,250],
+    levels_contours: [0,3500,250],
     cmap_carte: gist_ncar,
     nws_precip_colors: 0,
     levels: 0,
