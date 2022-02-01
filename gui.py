@@ -161,7 +161,7 @@ class Application(Tk):
 #                               accelerator="CTRL+N",
 #                               command=partial(self.DessinerCarteMonoParam,
 #                                               "AROME","0.01","Neige"))
-        menu_arome.add_command(label="Pression à la surface 0.01° ", underline=3,
+        menu_arome.add_command(label="Pression à la surface", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.01","Psol"))
@@ -189,6 +189,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.01","Temp_Brillance"))
+        menu_arome.add_command(label="Altitude surface modèle, constante échéance 0h", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Altitude_Surface"))
         menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
