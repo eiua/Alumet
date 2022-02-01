@@ -34,11 +34,29 @@ T2m: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
     }
+Td2m: {
+###########################
+## Copié des parametres hindcasts
+    #niveau: 0002m,
+    shortName_grib: 2d, #clé grib pour la température du point de rosée à 2m
+    conversion_unite: -273.15, #passage de K à °C
+    unite: °C,
+    unite_phy: K,
+    levels_colorbar: [-34,44,1],
+    levels_contours: [-40,48,4],
+    cmap_carte: nipy_spectral,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+    }
 Temp_Brillance: {
 ###########################
 ## Copié des parametres hindcasts
     #niveau: 0002m,
-    shortName_grib: btmp, #clé grib pour la température à 2m
+    shortName_grib: btmp, #clé grib pour la température de brillance
     conversion_unite: -273.15, #passage de K à °C
     unite: °C,
     unite_phy: K,
@@ -56,10 +74,10 @@ Altitude_Surface: {
 ###########################
 ## Copié des parametres hindcasts
     #niveau: 0002m,
-    shortName_grib: h, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
-    unite: °C,
-    unite_phy: K,
+    shortName_grib: h, #clé grib pour l’altitude de la surface du modèle
+    conversion_unite: 0,
+    unite: m,
+    unite_phy: m,
     levels_colorbar: [0,4800,100],
     levels_contours: [100,4800,100],
     cmap_carte: terrain,
@@ -74,8 +92,8 @@ CAPE_INS: {
 ###########################
 ## Copié des parametres hindcasts
     #niveau: 0002m,
-    shortName_grib: CAPE_INS, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: CAPE_INS, #clé grib pour la CAPE
+    conversion_unite: 0,
     unite: m2.s-2,
     unite_phy: K,
     levels_colorbar: [0,3500,250],
@@ -90,8 +108,8 @@ CAPE_INS: {
     }
 Hu2m: {
     #niveau: 0002m,
-    shortName_grib: 2r, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: 2r, #clé grib pour l’humidité relative à 2m
+    conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
     levels_colorbar: [0,100,10],
@@ -104,10 +122,26 @@ Hu2m: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
+Hu_specifique_2m: {
+    #niveau: 0002m,
+    shortName_grib: 2sh, #clé grib pour l’humidité spécifique à 2m
+    conversion_unite: 0,
+    unite: kg/kg,
+    unite_phy: kg/kg,
+    levels_colorbar: [0,0.001,0.0001],
+    levels_contours: [0,0.001,0.0001],
+    cmap_carte: Purples,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
 NebulBas: {
     #niveau: 0002m,
-    shortName_grib: lcc, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: lcc, #clé grib pour la nébulosité basse
+    conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
     levels_colorbar: [0,100,10],
@@ -122,8 +156,8 @@ NebulBas: {
 }
 NebulMoy: {
     #niveau: 0002m,
-    shortName_grib: mcc, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: mcc, #clé grib pour la nébulosité moyenne
+    conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
     levels_colorbar: [0,100,10],
@@ -138,8 +172,8 @@ NebulMoy: {
 }
 NebulHaut: {
     #niveau: 0002m,
-    shortName_grib: hcc, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: hcc, #clé grib pour la nébulosité haute
+    conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
     levels_colorbar: [0,100,10],
@@ -189,7 +223,7 @@ Vent_Moy: {
     #niveau: 0002m,
     shortName_grib: 10u, #clé grib pour la composante zonale du vent moyen
     shortName_grib_2: 10v, #clé grib pour la composante meridienne
-    conversion_unite: 0, #passage de m vers mm
+    conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
     levels_colorbar: [0,250,10],
@@ -206,7 +240,7 @@ Vent_Moy_100m: {
     #niveau: 0002m,
     shortName_grib: 100u, #clé grib pour la composante zonale du vent moyen
     shortName_grib_2: 100v, #clé grib pour la composante meridienne
-    conversion_unite: 0, #passage de m vers mm
+    conversion_unite: 0,
     unite: km/h,
     unite_phy: km/h,
     levels_colorbar: [0,250,10],
@@ -223,7 +257,7 @@ Vent_Raf: {
     #niveau: 0002m,
     shortName_grib: ugust, #clé grib pour la composante zonale du vent en rafales
     shortName_grib_2: vgust, #clé grib pour la composante meridienne
-    conversion_unite: 0, #passage de m vers mm
+    conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
     levels_colorbar: [0,250,10],
@@ -254,8 +288,8 @@ Total_Water_Precips: {
 }
 DSW: {
     #niveau: 0002m,
-    shortName_grib: ssrd, #clé grib pour les précipitations
-    conversion_unite: 0, #passage de m vers mm
+    shortName_grib: ssrd, #clé grib pour le rayonnement visible descendant
+    conversion_unite: 0,
     unite: Wh.m-2,
     unite_phy: Wh.m-2,
     levels_colorbar: [0,2000000,200000],
@@ -272,8 +306,8 @@ Pmer: {
 ###########################
 ## Copié des parametres hindcasts
     #niveau: 0002m,
-    shortName_grib: prmsl, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: prmsl, #clé grib pour la pression au niveau de la mer
+    conversion_unite: 0,
     unite: hPa,
     unite_phy: hPa,
     levels_colorbar: [94000,106000,500],
@@ -290,8 +324,8 @@ Psol: {
 ###########################
 ## Copié des parametres hindcasts
     #niveau: 0002m,
-    shortName_grib: sp, #clé grib pour la température à 2m
-    conversion_unite: 0, #passage de K à °C
+    shortName_grib: sp, #clé grib pour la pression à la surface
+    conversion_unite: 0,
     unite: hPa,
     unite_phy: hPa,
     levels_colorbar: [85000,110000,1000],

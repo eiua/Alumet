@@ -329,6 +329,8 @@ class CarteMonoParam(AromeCartePourCanvas):
         tt = (tt + self.conversion_unite)
         tt = tt.astype(int)
 
+        print(tt[22,22])
+
         f,ax = self.dessiner_fond_carte(lons,lats)
 
         origin='lower'

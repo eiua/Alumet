@@ -91,6 +91,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","T2m"))
+        menu_arome.add_command(label="Température point de rosée à 2m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Td2m"))
         menu_arome.add_command(label="Vent moyen à 10m", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
@@ -103,6 +107,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Hu2m"))
+        menu_arome.add_command(label="Humidité spécifique à 2m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu_specifique_2m"))
         menu_arome.add_command(label="Hauteur de neige", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
