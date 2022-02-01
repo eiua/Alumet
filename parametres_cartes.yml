@@ -34,6 +34,24 @@ T2m: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
     }
+Temp_Brillance: {
+###########################
+## Copié des parametres hindcasts
+    #niveau: 0002m,
+    shortName_grib: btmp, #clé grib pour la température à 2m
+    conversion_unite: -273.15, #passage de K à °C
+    unite: °C,
+    unite_phy: K,
+    levels_colorbar: [-34,44,1],
+    levels_contours: [-40,48,4],
+    cmap_carte: nipy_spectral,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP3,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+    }
 CAPE_INS: {
 ###########################
 ## Copié des parametres hindcasts

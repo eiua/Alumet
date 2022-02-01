@@ -185,6 +185,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.01","CAPE_INS"))
+        menu_arome.add_command(label="Température de brillance", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Temp_Brillance"))
         menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
