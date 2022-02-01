@@ -1,39 +1,3 @@
-10m_wind: {
-###########################
-### Copié des parametres hindcasts
-    category: S,
-    generation: SY05,
-    originator: ECMW,
-    mod_res_vers: T159,
-    nvar_abr: WS-,
-    level: 0010m,
-    region: Euro,
-    spa_res: 100d,
-    #start_date_F: set in ECMWF.py
-    #end_date_F: set in ECMWF.py
-    var_type: INS,
-    view: MAP,
-    temp_res: 06h,
-    lead_time: 07m,
-    bias_adj: qbc,
-    #stats: set in ECMWF.py
-    ens_num: NA-,
-    emi_scenario: NA-,
-    ene_scenario: NA-,
-    tra_fun: NA---,
-    #instant: True,
-    about_wind: True,
-    na: uas,
-    na_2: vas,
-    short_var: u10,
-    short_var_2: v10,
-    field_units: ms,
-    anomalies_units: ms,
-    term: 860,
-    nb_lats: 46,
-    nb_lons: 68,
-    nb_mb_f: 51
-    }
 AROME_0.025: {
     t_fichiers: ["00H06H","07H12H","13H18H","19H24H","25H30H","31H36H",
                   "37H42H"]
