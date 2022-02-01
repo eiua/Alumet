@@ -202,6 +202,23 @@ Vent_Moy: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
+Vent_Moy_100m: {
+    #niveau: 0002m,
+    shortName_grib: 100u, #clé grib pour la composante zonale du vent moyen
+    shortName_grib_2: 100v, #clé grib pour la composante meridienne
+    conversion_unite: 0, #passage de m vers mm
+    unite: km/h,
+    unite_phy: km/h,
+    levels_colorbar: [0,250,10],
+    levels_contours: [0,250,10],
+    cmap_carte: binary,
+    nws_precip_colors: ["#ffffff", "#97e6ff", "#33ccff", "#0099ff", "#00ff99", "#33cc66", "#66cc33", "#66ff00", "#a4f22f", "#b7cf0e", "#d6f017", "#cc9900", "#ff9900", "#ff9966", "#cc9999", "#cc6633", "#cc3333", "#ff0d0d", "#c60000", "#800000", "#800050", "#a00077", "#cc00cc", "#ff00ff", "#ff40ff", "#ff80ff", "#ffa0ff", "#ffffff", "#e3e3e3", "#c6c6c6"],
+    levels: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100, 110, 120, 130, 140, 150, 160, 180, 200, 220, 240],
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: HP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
 Vent_Raf: {
     #niveau: 0002m,
     shortName_grib: ugust, #clé grib pour la composante zonale du vent en rafales

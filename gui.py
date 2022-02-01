@@ -149,6 +149,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.01","Vent_Moy"))
+        menu_arome.add_command(label="Vent moyen à 100m", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Vent_Moy_100m"))
         menu_arome.add_command(label="Vent rafales à 10m", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
