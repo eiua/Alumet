@@ -185,7 +185,7 @@ class AromeCartePourCanvas(Frame):
                 self.nom_fichier_2
             print("nom_fichier1:",nom_fichier1)
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:
@@ -516,16 +516,34 @@ class CarteCumuls(AromeCartePourCanvas):
         del tt1
         del tt2
 
-        tt = np.ma.masked_less(tete, 0.1)
-
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
+            tt = np.ma.masked_less(tete, 0.1)
+        else:
+            tt = tete
         del tete
 
         f,ax = self.dessiner_fond_carte(lons,lats)
 
         origin='lower'
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface":
-            cs=plt.pcolormesh(lons, lats, tt, cmap=self.cmap_carte,
+        print(self.levels_colorbar)
+        print(self.levels_colorbar[0])
+        ln = int(self.levels_colorbar[0])
+        lx = int(self.levels_colorbar[1])
+        lst = float(self.levels_colorbar[2])
+        levels = np.arange(ln,lx,lst)
+
+        lln = int(self.levels_contours[0])
+        llx = int(self.levels_contours[1])
+        llst = float(self.levels_contours[2])
+        levels_contour_2 = np.arange(lln,llx,llst)
+
+        cc = ax.contour(lons, lats, tt, levels_contour_2,
+                      colors=('k'),
+                      linewidths=(0.15),
+                      origin=origin,transform=ccrs.PlateCarree())
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface":
+            cs=plt.pcolormesh(lons, lats, tt, vmin=ln, vmax=lx, cmap=self.cmap_carte,
                           transform=ccrs.PlateCarree())
         else:
             nws_precip_colors = self.nws_precip_colors
@@ -540,6 +558,8 @@ class CarteCumuls(AromeCartePourCanvas):
 
         csb = plt.colorbar(cs, shrink=0.9, pad=0, aspect=20)
         #csb.set_label("mm")
+
+        lala_pvu = plt.clabel(cc, fontsize=8, fmt='%1.0f')
 
         if self.echeance < 10:
             titre = self.titre_0 + "\n" + validite

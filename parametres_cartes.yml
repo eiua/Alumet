@@ -393,9 +393,25 @@ Flux_Chaleur_latente_Surface: {
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
-    levels_colorbar: [0,2000000,200000],
-    levels_contours: [0,2000000,200000],
-    cmap_carte: jet,
+    levels_colorbar: [-2000000,2000000,200000],
+    levels_contours: [-2000000,2000000,200000],
+    cmap_carte: seismic,
+    levels: 0,
+    nws_precip_colors: 0,
+    paquet_AROME_0.025: SP3,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+Flux_Chaleur_sensible_Surface: {
+    #niveau: 0002m,
+    shortName_grib: sshf, #clé grib pour le flux de chaleur sensible à la surface
+    conversion_unite: 0,
+    unite: J.m-2,
+    unite_phy: J.m-2,
+    levels_colorbar: [-2000000,2000000,200000],
+    levels_contours: [-2000000,2000000,200000],
+    cmap_carte: seismic,
     levels: 0,
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
