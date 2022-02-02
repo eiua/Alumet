@@ -451,3 +451,19 @@ Rayonnement_Solaire_Net_Surface: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
+Rayonnement_Thermique_Net_Surface: {
+    #niveau: 0002m,
+    shortName_grib: str, #clé grib pour le rayonnement solaire net à la surface
+    conversion_unite: 0,
+    unite: J.m-2,
+    unite_phy: J.m-2,
+    levels_colorbar: [-2000000,2000000,200000],
+    levels_contours: [-2000000,2000000,200000],
+    cmap_carte: seismic,
+    levels: 0,
+    nws_precip_colors: 0,
+    paquet_AROME_0.025: SP3,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
