@@ -29,7 +29,7 @@ T2m: {
     cmap_carte: nipy_spectral,
     nws_precip_colors: 0,
     levels: 0,
-    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
@@ -161,7 +161,7 @@ NebulBas: {
     shortName_grib: lcc, #clé grib pour la nébulosité basse
     conversion_unite: 0,
     unite: "%",
-    unite_phy: r/r_sat,
+    unite_phy: "%",
     levels_colorbar: [0,100,10],
     levels_contours: [0,100,10],
     cmap_carte: Reds,
@@ -177,7 +177,7 @@ NebulMoy: {
     shortName_grib: mcc, #clé grib pour la nébulosité moyenne
     conversion_unite: 0,
     unite: "%",
-    unite_phy: r/r_sat,
+    unite_phy: "%",
     levels_colorbar: [0,100,10],
     levels_contours: [0,100,10],
     cmap_carte: Greens,
@@ -193,7 +193,7 @@ NebulHaut: {
     shortName_grib: hcc, #clé grib pour la nébulosité haute
     conversion_unite: 0,
     unite: "%",
-    unite_phy: r/r_sat,
+    unite_phy: "%",
     levels_colorbar: [0,100,10],
     levels_contours: [0,100,10],
     cmap_carte: Blues,
@@ -371,3 +371,19 @@ Psol: {
     paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP2
     }
+Colonne_Vapeur: {
+    #niveau: 0002m,
+    shortName_grib: tciwv, #clé grib pour le contenu total en vapeur d’eau de la colonne atmosphérique
+    conversion_unite: 0,   # alias tciwv pour "total column integrated water vapour"
+    unite: kg.m-2,
+    unite_phy: kg.m-2,
+    levels_colorbar: [0,50,5],
+    levels_contours: [0,50,5],
+    cmap_carte: Blues,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP3,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}

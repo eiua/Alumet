@@ -155,6 +155,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Altitude_Couche_Limite"))
+        menu_arome.add_command(label="Contenu total vapeur d’eau colonne atmosphérique", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Colonne_Vapeur"))
         menu_arome.add_separator()
         menu_arome.add_command(label="Cartes Arome 0.01°")
         menu_arome.add_command(label="Température à 2m", underline=3,
