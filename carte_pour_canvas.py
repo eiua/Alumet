@@ -185,7 +185,7 @@ class AromeCartePourCanvas(Frame):
                 self.nom_fichier_2
             print("nom_fichier1:",nom_fichier1)
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:
@@ -524,7 +524,7 @@ class CarteCumuls(AromeCartePourCanvas):
 
         origin='lower'
 
-        if self.type_de_carte == "DSW":
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface":
             cs=plt.pcolormesh(lons, lats, tt, cmap=self.cmap_carte,
                           transform=ccrs.PlateCarree())
         else:
