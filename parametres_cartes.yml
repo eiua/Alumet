@@ -421,7 +421,23 @@ Flux_Chaleur_sensible_Surface: {
 }
 Rayonnement_Thermique_Descendant_Surface: {
     #niveau: 0002m,
-    shortName_grib: strd, #clé grib pour le flux de chaleur sensible à la surface
+    shortName_grib: strd, #clé grib pour le rayonnement de chaleur sensible à la surface
+    conversion_unite: 0,
+    unite: J.m-2,
+    unite_phy: J.m-2,
+    levels_colorbar: [0,2000000,200000],
+    levels_contours: [0,2000000,200000],
+    cmap_carte: hot_r,
+    levels: 0,
+    nws_precip_colors: 0,
+    paquet_AROME_0.025: SP3,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+Rayonnement_Solaire_Net_Surface: {
+    #niveau: 0002m,
+    shortName_grib: ssr, #clé grib pour le rayonnement solaire net à la surface
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
