@@ -88,6 +88,24 @@ Altitude_Surface: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
     }
+Altitude_Couche_Limite: {
+###########################
+## Copié des parametres hindcasts
+    #niveau: 0002m,
+    shortName_grib: hpbl, #clé grib pour l’altitude de la couche limite
+    conversion_unite: 0,
+    unite: m,
+    unite_phy: m,
+    levels_colorbar: [0,4000,200],
+    levels_contours: [0,4000,200],
+    cmap_carte: gist_ncar,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: SP2,
+    paquet_AROME_0.01: SP3,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+    }
 CAPE_INS: {
 ###########################
 ## Copié des parametres hindcasts
