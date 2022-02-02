@@ -153,9 +153,15 @@ class Application(Tk):
         menu_arome_0025.add_command(label="Rayonnement solaire net à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","Rayonnement_Solaire_Net_Surface"))
+        menu_arome_0025.add_command(label="Rayonnement solaire net à la surface ciel clair", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Solaire_Net_Surface_Ciel_Clair"))
         menu_arome_0025.add_command(label="Rayonnement thermique net à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","Rayonnement_Thermique_Net_Surface"))
+        menu_arome_0025.add_command(label="Rayonnement thermique net à la surface ciel clair", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Thermique_Net_Surface_Ciel_Clair"))
         menu_arome.add_cascade(label="AROME 0.025°",
                              underline=0,menu=menu_arome_0025)
         menu_arome_0001 = Menu(menu_arome, tearoff=0)
