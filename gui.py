@@ -127,6 +127,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","Precips"))
+        menu_arome.add_command(label="Précipitations liquides", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Precips_Eau"))
         menu_arome.add_command(label="Rayonnement visible descendant (SW)", underline=3,
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteCumuls,

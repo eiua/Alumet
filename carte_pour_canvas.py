@@ -185,7 +185,7 @@ class AromeCartePourCanvas(Frame):
                 self.nom_fichier_2
             print("nom_fichier1:",nom_fichier1)
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips":
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:

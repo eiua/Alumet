@@ -220,11 +220,10 @@ Neige: {
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
-
 Precips: {
     #niveau: 0002m,
     shortName_grib: tp, #clé grib pour les précipitations
-    conversion_unite: 0, #passage de m vers mm
+    conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
     levels_colorbar: [0,100,5],
@@ -233,6 +232,22 @@ Precips: {
     nws_precip_colors: ["#ffffff", "#04e9e7", "#019ff4", "#0300f4", "#02fd02", "#01c501", "#008e00", "#fdf802", "#e5bc00", "#fd9500", "#fd0000", "#d40000", "#bc0000", "#800050", "#9854c6", "#cc00cc", "#f800fd"],
     levels: [0,0.1, 0.2, 0.5, 1, 2, 3, 5, 7.5, 10, 20, 30, 50,60, 80, 100, 200,300],
     paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.5: SP1
+}
+Precips_Eau: {
+    #niveau: 0002m,
+    shortName_grib: tirf, #clé grib pour les précipitations liquides (time integral of rain flux)
+    conversion_unite: 0,
+    unite: kg.m-2,
+    unite_phy: kg.m-2,
+    levels_colorbar: [0,100,5],
+    levels_contours: [0,100,5],
+    cmap_carte: binary,
+    nws_precip_colors: ["#ffffff", "#04e9e7", "#019ff4", "#0300f4", "#02fd02", "#01c501", "#008e00", "#fdf802", "#e5bc00", "#fd9500", "#fd0000", "#d40000", "#bc0000", "#800050", "#9854c6", "#cc00cc", "#f800fd"],
+    levels: [0,0.1, 0.2, 0.5, 1, 2, 3, 5, 7.5, 10, 20, 30, 50,60, 80, 100, 200,300],
+    paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
