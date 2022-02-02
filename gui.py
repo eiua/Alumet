@@ -167,6 +167,10 @@ class Application(Tk):
                                accelerator="CTRL+N",
                                command=partial(self.DessinerCarteCumuls,
                                                "AROME","0.025","Flux_Chaleur_sensible_Surface"))
+        menu_arome.add_command(label="Rayonnement Thermique descendant à la surface", underline=3,
+                               accelerator="CTRL+N",
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Thermique_Descendant_Surface"))
         menu_arome.add_separator()
         menu_arome.add_command(label="Cartes Arome 0.01°")
         menu_arome.add_command(label="Température à 2m", underline=3,
