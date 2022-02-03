@@ -22,6 +22,8 @@ import matplotlib.colors as mcolors
 from matplotlib.backends.backend_tkagg import FigureCanvasTk
 from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
 from matplotlib.figure import Figure
+import matplotlib.ticker as mticker
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from tkinter import *
 from math import floor
 
@@ -185,7 +187,7 @@ class AromeCartePourCanvas(Frame):
                 self.nom_fichier_2
             print("nom_fichier1:",nom_fichier1)
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau":
+        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau" or self.type_de_carte == "Neige_Precips":
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:
@@ -199,13 +201,14 @@ class AromeCartePourCanvas(Frame):
         lon_0 = lons.mean()
         lat_0 = lats.mean()
 
-        proj = ccrs.Stereographic(central_longitude=lon_0,
-                                  central_latitude=lat_0)
+        proj = ccrs.Robinson(central_longitude=0,globe=None)#InterruptedGoodeHomolosine(central_longitude=0)#Mollweide()#Robinson()#Stereographic(central_longitude=lon_0,
+                              #    central_latitude=lat_0)
 
         f = Figure()#figsize=(15,15), dpi=300)
         ax = f.add_subplot()#111)
 
         ax = plt.axes(projection=proj)
+        ax.set_global()
 
         if self.modele == "AROME":
             pays = cfeature.NaturalEarthFeature(category='cultural',
@@ -355,7 +358,7 @@ class CarteMonoParam(AromeCartePourCanvas):
         if self.verification == 1:
             print("fin contour")
 
-        if self.type_de_carte == "Neige" or self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
+        if self.type_de_carte == "Neige_Cumul" or self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
             nws_precip_colors = self.nws_precip_colors
             precip_colormap = mcolors.ListedColormap(nws_precip_colors)
             levels = self.levels
@@ -377,6 +380,19 @@ class CarteMonoParam(AromeCartePourCanvas):
         #    transform=ccrs.PlateCarree(),length=5)
 
         lala_pvu = plt.clabel(cc, fontsize=8, fmt='%1.0f')
+
+        gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+                          linewidth=0.2, color='k', alpha=1, linestyle='--')
+        gl.xlabels_top = False
+        gl.ylabels_left = False
+        gl.xlines = True
+        gl.xlocator = mticker.FixedLocator([-180, -135, -90, -45, 0, 45, 90, 135, 180])
+        gl.ylocator = mticker.FixedLocator([-66.33, -45, -23.26, 0, 23.26, 45, 66.33])
+        gl.xformatter = LONGITUDE_FORMATTER
+        gl.yformatter = LATITUDE_FORMATTER
+        gl.xlabel_style = {'size': 7, 'color': 'k'}
+        gl.ylabel_style = {'size': 7, 'color': 'k'}
+#        gl.xlabel_style = {'color': 'red', 'weight': 'bold'}
 
         if self.verification == 1:
             print("fin contourf")
@@ -560,6 +576,18 @@ class CarteCumuls(AromeCartePourCanvas):
         #csb.set_label("mm")
 
         lala_pvu = plt.clabel(cc, fontsize=8, fmt='%1.0f')
+
+        gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+                          linewidth=0.2, color='k', alpha=1, linestyle='--')
+        gl.xlabels_top = False
+        gl.ylabels_left = False
+        gl.xlines = True
+        gl.xlocator = mticker.FixedLocator([-180, -135, -90, -45, 0, 45, 90, 135, 180])
+        gl.ylocator = mticker.FixedLocator([-66.33, -45, -23.26, 0, 23.26, 45, 66.33])
+        gl.xformatter = LONGITUDE_FORMATTER
+        gl.yformatter = LATITUDE_FORMATTER
+        gl.xlabel_style = {'size': 7, 'color': 'k'}
+        gl.ylabel_style = {'size': 7, 'color': 'k'}
 
         if self.echeance < 10:
             titre = self.titre_0 + "\n" + validite

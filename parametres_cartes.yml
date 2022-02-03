@@ -50,7 +50,7 @@ Td2m: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
     }
 Temp_Brillance: {
 ###########################
@@ -104,7 +104,7 @@ Altitude_Couche_Limite: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP3,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
     }
 CAPE_INS: {
 ###########################
@@ -122,7 +122,7 @@ CAPE_INS: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
     }
 Hu2m: {
     #niveau: 0002m,
@@ -154,7 +154,7 @@ Hu_specifique_2m: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 NebulBas: {
     #niveau: 0002m,
@@ -170,7 +170,7 @@ NebulBas: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 NebulMoy: {
     #niveau: 0002m,
@@ -186,7 +186,7 @@ NebulMoy: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 NebulHaut: {
     #niveau: 0002m,
@@ -202,9 +202,25 @@ NebulHaut: {
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP2,
+    paquet_ARPEGE_0.5: SP2
+}
+Neige_Precips: {
+    #niveau: 0002m,
+    shortName_grib: sprate, #clé grib pour le cumul de neige
+    conversion_unite: 0,
+    unite: kg.m-2,
+    unite_phy: kg.m-2,
+    levels_colorbar: [0,100,5],
+    levels_contours: [0,100,5],
+    cmap_carte: binary, #gist_heat_r,
+    nws_precip_colors: ["#ffffff", "#97e6ff", "#33ccff", "#0099ff", "#00ff99", "#33cc66", "#66cc33", "#66ff00", "#a4f22f", "#b7cf0e", "#d6f017", "#cc9900", "#ff9900", "#ff9966", "#cc9999", "#cc6633", "#cc3333", "#ff0d0d", "#c60000", "#800000", "#800050", "#a00077", "#cc00cc", "#ff00ff", "#ff40ff", "#ff80ff", "#ffa0ff", "#c0c0c0", "#909090", "#606060", "#303030"],
+    levels: [0, 0.1, 0.2, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 250, 300],
+    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.01: SP2,
+    paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
 }
-Neige: {
+Neige_Cumul: {
     #niveau: 0002m,
     shortName_grib: sprate, #clé grib pour le cumul de neige
     conversion_unite: 0,
@@ -385,7 +401,7 @@ Colonne_Vapeur: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP2,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Flux_Chaleur_latente_Surface: {
     #niveau: 0002m,
@@ -401,7 +417,7 @@ Flux_Chaleur_latente_Surface: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Flux_Chaleur_sensible_Surface: {
     #niveau: 0002m,
@@ -417,7 +433,7 @@ Flux_Chaleur_sensible_Surface: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Rayonnement_Thermique_Descendant_Surface: {
     #niveau: 0002m,
@@ -433,7 +449,7 @@ Rayonnement_Thermique_Descendant_Surface: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Rayonnement_Solaire_Net_Surface: {
     #niveau: 0002m,
@@ -449,7 +465,7 @@ Rayonnement_Solaire_Net_Surface: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Rayonnement_Solaire_Net_Surface_Ciel_Clair: {
     #niveau: 0002m,
@@ -465,7 +481,7 @@ Rayonnement_Solaire_Net_Surface_Ciel_Clair: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Rayonnement_Thermique_Net_Surface: {
     #niveau: 0002m,
@@ -481,7 +497,7 @@ Rayonnement_Thermique_Net_Surface: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
 Rayonnement_Thermique_Net_Surface_Ciel_Clair: {
     #niveau: 0002m,
@@ -497,5 +513,5 @@ Rayonnement_Thermique_Net_Surface_Ciel_Clair: {
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
-    paquet_ARPEGE_0.5: SP1
+    paquet_ARPEGE_0.5: SP2
 }
