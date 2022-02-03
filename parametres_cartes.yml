@@ -121,7 +121,7 @@ CAPE_INS: {
     levels: 0,
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP2,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
     }
 Hu2m: {
@@ -400,7 +400,7 @@ Flux_Chaleur_latente_Surface: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Flux_Chaleur_sensible_Surface: {
@@ -416,7 +416,7 @@ Flux_Chaleur_sensible_Surface: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Rayonnement_Thermique_Descendant_Surface: {
@@ -432,7 +432,7 @@ Rayonnement_Thermique_Descendant_Surface: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Rayonnement_Solaire_Net_Surface: {
@@ -448,7 +448,7 @@ Rayonnement_Solaire_Net_Surface: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Rayonnement_Solaire_Net_Surface_Ciel_Clair: {
@@ -464,7 +464,7 @@ Rayonnement_Solaire_Net_Surface_Ciel_Clair: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Rayonnement_Thermique_Net_Surface: {
@@ -480,7 +480,7 @@ Rayonnement_Thermique_Net_Surface: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Rayonnement_Thermique_Net_Surface_Ciel_Clair: {
@@ -496,6 +496,6 @@ Rayonnement_Thermique_Net_Surface_Ciel_Clair: {
     nws_precip_colors: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP1,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }

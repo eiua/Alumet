@@ -261,6 +261,30 @@ class Application(Tk):
         menu_arpege_01.add_command(label="Altitude de la couche limite", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Altitude_Couche_Limite"))
+        menu_arpege_01.add_command(label="CAPE", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","CAPE_INS"))
+        menu_arpege_01.add_command(label="Flux de chaleur latente à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Flux_Chaleur_latente_Surface"))
+        menu_arpege_01.add_command(label="Flux de chaleur sensible à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Flux_Chaleur_sensible_Surface"))
+        menu_arpege_01.add_command(label="Rayonnement Thermique descendant à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Rayonnement_Thermique_Descendant_Surface"))
+        menu_arpege_01.add_command(label="Rayonnement solaire net à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Rayonnement_Solaire_Net_Surface"))
+        menu_arpege_01.add_command(label="Rayonnement solaire net à la surface ciel clair", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Rayonnement_Solaire_Net_Surface_Ciel_Clair"))
+        menu_arpege_01.add_command(label="Rayonnement thermique net à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Rayonnement_Thermique_Net_Surface"))
+        menu_arpege_01.add_command(label="Rayonnement thermique net à la surface ciel clair", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "ARPEGE","0.1","Rayonnement_Thermique_Net_Surface_Ciel_Clair"))
         menu_arpege.add_cascade(label="ARPEGE 0.1°",
                              underline=0,menu=menu_arpege_01)
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
