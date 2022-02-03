@@ -237,6 +237,9 @@ class Application(Tk):
         menu_arpege_01.add_command(label="Rayonnement visible descendant (SW)", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","DSW"))
+        menu_arpege_01.add_command(label="Température point de rosée à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Td2m"))
         menu_arpege.add_cascade(label="ARPEGE 0.1°",
                              underline=0,menu=menu_arpege_01)
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
