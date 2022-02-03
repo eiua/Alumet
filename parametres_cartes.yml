@@ -384,7 +384,7 @@ Colonne_Vapeur: {
     levels: 0,
     paquet_AROME_0.025: SP3,
     paquet_AROME_0.01: SP2,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
 }
 Flux_Chaleur_latente_Surface: {

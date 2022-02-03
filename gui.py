@@ -252,6 +252,9 @@ class Application(Tk):
         menu_arpege_01.add_command(label="Nébulosité haute", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","NebulHaut"))
+        menu_arpege_01.add_command(label="Contenu total vapeur d’eau colonne atmosphérique", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Colonne_Vapeur"))
         menu_arpege.add_cascade(label="ARPEGE 0.1°",
                              underline=0,menu=menu_arpege_01)
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
