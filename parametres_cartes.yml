@@ -29,7 +29,7 @@ T2m: {
     cmap_carte: nipy_spectral,
     nws_precip_colors: 0,
     levels: 0,
-    paquet_AROME_0.025: SP3,
+    paquet_AROME_0.025: IP1,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
