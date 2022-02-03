@@ -111,7 +111,7 @@ class Application(Tk):
         menu_arome_0025.add_command(label="Pression au niveau de la mer", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Pmer"))
-        menu_arome_0025.add_command(label="Pression à la surface 0.025° ", underline=3,
+        menu_arome_0025.add_command(label="Pression à la surface", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Psol"))
         menu_arome_0025.add_command(label="Précipitations", underline=3,
@@ -228,6 +228,9 @@ class Application(Tk):
         menu_arpege_01.add_command(label="Pression au niveau de la mer", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Pmer"))
+        menu_arpege_01.add_command(label="Pression à la surface", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Psol"))
         menu_arpege_01.add_command(label="Précipitations", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Precips"))
