@@ -103,7 +103,7 @@ Altitude_Couche_Limite: {
     levels: 0,
     paquet_AROME_0.025: SP2,
     paquet_AROME_0.01: SP3,
-    paquet_ARPEGE_0.1: SP1,
+    paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP1
     }
 CAPE_INS: {
