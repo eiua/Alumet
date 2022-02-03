@@ -224,6 +224,9 @@ class Application(Tk):
                                                "ARPEGE","0.1","Vent_Raf"))
         menu_arpege.add_cascade(label="ARPEGE 0.1°",
                              underline=0,menu=menu_arpege_01)
+        menu_arpege_01.add_command(label="Humidité relative à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Hu2m"))
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
