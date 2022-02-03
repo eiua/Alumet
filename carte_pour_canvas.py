@@ -148,7 +148,7 @@ class AromeCartePourCanvas(Frame):
             print("nom_fichier:",nom_fichier2)
             print("t_fichier:",t_fichier1)
             print("nom_fichier:",nom_fichier1)
-            
+
         else:
             for i in range(len(self.t_fichiers)):
                 t_fichier2 = self.t_fichiers[i]

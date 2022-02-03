@@ -211,6 +211,14 @@ class Application(Tk):
         menu_arome.add_cascade(label="AROME 0.01°",
                              underline=0,menu=menu_arome_0001)
         menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
+        menu_arpege = Menu(menu_bar, tearoff=0)
+        menu_arpege_01 = Menu(menu_arpege, tearoff=0)
+        menu_arpege_01.add_command(label="Température à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","T2m"))
+        menu_arpege.add_cascade(label="ARPEGE 0.1°",
+                             underline=0,menu=menu_arpege_01)
+        menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
         menu_tele_base.add_command(label="Arome 0.025°: SP1",
