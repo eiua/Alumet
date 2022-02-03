@@ -225,6 +225,9 @@ class Application(Tk):
         menu_arpege_01.add_command(label="Humidité relative à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Hu2m"))
+        menu_arpege_01.add_command(label="Humidité spécifique à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Hu_specifique_2m"))
         menu_arpege_01.add_command(label="Pression au niveau de la mer", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Pmer"))
