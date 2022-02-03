@@ -243,6 +243,15 @@ class Application(Tk):
         menu_arpege_01.add_command(label="Température point de rosée à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Td2m"))
+        menu_arpege_01.add_command(label="Nébulosité basse", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","NebulBas"))
+        menu_arpege_01.add_command(label="Nébulosité moyenne", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","NebulMoy"))
+        menu_arpege_01.add_command(label="Nébulosité haute", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","NebulHaut"))
         menu_arpege.add_cascade(label="ARPEGE 0.1°",
                              underline=0,menu=menu_arpege_01)
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
