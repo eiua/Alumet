@@ -68,8 +68,11 @@ class AromeCartePourCanvas(Frame):
         self.nws_precip_colors = ha.load_config("nws_precip_colors")
         self.levels = ha.load_config("levels")
         # Pour le vent, ajout de la composante meridienne
-        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
+        if self.type_de_carte[0:4] == "Vent": #"Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
             self.shortName_grib_2 = ha.load_config("shortName_grib_2")
+        if self.paquet[0] == "I" or self.paquet == "H": # si niveaux isobares ou hauteur, on charge les niveaux
+            self.niveaux = ha.load_config("niveaux")
+
     def construire_noms(self):
         """Renvoie les différentes chaines de caractères
         qui serviront de titre,
@@ -257,7 +260,7 @@ class CarteMonoParam(AromeCartePourCanvas):
     """Renvoie une carte à un seul paramètre météo."""
 
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
-                 type_carte,zoom,verification):
+                 type_carte,zoom, niveau_iso, verification):
 
         AromeCartePourCanvas.__init__(self,date_du_run,modele,resolution,
                                          echeance,type_carte,zoom)
@@ -267,6 +270,7 @@ class CarteMonoParam(AromeCartePourCanvas):
         self.date_du_run = date_du_run
         self.verification = verification
         self.canev=canev
+        self.niveau_iso = niveau_iso
 
     def envoyer_carte_vers_gui(self):
         print("CarteMonoParam",self.type_de_carte)
@@ -280,13 +284,32 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-        for g in grbs:
-            print(g.shortName,g)
-        
-        gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
+#        for g in grbs:
+#            print(g.shortName,g)
+#            print(g.level,g)
+
+        if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
+            print("self.shortName_grib: ",self.shortName_grib)
+            print("self.niveau_iso: ",self.niveau_iso)
+            print("self.niveaux[self.niveau_iso]: ",self.niveaux[self.niveau_iso])
+            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
+#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
+            if self.type_de_carte[0:4] == "Vent":
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
+        elif self.paquet[0] == "H":
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
+            if self.type_de_carte[0:4] == "Vent":
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
+        else:
+            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
+            if self.type_de_carte[0:4] == "Vent":
+                gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+
         #Pour le vent, ajout de la composante méridienne
-        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
-            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+#        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
+#            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+
         print("Échéance: ",self.echeance)
         print("indice échéance 1: ",indice_echeance)
 
@@ -303,7 +326,7 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         if self.zoom == 0:
             tt, lats, lons = gt.data()#(lat1=43,lat2=47,lon1=2.25,lon2=7.5)
-            if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
+            if self.type_de_carte[0:4] == "Vent":
                 tt2, lats,lons = gt2.data()
         elif self.zoom >= 1:
 
@@ -315,7 +338,7 @@ class CarteMonoParam(AromeCartePourCanvas):
 
             tt, lats, lons = gt.data(lat1=lat11,lat2=lat22,
                                      lon1=lon11,lon2=lon22)
-            if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
+            if self.type_de_carte[0:4] == "Vent":
                 tt2, lats, lons = gt2.data(lat1=lat11,lat2=lat22,
                                          lon1=lon11,lon2=lon22)
             print(lats[0,0],lats[-1,-1])
@@ -326,7 +349,7 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         del gt
         grbs.close()
-        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
+        if self.type_de_carte[0:4] == "Vent":
             tt = np.sqrt(tt**2 + tt2**2)*3.6 # fusion des composante et passage de m/s vers km/h
 
         tt = (tt + self.conversion_unite)
@@ -358,7 +381,7 @@ class CarteMonoParam(AromeCartePourCanvas):
         if self.verification == 1:
             print("fin contour")
 
-        if self.type_de_carte == "Neige_Cumul" or self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
+        if self.type_de_carte == "Neige_Cumul" or self.type_de_carte[0:4] == "Vent":
             nws_precip_colors = self.nws_precip_colors
             precip_colormap = mcolors.ListedColormap(nws_precip_colors)
             levels = self.levels

@@ -29,7 +29,7 @@ T2m: {
     cmap_carte: nipy_spectral,
     nws_precip_colors: 0,
     levels: 0,
-    paquet_AROME_0.025: SP1,
+    paquet_AROME_0.025: IP1,
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP1,
     paquet_ARPEGE_0.5: SP1
@@ -514,4 +514,71 @@ Rayonnement_Thermique_Net_Surface_Ciel_Clair: {
     paquet_AROME_0.01: SP1,
     paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP2
+}
+T_Iso: {
+###########################
+## Copié des parametres hindcasts
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: t, #clé grib pour la température en niveaux isobares
+    conversion_unite: -273.15, #passage de K à °C
+    unite: °C,
+    unite_phy: K,
+    levels_colorbar: [-90,44,1],
+    levels_contours: [-90,48,4],
+    cmap_carte: nipy_spectral,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP1,
+    paquet_AROME_0.01: IP1,
+    paquet_ARPEGE_0.1: IP1,
+    paquet_ARPEGE_0.5: IP1
+    }
+Hu_Iso: {
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: r, #clé grib pour l’humidité relative en niveaux isobares
+    conversion_unite: 0,
+    unite: "%",
+    unite_phy: r/r_sat,
+    levels_colorbar: [0,100,10],
+    levels_contours: [0,100,10],
+    cmap_carte: Purples,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP1,
+    paquet_AROME_0.01: IP1,
+    paquet_ARPEGE_0.1: IP1,
+    paquet_ARPEGE_0.5: IP1
+}
+Vent_Moy_Iso: { # Vent moyen en niveaux isobares
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: u, #clé grib pour la composante zonale du vent moyen
+    shortName_grib_2: v, #clé grib pour la composante meridienne
+    conversion_unite: 0,
+    unite: kg.m-2,
+    unite_phy: kg.m-2,
+    levels_colorbar: [0,250,10],
+    levels_contours: [0,250,10],
+    cmap_carte: binary,
+    nws_precip_colors: ["#ffffff", "#97e6ff", "#33ccff", "#0099ff", "#00ff99", "#33cc66", "#66cc33", "#66ff00", "#a4f22f", "#b7cf0e", "#d6f017", "#cc9900", "#ff9900", "#ff9966", "#cc9999", "#cc6633", "#cc3333", "#ff0d0d", "#c60000", "#800000", "#800050", "#a00077", "#cc00cc", "#ff00ff", "#ff40ff", "#ff80ff", "#ffa0ff", "#ffffff", "#e3e3e3", "#c6c6c6"],
+    levels: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100, 110, 120, 130, 140, 150, 160, 180, 200, 220, 240],
+    paquet_AROME_0.025: IP1,
+    paquet_AROME_0.01: IP1,
+    paquet_ARPEGE_0.1: IP1,
+    paquet_ARPEGE_0.5: IP1
+}
+Geopotentiel_Iso: {
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: z, #clé grib pour les géopotentiels
+    conversion_unite: 0,
+    unite: m2.s-2,
+    unite_phy: m2.s-2,
+    levels_colorbar: [0,100,10],
+    levels_contours: [0,100,10],
+    cmap_carte: Purples,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP1,
+    paquet_AROME_0.01: IP1,
+    paquet_ARPEGE_0.1: IP1,
+    paquet_ARPEGE_0.5: IP1
 }
