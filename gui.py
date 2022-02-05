@@ -202,6 +202,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Contenu spécifique des flocons de neige précipitants", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Specific_Snow_Water_Content_Iso"))
+        menu_arome_0025_iso.add_command(label="Fraction nuageuse", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Cloud_Fraction_Iso"))
         menu_arome_0025_tout.add_cascade(label="Niveaux isobares",
                              underline=0,menu=menu_arome_0025_iso)
         menu_arome.add_cascade(label="AROME 0.025°",
