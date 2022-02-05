@@ -114,7 +114,7 @@ class Application(Tk):
                                                "AROME","0.025","Hu2m"))
         menu_arome_0025_surface.add_command(label="Humidité spécifique à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
-                                               "AROME","0.025","Hu_specifique_2m"))
+                                               "AROME","0.025","Hu_Specifique_2m"))
         menu_arome_0025_surface.add_command(label="Cumul de neige", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Neige_Cumul"))
@@ -190,6 +190,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Humidité relative", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Hu_Iso"))
+        menu_arome_0025_iso.add_command(label="Humidité spécifique", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu_Specifique_Iso"))
         menu_arome_0025_iso.add_command(label="Géopotentiel", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Geopotentiel_Iso"))
@@ -214,7 +217,7 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Vitesse verticale en Pa/s", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Vertical_Velocity_Iso"))
-        menu_arome_0025_iso.add_command(label="Vorticité potentielle", underline=3,
+        menu_arome_0025_iso.add_command(label="Tourbillon potentiel", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Potential_Vorticity_Iso"))
         menu_arome_0025_tout.add_cascade(label="Niveaux isobares",
@@ -284,7 +287,7 @@ class Application(Tk):
                                                "ARPEGE","0.1","Hu2m"))
         menu_arpege_01.add_command(label="Humidité spécifique à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
-                                               "ARPEGE","0.1","Hu_specifique_2m"))
+                                               "ARPEGE","0.1","Hu_Specifique_2m"))
         menu_arpege_01.add_command(label="Pression au niveau de la mer", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Pmer"))
@@ -362,7 +365,7 @@ class Application(Tk):
                                                "ARPEGE","0.5","Hu2m"))
         menu_arpege_05.add_command(label="Humidité spécifique à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
-                                               "ARPEGE","0.5","Hu_specifique_2m"))
+                                               "ARPEGE","0.5","Hu_Specifique_2m"))
         menu_arpege_05.add_command(label="Pression au niveau de la mer", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.5","Pmer"))
