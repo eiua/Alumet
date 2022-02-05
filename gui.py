@@ -177,15 +177,18 @@ class Application(Tk):
         menu_arome_0025_tout.add_cascade(label="Surface",
                              underline=0,menu=menu_arome_0025_surface)
         menu_arome_0025_iso = Menu(menu_arome_0025_tout, tearoff=0)
-        menu_arome_0025_iso.add_command(label="Température (niveaux isobares)", underline=3,
+        menu_arome_0025_iso.add_command(label="Température", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","T_Iso"))
-        menu_arome_0025_iso.add_command(label="Vent moyen (niveaux isobares)", underline=3,
+        menu_arome_0025_iso.add_command(label="Vent moyen", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Vent_Moy_Iso"))
-        menu_arome_0025_iso.add_command(label="Humidité relative à 2m", underline=3,
+        menu_arome_0025_iso.add_command(label="Humidité relative", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Hu_Iso"))
+        menu_arome_0025_iso.add_command(label="Géopotentiel", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Geopotentiel_Iso"))
         menu_arome_0025_tout.add_cascade(label="Niveaux isobares",
                              underline=0,menu=menu_arome_0025_iso)
         menu_arome.add_cascade(label="AROME 0.025°",
