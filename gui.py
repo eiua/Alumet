@@ -284,84 +284,135 @@ class Application(Tk):
                              underline=0,menu=menu_arome_0001)
         menu_bar.add_cascade(label="AROME", underline=0, menu=menu_arome)
         menu_arpege = Menu(menu_bar, tearoff=0)
-        menu_arpege_01 = Menu(menu_arpege, tearoff=0)
-        menu_arpege_01.add_command(label="Température à 2m", underline=3,
+        menu_arpege_01_tout = Menu(menu_arpege, tearoff=0)
+        menu_arpege_01_surface = Menu(menu_arpege_01_tout, tearoff=0)
+        menu_arpege_01_surface.add_command(label="Température à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","T2m"))
-        menu_arpege_01.add_command(label="Vent moyen à 10m", underline=3,
+        menu_arpege_01_surface.add_command(label="Vent moyen à 10m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Vent_Moy"))
-        menu_arpege_01.add_command(label="Vent rafales à 10m", underline=3,
+        menu_arpege_01_surface.add_command(label="Vent rafales à 10m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Vent_Raf"))
-        menu_arpege_01.add_command(label="Humidité relative à 2m", underline=3,
+        menu_arpege_01_surface.add_command(label="Humidité relative à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Hu2m"))
-        menu_arpege_01.add_command(label="Humidité spécifique à 2m", underline=3,
+        menu_arpege_01_surface.add_command(label="Humidité spécifique à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Hu_Specifique_2m"))
-        menu_arpege_01.add_command(label="Pression au niveau de la mer", underline=3,
+        menu_arpege_01_surface.add_command(label="Pression au niveau de la mer", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Pmer"))
-        menu_arpege_01.add_command(label="Pression à la surface", underline=3,
+        menu_arpege_01_surface.add_command(label="Pression à la surface", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Psol"))
-        menu_arpege_01.add_command(label="Précipitations", underline=3,
+        menu_arpege_01_surface.add_command(label="Précipitations", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Precips"))
-        menu_arpege_01.add_command(label="Cumul de neige", underline=3,
+        menu_arpege_01_surface.add_command(label="Cumul de neige", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Neige_Cumul"))
-        menu_arpege_01.add_command(label="Précipitations de neige", underline=3,
+        menu_arpege_01_surface.add_command(label="Précipitations de neige", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Neige_Precips"))
-        menu_arpege_01.add_command(label="Rayonnement visible descendant (SW)", underline=3,
+        menu_arpege_01_surface.add_command(label="Rayonnement visible descendant (SW)", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","DSW"))
-        menu_arpege_01.add_command(label="Température point de rosée à 2m", underline=3,
+        menu_arpege_01_surface.add_command(label="Température point de rosée à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Td2m"))
-        menu_arpege_01.add_command(label="Nébulosité basse", underline=3,
+        menu_arpege_01_surface.add_command(label="Nébulosité basse", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","NebulBas"))
-        menu_arpege_01.add_command(label="Nébulosité moyenne", underline=3,
+        menu_arpege_01_surface.add_command(label="Nébulosité moyenne", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","NebulMoy"))
-        menu_arpege_01.add_command(label="Nébulosité haute", underline=3,
+        menu_arpege_01_surface.add_command(label="Nébulosité haute", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","NebulHaut"))
-        menu_arpege_01.add_command(label="Contenu total vapeur d’eau colonne atmosphérique", underline=3,
+        menu_arpege_01_surface.add_command(label="Contenu total vapeur d’eau colonne atmosphérique", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Colonne_Vapeur"))
-        menu_arpege_01.add_command(label="Altitude de la couche limite", underline=3,
+        menu_arpege_01_surface.add_command(label="Altitude de la couche limite", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","Altitude_Couche_Limite"))
-        menu_arpege_01.add_command(label="CAPE", underline=3,
+        menu_arpege_01_surface.add_command(label="CAPE", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "ARPEGE","0.1","CAPE_INS"))
-        menu_arpege_01.add_command(label="Flux de chaleur latente à la surface", underline=3,
+        menu_arpege_01_surface.add_command(label="Flux de chaleur latente à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Flux_Chaleur_latente_Surface"))
-        menu_arpege_01.add_command(label="Flux de chaleur sensible à la surface", underline=3,
+        menu_arpege_01_surface.add_command(label="Flux de chaleur sensible à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Flux_Chaleur_sensible_Surface"))
-        menu_arpege_01.add_command(label="Rayonnement Thermique descendant à la surface", underline=3,
+        menu_arpege_01_surface.add_command(label="Rayonnement Thermique descendant à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Rayonnement_Thermique_Descendant_Surface"))
-        menu_arpege_01.add_command(label="Rayonnement solaire net à la surface", underline=3,
+        menu_arpege_01_surface.add_command(label="Rayonnement solaire net à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Rayonnement_Solaire_Net_Surface"))
-        menu_arpege_01.add_command(label="Rayonnement solaire net à la surface ciel clair", underline=3,
+        menu_arpege_01_surface.add_command(label="Rayonnement solaire net à la surface ciel clair", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Rayonnement_Solaire_Net_Surface_Ciel_Clair"))
-        menu_arpege_01.add_command(label="Rayonnement thermique net à la surface", underline=3,
+        menu_arpege_01_surface.add_command(label="Rayonnement thermique net à la surface", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Rayonnement_Thermique_Net_Surface"))
-        menu_arpege_01.add_command(label="Rayonnement thermique net à la surface ciel clair", underline=3,
+        menu_arpege_01_surface.add_command(label="Rayonnement thermique net à la surface ciel clair", underline=3,
                                command=partial(self.DessinerCarteCumuls,
                                                "ARPEGE","0.1","Rayonnement_Thermique_Net_Surface_Ciel_Clair"))
+        menu_arpege_01_tout.add_cascade(label="Surface",
+                             underline=0,menu=menu_arpege_01_surface)
+        menu_arpege_01_iso = Menu(menu_arpege_01_tout, tearoff=0)
+        menu_arpege_01_iso.add_command(label="Température", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","T_Iso"))
+        menu_arpege_01_iso.add_command(label="Température du point de rosée", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Td_Iso"))
+        menu_arpege_01_iso.add_command(label="Vent moyen", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Vent_Moy_Iso"))
+        menu_arpege_01_iso.add_command(label="Humidité relative", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Hu_Iso"))
+        menu_arpege_01_iso.add_command(label="Humidité spécifique", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Hu_Specifique_Iso"))
+        menu_arpege_01_iso.add_command(label="Géopotentiel", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Geopotentiel_Iso"))
+        menu_arpege_01_iso.add_command(label="Contenu spécifique en eau liquide des nuages", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Specific_Cloud_Liquid_Water_Content_Iso"))
+        menu_arpege_01_iso.add_command(label="Contenu spécifique en cristaux de glace des nuages", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Specific_Cloud_Ice_Water_Content_Iso"))
+        menu_arpege_01_iso.add_command(label="Fraction nuageuse", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Cloud_Fraction_Iso"))
+        menu_arpege_01_iso.add_command(label="Vitesse verticale en Pa/s", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Vertical_Velocity_Iso"))
+        menu_arpege_01_iso.add_command(label="Tourbillon potentiel", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Potential_Vorticity_Iso"))
+        menu_arpege_01_iso.add_command(label="Tourbillon Absolu", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Absolute_Vorticity_Iso"))
+        menu_arpege_01_iso.add_command(label="Tourbillon relatif", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Vorticity_Relative_Iso"))
+        menu_arpege_01_iso.add_command(label="TKE", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Turbulent_Kinetic_Energy_Iso"))
+        menu_arpege_01_iso.add_command(label="Theta’W", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "ARPEGE","0.1","Pseudo_Adiabatic_Potential_Temperature_Iso"))
+        menu_arpege_01_tout.add_cascade(label="Niveaux isobares",
+                             underline=0,menu=menu_arpege_01_iso)
         menu_arpege.add_cascade(label="ARPEGE 0.1°",
-                             underline=0,menu=menu_arpege_01)
+                             underline=0,menu=menu_arpege_01_tout)
         menu_arpege_05 = Menu(menu_arpege, tearoff=0)
         menu_arpege_05.add_command(label="Température à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,

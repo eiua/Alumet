@@ -204,8 +204,14 @@ class AromeCartePourCanvas(Frame):
         lon_0 = lons.mean()
         lat_0 = lats.mean()
 
-        proj = ccrs.Robinson(central_longitude=0,globe=None)#InterruptedGoodeHomolosine(central_longitude=0)#Mollweide()#Robinson()#Stereographic(central_longitude=lon_0,
-                              #    central_latitude=lat_0)
+        if self.resolution == "0.5":
+            proj = ccrs.Robinson(central_longitude=0,globe=None)
+        else:
+            proj = ccrs.Stereographic(central_longitude=lon_0, central_latitude=lat_0, globe=None)
+        #Robinson(central_longitude=0,globe=None)
+        #InterruptedGoodeHomolosine(central_longitude=0)
+        #Mollweide()
+        #Stereographic(central_longitude=lon_0,central_latitude=lat_0)
 
         f = Figure()#figsize=(15,15), dpi=300)
         ax = f.add_subplot()#111)
@@ -230,17 +236,16 @@ class AromeCartePourCanvas(Frame):
                                                     scale='10m',
                                                     facecolor='none')
             ax.add_feature(rivieres,edgecolor='blue',linewidth=(0.3))
-
-            if self.zoom == 1:
-                ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
-            else:
-                ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
-
         elif self.modele == "ARPEGE":
             pays = cfeature.NaturalEarthFeature(category='cultural',
                                                 name='admin_0_countries',
                                                 scale='10m',facecolor='none')
             ax.add_feature(pays,edgecolor='black',linewidth=(0.4))
+
+        if self.zoom == 1:
+            ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
+        else:
+            ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
 
         return f,ax
 
