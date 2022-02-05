@@ -220,6 +220,12 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Tourbillon potentiel", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Potential_Vorticity_Iso"))
+        menu_arome_0025_iso.add_command(label="Tourbillon Absolu", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Absolute_Vorticity_Iso"))
+        menu_arome_0025_iso.add_command(label="Tourbillon relatif", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vorticity_Relative_Iso"))
         menu_arome_0025_iso.add_command(label="TKE", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Turbulent_Kinetic_Energy_Iso"))

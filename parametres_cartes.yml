@@ -768,3 +768,39 @@ Turbulent_Kinetic_Energy_Iso: {
     paquet_ARPEGE_0.1: SP2,
     paquet_ARPEGE_0.5: SP2
     }
+Absolute_Vorticity_Iso: {
+###########################
+## Copié des parametres hindcasts
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: absv, #clé grib pour la vitesse verticale en Pa.s-1
+    conversion_unite: 0,
+    unite: s-1,
+    unite_phy: s-1,
+    levels_colorbar: [0,1,0.01],
+    levels_contours: [0,1,0.01],
+    cmap_carte: hot_r,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP5,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP2,
+    paquet_ARPEGE_0.5: SP2
+    }
+Vorticity_Relative_Iso: {
+###########################
+## Copié des parametres hindcasts
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: vo, #clé grib pour la vitesse verticale en Pa.s-1
+    conversion_unite: 0,
+    unite: s-1,
+    unite_phy: s-1,
+    levels_colorbar: [0,100,10],
+    levels_contours: [0,100,10],
+    cmap_carte: hot_r,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP5,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP2,
+    paquet_ARPEGE_0.5: SP2
+    }
