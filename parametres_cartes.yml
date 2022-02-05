@@ -630,3 +630,19 @@ Specific_Snow_Water_Content_Iso: {
     paquet_ARPEGE_0.1: IP1,
     paquet_ARPEGE_0.5: IP1
 }
+Specific_Cloud_Ice_Water_Content_Iso: {
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: ciwc, #clé grib pour les géopotentiels
+    conversion_unite: 0,
+    unite: kg/kg,
+    unite_phy: kg.kg-1,
+    levels_colorbar: [0,0.1,0.01],
+    levels_contours: [0,0.1,0.01],
+    cmap_carte: nipy_spectral,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP2,
+    paquet_AROME_0.01: IP1,
+    paquet_ARPEGE_0.1: IP1,
+    paquet_ARPEGE_0.5: IP1
+}

@@ -193,6 +193,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Contenu spécifique en eau liquide des nuages", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Specific_Cloud_Liquid_Water_Content_Iso"))
+        menu_arome_0025_iso.add_command(label="Contenu spécifique en cristaux de glace des nuages", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Specific_Cloud_Ice_Water_Content_Iso"))
         menu_arome_0025_iso.add_command(label="Contenu spécifique des gouttes d’eau précipitantes", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Specific_Rain_Water_Content_Iso"))
