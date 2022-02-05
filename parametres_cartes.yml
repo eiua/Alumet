@@ -662,3 +662,21 @@ Cloud_Fraction_Iso: {
     paquet_ARPEGE_0.1: IP1,
     paquet_ARPEGE_0.5: IP1
 }
+Td_Iso: {
+###########################
+## Copié des parametres hindcasts
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: dpt, #clé grib pour la température du point de rosée à 2m
+    conversion_unite: -273.15, #passage de K à °C
+    unite: °C,
+    unite_phy: K,
+    levels_colorbar: [-50,20,1],
+    levels_contours: [-50,20,4],
+    cmap_carte: nipy_spectral,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP3,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP2,
+    paquet_ARPEGE_0.5: SP2
+    }

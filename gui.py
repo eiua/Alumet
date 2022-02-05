@@ -181,6 +181,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Température", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","T_Iso"))
+        menu_arome_0025_iso.add_command(label="Température du point de rosée", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Td_Iso"))
         menu_arome_0025_iso.add_command(label="Vent moyen", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Vent_Moy_Iso"))
