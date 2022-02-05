@@ -220,6 +220,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Tourbillon potentiel", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Potential_Vorticity_Iso"))
+        menu_arome_0025_iso.add_command(label="TKE", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Turbulent_Kinetic_Energy_Iso"))
         menu_arome_0025_tout.add_cascade(label="Niveaux isobares",
                              underline=0,menu=menu_arome_0025_iso)
         menu_arome.add_cascade(label="AROME 0.025°",
