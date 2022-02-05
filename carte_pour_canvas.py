@@ -205,7 +205,7 @@ class AromeCartePourCanvas(Frame):
         lat_0 = lats.mean()
 
         if self.resolution == "0.5":
-            proj = ccrs.Robinson(central_longitude=0,globe=None)
+            proj = ccrs.Robinson()
         else:
             proj = ccrs.Stereographic(central_longitude=lon_0, central_latitude=lat_0, globe=None)
         #Robinson(central_longitude=0,globe=None)
@@ -242,10 +242,11 @@ class AromeCartePourCanvas(Frame):
                                                 scale='10m',facecolor='none')
             ax.add_feature(pays,edgecolor='black',linewidth=(0.4))
 
-        if self.zoom == 1:
-            ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
-        else:
-            ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
+        if self.resolution != "0.5":
+            if self.zoom == 1:
+                ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
+            else:
+                ax.set_extent([lons.min(),lons.max(),lats.min(),lats.max()])
 
         return f,ax
 
