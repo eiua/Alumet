@@ -284,8 +284,8 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-#        for g in grbs:
-#            print(g.shortName,g)
+        for g in grbs:
+            print(g.shortName,g)
 #            print(g.level,g)
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux

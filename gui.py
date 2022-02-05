@@ -49,6 +49,27 @@ class Application(Tk):
         lab_run = Label(self, text="===========================")
         lab_run.pack()
 
+        # Initalisation de la case à cocher pour les niveaux isobares
+        self.chk_iso = 0
+        self.ck_iso = IntVar()
+        niveaux_iso = (100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000,)
+        for niveau in range(len(niveaux_iso)):
+            check_iso = Checkbutton(self,text = niveaux_iso[niveau],variable=niveau,
+                                  command=partial(self.ReglerNiveauIso,niveau))
+            check_iso.pack()
+
+        # Initalisation du paramètre d'échéance
+        #pour les cartes à afficher par lumet.
+        self.echh = 0
+        # Échelle pour échéances
+        scale_9 = Scale(self,length = 600, orient = HORIZONTAL,
+                        sliderlength = 25,
+                        label = "Échéance de prévision +(**)H:",
+                        from_ = 0, to = 114, tickinterval = 6,
+                        resolution = 1,showvalue = 1,
+                        command = self.ReglerEcheance)
+        scale_9.pack()
+
         # Initalisation de la case à cocher pour le zoom.
         self.chk = 0
         self.ck = IntVar()
@@ -63,26 +84,6 @@ class Application(Tk):
 
         self.CreerBarreMenus()# création de la barre des menus
 
-        # Initalisation du paramètre d'échéance
-        #pour les cartes à afficher par lumet.
-        self.echh = 0
-        # Échelle pour échéances
-        scale_9 = Scale(self,length = 600, orient = HORIZONTAL,
-                        sliderlength = 25,
-                        label = "Échéance de prévision +(**)H:",
-                        from_ = 0, to = 114, tickinterval = 6,
-                        resolution = 1,showvalue = 1,
-                        command = self.ReglerEcheance)
-        scale_9.pack()
-
-        # Initalisation de la case à cocher pour les niveaux isobares
-        self.chk_iso = 0
-        self.ck_iso = IntVar()
-        niveaux_iso = (100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000,)
-        for niveau in range(len(niveaux_iso)):
-            check_iso = Checkbutton(self,text = niveaux_iso[niveau],variable=niveau,
-                                  command=partial(self.ReglerNiveauIso,niveau))
-            check_iso.pack()
         # Initialisation du canevas qui sera modifié pour créer
         #et afficher les différentes cartes
         self.can = Canvas(self, width =50, height =50, bg ="white")
@@ -189,6 +190,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Géopotentiel", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Geopotentiel_Iso"))
+        menu_arome_0025_iso.add_command(label="Contenu spécifique en eau liquide des nuages", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Specific_Cloud_Liquid_Water_Content_Iso"))
         menu_arome_0025_tout.add_cascade(label="Niveaux isobares",
                              underline=0,menu=menu_arome_0025_iso)
         menu_arome.add_cascade(label="AROME 0.025°",
