@@ -208,6 +208,9 @@ class Application(Tk):
         menu_arome_0025_iso.add_command(label="Fraction nuageuse", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Cloud_Fraction_Iso"))
+        menu_arome_0025_iso.add_command(label="Vitesse verticale en m/s", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Geometric_Vertical_Velocity_Iso"))
         menu_arome_0025_iso.add_command(label="Vitesse verticale en Pa/s", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Vertical_Velocity_Iso"))

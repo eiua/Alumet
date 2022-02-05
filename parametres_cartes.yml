@@ -686,11 +686,29 @@ Vertical_Velocity_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: w, #clé grib pour la vitesse verticale en Pa.s-1
     conversion_unite: 0,
-    unite: °C,
-    unite_phy: K,
+    unite: Pa.s-1,
+    unite_phy: Pa.s-1,
     levels_colorbar: [-2,2,0.05],
     levels_contours: [-2,2,0.05],
     cmap_carte: seismic_r,
+    nws_precip_colors: 0,
+    levels: 0,
+    paquet_AROME_0.025: IP3,
+    paquet_AROME_0.01: SP1,
+    paquet_ARPEGE_0.1: SP2,
+    paquet_ARPEGE_0.5: SP2
+    }
+Geometric_Vertical_Velocity_Iso: {
+###########################
+## Copié des parametres hindcasts
+    niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    shortName_grib: wz, #clé grib pour la vitesse verticale en Pa.s-1
+    conversion_unite: 0,
+    unite: m.s-1,
+    unite_phy: m.s-1,
+    levels_colorbar: [-10,10,0.1],
+    levels_contours: [-10,10,0.1],
+    cmap_carte: seismic,
     nws_precip_colors: 0,
     levels: 0,
     paquet_AROME_0.025: IP3,
