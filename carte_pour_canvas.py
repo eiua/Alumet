@@ -70,8 +70,8 @@ class AromeCartePourCanvas(Frame):
         # Pour le vent, ajout de la composante meridienne
         if self.type_de_carte[0:4] == "Vent": #"Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m":
             self.shortName_grib_2 = ha.load_config("shortName_grib_2")
-        if self.paquet[0] == "I" or self.paquet == "H": # si niveaux isobares ou hauteur, on charge les niveaux
-            self.niveaux = ha.load_config("niveaux")
+#        if self.paquet[0] == "I" or self.paquet == "H": # si niveaux isobares ou hauteur, on charge les niveaux
+#            self.niveaux = ha.load_config("niveaux")
 
     def construire_noms(self):
         """Renvoie les différentes chaines de caractères
@@ -290,23 +290,36 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-        for g in grbs:
-            print(g.shortName,g)
+#        for g in grbs:
+#            print(g.shortName,g)
 #            print(g.level,g)
+
+#        if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
+#            print("self.shortName_grib: ",self.shortName_grib)
+#            print("self.niveau_iso: ",self.niveau_iso)
+#            print("self.niveaux[self.niveau_iso]: ",self.niveaux[self.niveau_iso])
+#            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
+#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
+##            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
+#        elif self.paquet[0] == "H":
+#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
             print("self.shortName_grib: ",self.shortName_grib)
             print("self.niveau_iso: ",self.niveau_iso)
-            print("self.niveaux[self.niveau_iso]: ",self.niveaux[self.niveau_iso])
             print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
-            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
 #            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
             if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
         elif self.paquet[0] == "H":
-            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
             if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
         else:
             gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
             if self.type_de_carte[0:4] == "Vent":
@@ -360,8 +373,6 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         tt = (tt + self.conversion_unite)
         tt = tt.astype(int)
-
-        print(tt[22,22])
 
         f,ax = self.dessiner_fond_carte(lons,lats)
 

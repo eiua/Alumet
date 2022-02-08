@@ -72,13 +72,15 @@ class Application(Tk):
 
         niveaux_iso = [100,125,150,175,200,225,250,275,300,350,400,450,500,550,600,650,700,750,800,850,900,925,950,1000]
 
-        scrollbar = Scrollbar(tab2)
-        scrollbar.pack( side = RIGHT, fill = Y )
-        liste = Listbox(tab2, yscrollcommand = scrollbar.set)
-        for i in range(len(niveaux_iso)):
-            liste.insert(END,str(niveaux_iso[i]) + "hPa")
-        liste.pack(side = LEFT)
-        scrollbar.config(command = liste.yview )
+        labelTop = Label(tab2,text = "Niveaux verticaux (hPa)")
+        labelTop.pack()
+        self.niv_iso = IntVar()
+        comboExample = ttk.Combobox(tab2, values=niveaux_iso, textvariable=self.niv_iso)
+        comboExample["state"] = "readonly"
+#        self.niv_iso = comboExample.current(1)
+        comboExample.pack()
+
+        comboExample.bind("<<ComboboxSelected>>", self.callbackFunc)
 
         # Initalisation de la case à cocher pour les niveaux isobares
         self.chk_iso = 0
@@ -776,16 +778,21 @@ class Application(Tk):
     def ReglerZoom(self,zone):
         """Réglage de la zone de zoom"""
 
-        self.chk = self.ck.get()
+        #self.chk = self.ck.get()
         self.chk = zone
         self.event_generate('<Control-Z>')
 
     def ReglerNiveauIso(self,niveau):
         """Réglage de la zone de zoom"""
 
-        self.chk_iso = self.ck_iso.get()
+        #self.chk_iso = self.ck_iso.get()
         self.chk_iso = niveau
+        print(self.chk_iso)
         self.event_generate('<Control-Z>')
+
+    def callbackFunc(self,event):
+        self.chk_iso = self.niv_iso.get()
+        print(self.niv_iso.get())
 
     def ReglerEcheance(self,f):
         """Réglage de l’échéance d’intérêt"""
