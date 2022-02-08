@@ -5,7 +5,7 @@ Classes nécéssaires à l'interface graphique de Lumet v0.6
 Licence GPL euia / Lucas GRIGIS copyleft
 """
 # Import des librairies externes à lumet
-from tkinter import *
+from tkinter import ttk
 from functools import partial
 import threading
 
@@ -21,8 +21,18 @@ class Application(Tk):
     def __init__(self):
         Tk.__init__(self)        # constructeur de la classe parente
 
+        tabControl = ttk.Notebook(self)
+
+        tab1 = ttk.Frame(tabControl)
+        tab2 = ttk.Frame(tabControl)
+        tab3 = ttk.Frame(tabControl)
+        tabControl.add(tab1, text = "Run")
+        tabControl.add(tab2, text = "Échéances")
+        tabControl.add(tab3, text = "Zooms")
+        tabControl.pack(expand = 1, fill ="both")
+
         self.date_du_run = self.ObtenirDateDuRun()
-        lab_run = Label(self, text="\nPrévisions en date du " + \
+        lab_run = Label(tab1, text="\nPrévisions en date du " + \
                         self.date_du_run[6:8] + "/"+ \
                         self.date_du_run[4:6] + "/" + self.date_du_run[0:4]+\
                         " run de " + self.date_du_run[-2:] + "H")
@@ -31,44 +41,53 @@ class Application(Tk):
         # Champ Entry et bouton pour que l’utilisateur rentre la date du run
         # qu’il veut
         self.entrer_date_du_run = StringVar(self)
-        lab_run = Label(self, text="==========================="+
+        lab_run = Label(tab1, text="==========================="+
                         "\nUtiliser un autre run ? Saisissez votre date d’intérêt\nFormat "+
                         "\"yyyymmjjrr\" ex 1er nov 2021 run de 03h "+
                         "= 2021011103")
         lab_run.pack()
 
-        entrer_date_du_run = Entry(self,textvariable=self.entrer_date_du_run,
+        entrer_date_du_run = Entry(tab1,textvariable=self.entrer_date_du_run,
                                    width=20)
         entrer_date_du_run.pack(pady=20)
 
-        boutton_date_du_run = Button(self, height=1,
+        boutton_date_du_run = Button(tab1, height=1,
                                      text="Valider date du run",
                                      command=self.SaisirDateDuRun)
         boutton_date_du_run.pack()
 
-        lab_run = Label(self, text="===========================")
         lab_run.pack()
-
-        # Initalisation de la case à cocher pour les niveaux isobares
-        self.chk_iso = 0
-        self.ck_iso = IntVar()
-        niveaux_iso = (100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000,)
-        for niveau in range(len(niveaux_iso)):
-            check_iso = Checkbutton(self,text = niveaux_iso[niveau],variable=niveau,
-                                  command=partial(self.ReglerNiveauIso,niveau))
-            check_iso.pack()
 
         # Initalisation du paramètre d'échéance
         #pour les cartes à afficher par lumet.
         self.echh = 0
         # Échelle pour échéances
-        scale_9 = Scale(self,length = 600, orient = HORIZONTAL,
+        scale_9 = Scale(tab2,length = 600, orient = HORIZONTAL,
                         sliderlength = 25,
                         label = "Échéance de prévision +(**)H:",
                         from_ = 0, to = 114, tickinterval = 6,
                         resolution = 1,showvalue = 1,
                         command = self.ReglerEcheance)
         scale_9.pack()
+
+        niveaux_iso = [100,125,150,175,200,225,250,275,300,350,400,450,500,550,600,650,700,750,800,850,900,925,950,1000]
+
+        scrollbar = Scrollbar(tab2)
+        scrollbar.pack( side = RIGHT, fill = Y )
+        liste = Listbox(tab2, yscrollcommand = scrollbar.set)
+        for i in range(len(niveaux_iso)):
+            liste.insert(END,str(niveaux_iso[i]) + "hPa")
+        liste.pack(side = LEFT)
+        scrollbar.config(command = liste.yview )
+
+        # Initalisation de la case à cocher pour les niveaux isobares
+        self.chk_iso = 0
+        self.ck_iso = IntVar()
+#        niveaux_iso = (100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000,)
+#        for niveau in range(len(niveaux_iso)):
+#            check_iso = Checkbutton(tab2,text = niveaux_iso[niveau],variable=niveau,
+#                                  command=partial(self.ReglerNiveauIso,niveau))
+#            check_iso.pack()
 
         # Initalisation de la case à cocher pour le zoom.
         self.chk = 0
@@ -78,7 +97,7 @@ class Application(Tk):
                  "Zoom Lus Genève Charlieu","Zoom Grand Mont Blanc",
                  "Zoom Savoie","Zoom Écrins",)
         for zone in range(len(zones)):
-            check_1 = Checkbutton(self,text = zones[zone],variable=zone,
+            check_1 = Checkbutton(tab3,text = zones[zone],variable=zone,
                                   command=partial(self.ReglerZoom,zone))
             check_1.pack()
 
@@ -718,7 +737,10 @@ class Application(Tk):
                              underline=0,menu=menu_tele_params_tous_4)  
         menu_bar.add_cascade(label="Téléchargement données modèles",
                              underline=0,menu=menu_tele_modeles)
-
+        menu_about = Menu(menu_bar,tearoff=0)
+        menu_about.add_command(label="Aide",command=partial(self.AfficherAide))
+        menu_about.add_command(label="À propos",command=partial(self.APropos))
+        menu_bar.add_cascade(label="Aide",menu=menu_about)
         self.config(menu=menu_bar)
 
     def ObtenirDateDuRun(self):
@@ -770,6 +792,15 @@ class Application(Tk):
 
         self.echh = int(f)
         self.event_generate('<Control-Z>')
+
+    def AfficherAide(self):
+        """Afficher la documentation"""
+        print("Voyons voir ce que donne cet essai de documentation…")
+
+    def APropos(self):
+        """Afficher un petit à propos"""
+        print("Développé par Lucas GRIGIS, copyleft Lucas GRIGIS.\n" +\
+              "L’intégralité du code est sous license GPL")
 
     def DessinerCarteMonoParam(self,modele,resolution,variable):
         """Ajout de cartes à un seul paramètre dans un canevas"""

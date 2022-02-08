@@ -9,7 +9,7 @@ class YamYam():
  
     def yaml_loader(self,filepath):
         with open(filepath,"r") as filedescriptor:
-            data = yaml.load(filedescriptor)
+            data = yaml.safe_load(filedescriptor)
         return(data)
 
 

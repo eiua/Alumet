@@ -207,7 +207,7 @@ class AromeCartePourCanvas(Frame):
         if self.resolution == "0.5":
             proj = ccrs.Robinson()
         else:
-            proj = ccrs.Stereographic(central_longitude=lon_0, central_latitude=lat_0, globe=None)
+            proj = ccrs.Stereographic(central_longitude=lon_0, central_latitude=lat_0)
         #Robinson(central_longitude=0,globe=None)
         #InterruptedGoodeHomolosine(central_longitude=0)
         #Mollweide()
