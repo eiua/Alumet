@@ -26,6 +26,8 @@ import matplotlib.ticker as mticker
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from tkinter import *
 from math import floor
+from csv import reader
+from csv import DictReader
 
 class AromeCartePourCanvas(Frame):
     """Exploiter les fichiers Arome 0.025°,
@@ -57,6 +59,7 @@ class AromeCartePourCanvas(Frame):
         #self.category = ha.load_config("category")
         self.shortName_grib = ha.load_config("shortName_grib")
         print("self.shortName_grib:",self.shortName_grib)
+        self.instant = ha.load_config("instant")
         self.conversion_unite = ha.load_config("conversion_unite")
         self.unite = ha.load_config("unite")
         self.unite_phy = ha.load_config("unite_phy")
@@ -190,7 +193,9 @@ class AromeCartePourCanvas(Frame):
                 self.nom_fichier_2
             print("nom_fichier1:",nom_fichier1)
 
-        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau" or self.type_de_carte == "Neige_Precips":
+#        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau" or self.type_de_carte == "Neige_Precips":
+        if not self.instant:
+            print("coucoucouou")
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:
@@ -290,23 +295,9 @@ class CarteMonoParam(AromeCartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-#        for g in grbs:
-#            print(g.shortName,g)
+        for g in grbs:
+            print(g.shortName,g)
 #            print(g.level,g)
-
-#        if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
-#            print("self.shortName_grib: ",self.shortName_grib)
-#            print("self.niveau_iso: ",self.niveau_iso)
-#            print("self.niveaux[self.niveau_iso]: ",self.niveaux[self.niveau_iso])
-#            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
-#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
-##            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
-#            if self.type_de_carte[0:4] == "Vent":
-#                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
-#        elif self.paquet[0] == "H":
-#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_iso])[indice_echeance]
-#            if self.type_de_carte[0:4] == "Vent":
-#                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveaux[self.niveau_iso])[indice_echeance]
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
             print("self.shortName_grib: ",self.shortName_grib)
@@ -661,3 +652,178 @@ class CarteCumuls(AromeCartePourCanvas):
 
         print("coucou")
 
+class CarteObservations(AromeCartePourCanvas):
+    """Renvoie une carte des observations de surface in-situ essentielles SYNOP."""
+
+    def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
+                 type_carte,zoom, niveau_iso, verification):
+
+        AromeCartePourCanvas.__init__(self,date_du_run,modele,resolution,
+                                         echeance,type_carte,zoom)
+
+        Frame.__init__(self)
+
+        self.date_du_run = date_du_run
+        self.verification = verification
+        self.canev=canev
+        self.niveau_iso = niveau_iso
+
+    def envoyer_carte_vers_gui(self):
+        print("CarteMonoParam",self.type_de_carte)
+#        self.load_config()
+#        self.construire_noms()
+
+        if self.zoom >=1:
+            coords = self.zones_zoom(self.zoom-1)
+
+#        with open("./synop.2022021212.csv", newline='') as csvfile:
+#            spamreader = reader(csvfile, delimiter=';', quotechar='|')
+#            for row in spamreader:
+#               print(', '.join(row))
+
+        with open("./synop.2022021212.csv", newline='') as csvfile:
+            reader = DictReader(csvfile,delimiter=";")
+            for row in reader:
+                print(row)
+                print(row["numer_sta"], row["date"], row["pmer"], row["tend"] , row["cod_tend"], row["dd"], row["ff"], row["t"],row["td"], row["u"], row["vv"], row["ww"], row["w1"], row["w2"], row["n"], row["nbas"], row["hbas"], row["cl"], row["cm"], row["ch"], row["pres"], row["niv_bar"], row["geop"], row["tend24"], row["tn12"], row["tn24"], row["tx12"], row["tx24"], row["tminsol"], row["sw"], row["tw"], row["raf10"], row["rafper"], row["per"], row["etat_sol"], row["ht_neige"], row["ssfrai"], row["perssfrai"], row["rr1"], row["rr3"], row["rr6"], row["rr12"], row["rr24"], row["phenspe1"], row["phenspe2"], row["phenspe3"], row["phenspe4"], row["nnuage1"], row["ctype1"], row["hnuage1"], row["nnuage2"], row["ctype2"], row["hnuage2"], row["nnuage3"], row["ctype3"], row["hnuage3"], row["nnuage4"], row["ctype4"], row["hnuage4"])
+
+#        #Pour le vent, ajout de la composante méridienne
+##        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
+##            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+
+#        print("Échéance: ",self.echeance)
+#        print("indice échéance 1: ",indice_echeance)
+
+#        ech_mois = str(gt.validityDate)[4:6]
+#        ech_jour = str(gt.validityDate)[6:8]
+
+#        if gt.validityTime<1000:
+#            ech_heure = str(gt.validityTime)[0]
+#        else:
+#            ech_heure = str(gt.validityTime)[0:2]
+
+#        validite ="Prévision pour le " + ech_jour + "/" + ech_mois+ \
+#            " " + ech_heure + "H"
+
+#        if self.zoom == 0:
+#            tt, lats, lons = gt.data()#(lat1=43,lat2=47,lon1=2.25,lon2=7.5)
+#            if self.type_de_carte[0:4] == "Vent":
+#                tt2, lats,lons = gt2.data()
+#        elif self.zoom >= 1:
+
+#            lat11 = coords[1][0]
+#            print(lat11)
+#            lat22 = coords[1][1]
+#            lon11 = coords[1][2]
+#            lon22 = coords[1][3]
+
+#            tt, lats, lons = gt.data(lat1=lat11,lat2=lat22,
+#                                     lon1=lon11,lon2=lon22)
+#            if self.type_de_carte[0:4] == "Vent":
+#                tt2, lats, lons = gt2.data(lat1=lat11,lat2=lat22,
+#                                         lon1=lon11,lon2=lon22)
+#            print(lats[0,0],lats[-1,-1])
+#            print(lons[0,0],lons[-1,-1])
+
+#        print("Champ: ", gt.shortName, "    Validité: ", gt.validityDate,
+#              " à ",gt.validityTime)
+
+#        del gt
+#        grbs.close()
+#        if self.type_de_carte[0:4] == "Vent":
+#            tt = np.sqrt(tt**2 + tt2**2)*3.6 # fusion des composante et passage de m/s vers km/h
+
+#        tt = (tt + self.conversion_unite)
+#        tt = tt.astype(int)
+
+#        f,ax = self.dessiner_fond_carte(lons,lats)
+
+#        origin='lower'
+
+#        print(self.levels_colorbar)
+#        print(self.levels_colorbar[0])
+#        ln = int(self.levels_colorbar[0])
+#        lx = int(self.levels_colorbar[1])
+#        lst = float(self.levels_colorbar[2])
+#        levels = np.arange(ln,lx,lst)
+
+#        lln = int(self.levels_contours[0])
+#        llx = int(self.levels_contours[1])
+#        llst = float(self.levels_contours[2])
+#        levels_contour_2 = np.arange(lln,llx,llst)
+
+#        cc = ax.contour(lons, lats, tt, levels_contour_2,
+#                      colors=('k'),
+#                      linewidths=(0.15),
+#                      origin=origin,transform=ccrs.PlateCarree())
+
+#        if self.verification == 1:
+#            print("fin contour")
+
+#        if self.type_de_carte == "Neige_Cumul" or self.type_de_carte[0:4] == "Vent":
+#            nws_precip_colors = self.nws_precip_colors
+#            precip_colormap = mcolors.ListedColormap(nws_precip_colors)
+#            levels = self.levels
+#            norm = mcolors.BoundaryNorm(levels, len(levels))
+
+#            bb=plt.pcolormesh(lons, lats, tt, norm=norm, cmap=precip_colormap,
+#                          transform=ccrs.PlateCarree())
+#        else:
+#            bb = ax.pcolormesh(lons,lats,tt,vmin=ln,vmax=lx,
+#                               cmap=self.cmap_carte,
+#                               transform=ccrs.PlateCarree())
+
+#        csb = plt.colorbar(bb, shrink=0.9, pad=0, aspect=20)
+
+#        #csb.set_label("("+ self.unite +")")
+
+#        #csb.set_label("Module du Jet (m/s)")
+#        #ax.barbs(lons[::50],lats[::50], vent_zonal[::50], vent_meri[::50],
+#        #    transform=ccrs.PlateCarree(),length=5)
+
+#        lala_pvu = plt.clabel(cc, fontsize=8, fmt='%1.0f')
+
+#        gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+#                          linewidth=0.2, color='k', alpha=1, linestyle='--')
+#        gl.xlabels_top = False
+#        gl.ylabels_left = False
+#        gl.xlines = True
+#        gl.xlocator = mticker.FixedLocator([-180, -135, -90, -45, 0, 45, 90, 135, 180])
+#        gl.ylocator = mticker.FixedLocator([-66.33, -45, -23.26, 0, 23.26, 45, 66.33])
+#        gl.xformatter = LONGITUDE_FORMATTER
+#        gl.yformatter = LATITUDE_FORMATTER
+#        gl.xlabel_style = {'size': 7, 'color': 'k'}
+#        gl.ylabel_style = {'size': 7, 'color': 'k'}
+##        gl.xlabel_style = {'color': 'red', 'weight': 'bold'}
+
+#        if self.verification == 1:
+#            print("fin contourf")
+
+#        if self.echeance < 10:
+#            titre = self.titre_0 + "\n" + validite
+#            nom = self.nom_0 + str(self.echeance)+'H.png'
+#        else:
+#            titre = self.titre_10 + "\n" + validite
+#            nom = self.nom_10 + str(self.echeance)+'H.png'
+#        plt.text(0.5,0.97,titre,horizontalalignment='center',
+#                 verticalalignment='center', transform = ax.transAxes)
+#        print(titre)
+#        print(nom)
+
+#        #plt.title(titre)
+#        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+#        plt.show()
+#        self.canev = FigureCanvasTk(f, self.master)
+#        self.canev.show()
+
+#        self.canev.get_tk_widget().pack(expand=True)
+
+#        toolbar = NavigationToolbar2Tk(self.canev, self.master)
+#        toolbar.update()
+#        self.canev._tkcanvas.pack(expand=True)
+
+#        plt.close()
+
+#        del tt
+#        del titre
+#        del nom

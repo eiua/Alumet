@@ -80,11 +80,11 @@ class Application(Tk):
 #        self.niv_iso = comboExample.current(1)
         comboExample.pack()
 
-        comboExample.bind("<<ComboboxSelected>>", self.callbackFunc)
+        comboExample.bind("<<ComboboxSelected>>", self.ReglerNiveauIso)
 
         # Initalisation de la case à cocher pour les niveaux isobares
         self.chk_iso = 0
-        self.ck_iso = IntVar()
+        #self.ck_iso = IntVar()
 #        niveaux_iso = (100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000,)
 #        for niveau in range(len(niveaux_iso)):
 #            check_iso = Checkbutton(tab2,text = niveaux_iso[niveau],variable=niveau,
@@ -564,6 +564,10 @@ class Application(Tk):
         menu_arpege.add_cascade(label="ARPEGE 0.5°",
                              underline=0,menu=menu_arpege_05_tout)
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
+        menu_obs = Menu(menu_bar, tearoff=0)
+        menu_obs.add_command(label="SYNOP (surface)", underline=3,
+                               command=partial(self.DessinerCarteObservations,None,None,"T2m"))
+        menu_bar.add_cascade(label="Observations", underline=0, menu=menu_obs)
         menu_tele_modeles = Menu(menu_bar,tearoff=0)
         menu_tele_base = Menu(menu_tele_modeles, tearoff=0)
         menu_tele_base.add_command(label="Arome 0.025°: SP1",
@@ -782,17 +786,17 @@ class Application(Tk):
         self.chk = zone
         self.event_generate('<Control-Z>')
 
-    def ReglerNiveauIso(self,niveau):
-        """Réglage de la zone de zoom"""
+#    def ReglerNiveauIso(self,niveau):
+#        """Réglage de la zone de zoom"""
 
-        #self.chk_iso = self.ck_iso.get()
-        self.chk_iso = niveau
-        print(self.chk_iso)
-        self.event_generate('<Control-Z>')
+#        #self.chk_iso = self.ck_iso.get()
+#        self.chk_iso = niveau
+#        print(self.chk_iso)
+#        self.event_generate('<Control-Z>')
 
-    def callbackFunc(self,event):
+    def ReglerNiveauIso(self,event):
         self.chk_iso = self.niv_iso.get()
-        print(self.niv_iso.get())
+        print(self.chk_iso)
 
     def ReglerEcheance(self,f):
         """Réglage de l’échéance d’intérêt"""
@@ -829,3 +833,14 @@ class Application(Tk):
                            type_carte=variable,zoom = self.chk,
                            verification = 0)
         self.c2.envoyer_carte_vers_gui()
+
+    def DessinerCarteObservations(self,modele,resolution,variable):
+        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+        self.can.delete(ALL)
+        self.Obs1 = CarteObservations(self,self.can,self.date_du_run,
+                           modele=None,resolution=None,echeance=None,
+                           type_carte=variable,zoom = self.chk,
+                           niveau_iso = None,
+                           verification = 0)
+        self.Obs1.envoyer_carte_vers_gui()

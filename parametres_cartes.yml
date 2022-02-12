@@ -21,6 +21,7 @@ T2m: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: 2t, #clé grib pour la température à 2m
+    instant : True,
     conversion_unite: -273.15, #passage de K à °C
     unite: °C,
     unite_phy: K,
@@ -39,6 +40,7 @@ Td2m: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: 2d, #clé grib pour la température du point de rosée à 2m
+    instant : True,
     conversion_unite: -273.15, #passage de K à °C
     unite: °C,
     unite_phy: K,
@@ -57,6 +59,7 @@ Temp_Brillance: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: btmp, #clé grib pour la température de brillance
+    instant : True,
     conversion_unite: -273.15, #passage de K à °C
     unite: °C,
     unite_phy: K,
@@ -75,6 +78,7 @@ Altitude_Surface: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: h, #clé grib pour l’altitude de la surface du modèle
+    instant : True,
     conversion_unite: 0,
     unite: m,
     unite_phy: m,
@@ -93,6 +97,7 @@ Altitude_Couche_Limite: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: hpbl, #clé grib pour l’altitude de la couche limite
+    instant : True,
     conversion_unite: 0,
     unite: m,
     unite_phy: m,
@@ -111,6 +116,7 @@ CAPE_INS: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: CAPE_INS, #clé grib pour la CAPE
+    instant : True,
     conversion_unite: 0,
     unite: m2.s-2,
     unite_phy: K,
@@ -127,6 +133,7 @@ CAPE_INS: {
 Hu2m: {
     #niveau: 0002m,
     shortName_grib: 2r, #clé grib pour l’humidité relative à 2m
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
@@ -143,6 +150,7 @@ Hu2m: {
 Hu_Specifique_2m: {
     #niveau: 0002m,
     shortName_grib: 2sh, #clé grib pour l’humidité spécifique à 2m
+    instant : True,
     conversion_unite: 0,
     unite: kg/kg,
     unite_phy: kg/kg,
@@ -159,6 +167,7 @@ Hu_Specifique_2m: {
 NebulBas: {
     #niveau: 0002m,
     shortName_grib: lcc, #clé grib pour la nébulosité basse
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: "%",
@@ -175,6 +184,7 @@ NebulBas: {
 NebulMoy: {
     #niveau: 0002m,
     shortName_grib: mcc, #clé grib pour la nébulosité moyenne
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: "%",
@@ -191,6 +201,7 @@ NebulMoy: {
 NebulHaut: {
     #niveau: 0002m,
     shortName_grib: hcc, #clé grib pour la nébulosité haute
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: "%",
@@ -207,6 +218,7 @@ NebulHaut: {
 Neige_Precips: {
     #niveau: 0002m,
     shortName_grib: sprate, #clé grib pour le cumul de neige
+    instant : cumul,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -223,6 +235,7 @@ Neige_Precips: {
 Neige_Cumul: {
     #niveau: 0002m,
     shortName_grib: sprate, #clé grib pour le cumul de neige
+    instant : cumul,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -239,6 +252,7 @@ Neige_Cumul: {
 Precips: {
     #niveau: 0002m,
     shortName_grib: tp, #clé grib pour les précipitations
+    instant : cumul,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -255,6 +269,7 @@ Precips: {
 Precips_Eau: {
     #niveau: 0002m,
     shortName_grib: tirf, #clé grib pour les précipitations liquides (time integral of rain flux)
+    instant : cumul,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -272,6 +287,7 @@ Vent_Moy: {
     #niveau: 0002m,
     shortName_grib: 10u, #clé grib pour la composante zonale du vent moyen
     shortName_grib_2: 10v, #clé grib pour la composante meridienne
+    instant : True,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -289,6 +305,7 @@ Vent_Moy_100m: {
     #niveau: 0002m,
     shortName_grib: 100u, #clé grib pour la composante zonale du vent moyen
     shortName_grib_2: 100v, #clé grib pour la composante meridienne
+    instant : True,
     conversion_unite: 0,
     unite: km/h,
     unite_phy: km/h,
@@ -306,6 +323,7 @@ Vent_Raf: {
     #niveau: 0002m,
     shortName_grib: ugust, #clé grib pour la composante zonale du vent en rafales
     shortName_grib_2: vgust, #clé grib pour la composante meridienne
+    instant : max,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -322,6 +340,7 @@ Vent_Raf: {
 Total_Water_Precips: {
     #niveau: 0002m,
     shortName_grib: twatp, #clé grib pour les précipitations
+    instant : cumul,
     conversion_unite: 0, #passage de m vers mm
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -338,6 +357,7 @@ Total_Water_Precips: {
 DSW: {
     #niveau: 0002m,
     shortName_grib: ssrd, #clé grib pour le rayonnement visible descendant
+    instant : cumul,
     conversion_unite: 0,
     unite: Wh.m-2,
     unite_phy: Wh.m-2,
@@ -356,6 +376,7 @@ Pmer: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: prmsl, #clé grib pour la pression au niveau de la mer
+    instant : True,
     conversion_unite: 0,
     unite: hPa,
     unite_phy: hPa,
@@ -374,6 +395,7 @@ Psol: {
 ## Copié des parametres hindcasts
     #niveau: 0002m,
     shortName_grib: sp, #clé grib pour la pression à la surface
+    instant : True,
     conversion_unite: 0,
     unite: hPa,
     unite_phy: hPa,
@@ -390,6 +412,7 @@ Psol: {
 Colonne_Vapeur: {
     #niveau: 0002m,
     shortName_grib: tciwv, #clé grib pour le contenu total en vapeur d’eau de la colonne atmosphérique
+    instant : True,
     conversion_unite: 0,   # alias tciwv pour "total column integrated water vapour"
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -406,6 +429,7 @@ Colonne_Vapeur: {
 Flux_Chaleur_latente_Surface: {
     #niveau: 0002m,
     shortName_grib: slhf, #clé grib pour le flux de chaleur latente à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -422,6 +446,7 @@ Flux_Chaleur_latente_Surface: {
 Flux_Chaleur_sensible_Surface: {
     #niveau: 0002m,
     shortName_grib: sshf, #clé grib pour le flux de chaleur sensible à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -438,6 +463,7 @@ Flux_Chaleur_sensible_Surface: {
 Rayonnement_Thermique_Descendant_Surface: {
     #niveau: 0002m,
     shortName_grib: strd, #clé grib pour le rayonnement de chaleur sensible à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -454,6 +480,7 @@ Rayonnement_Thermique_Descendant_Surface: {
 Rayonnement_Solaire_Net_Surface: {
     #niveau: 0002m,
     shortName_grib: ssr, #clé grib pour le rayonnement solaire net à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -470,6 +497,7 @@ Rayonnement_Solaire_Net_Surface: {
 Rayonnement_Solaire_Net_Surface_Ciel_Clair: {
     #niveau: 0002m,
     shortName_grib: ssrc, #clé grib pour le rayonnement solaire net à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -486,6 +514,7 @@ Rayonnement_Solaire_Net_Surface_Ciel_Clair: {
 Rayonnement_Thermique_Net_Surface: {
     #niveau: 0002m,
     shortName_grib: str, #clé grib pour le rayonnement solaire net à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -502,6 +531,7 @@ Rayonnement_Thermique_Net_Surface: {
 Rayonnement_Thermique_Net_Surface_Ciel_Clair: {
     #niveau: 0002m,
     shortName_grib: strc, #clé grib pour le rayonnement solaire net à la surface
+    instant : cumul,
     conversion_unite: 0,
     unite: J.m-2,
     unite_phy: J.m-2,
@@ -519,6 +549,7 @@ T_Iso: {
 ###########################
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
+    instant : True,
     shortName_grib: t, #clé grib pour la température en niveaux isobares
     conversion_unite: -273.15, #passage de K à °C
     unite: °C,
@@ -536,6 +567,7 @@ T_Iso: {
 Hu_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 1000],
     shortName_grib: r, #clé grib pour l’humidité relative en niveaux isobares
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
@@ -552,6 +584,7 @@ Hu_Iso: {
 Hu_Specifique_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 1000],
     shortName_grib: q, #clé grib pour l’humidité relative en niveaux isobares
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
@@ -569,6 +602,7 @@ Vent_Moy_Iso: { # Vent moyen en niveaux isobares
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: u, #clé grib pour la composante zonale du vent moyen
     shortName_grib_2: v, #clé grib pour la composante meridienne
+    instant : True,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,
@@ -585,6 +619,7 @@ Vent_Moy_Iso: { # Vent moyen en niveaux isobares
 Geopotentiel_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: z, #clé grib pour les géopotentiels
+    instant : True,
     conversion_unite: 0,
     unite: m2.s-2,
     unite_phy: m2.s-2,
@@ -601,6 +636,7 @@ Geopotentiel_Iso: {
 Specific_Cloud_Liquid_Water_Content_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: clwc, #clé grib pour le contenu spécifique en eau liquide
+    instant : True,
     conversion_unite: 0,
     unite: kg/kg,
     unite_phy: kg.kg-1,
@@ -617,6 +653,7 @@ Specific_Cloud_Liquid_Water_Content_Iso: {
 Specific_Rain_Water_Content_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: crwc, #clé grib pour le contenu spécifique en gouttelette d’eau précipitantes
+    instant : True,
     conversion_unite: 0,
     unite: kg/kg,
     unite_phy: kg.kg-1,
@@ -633,6 +670,7 @@ Specific_Rain_Water_Content_Iso: {
 Specific_Snow_Water_Content_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: cswc, #clé grib pour le contenu spécifique en flocons de neige précipitants
+    instant : True,
     conversion_unite: 0,
     unite: kg/kg,
     unite_phy: kg.kg-1,
@@ -649,6 +687,7 @@ Specific_Snow_Water_Content_Iso: {
 Specific_Cloud_Ice_Water_Content_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: ciwc, #clé grib pour le contenu spécifique en cristaux de glace
+    instant : True,
     conversion_unite: 0,
     unite: kg/kg,
     unite_phy: kg.kg-1,
@@ -665,6 +704,7 @@ Specific_Cloud_Ice_Water_Content_Iso: {
 Cloud_Fraction_Iso: {
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: cc, #clé grib pour la fraction nuageuse
+    instant : True,
     conversion_unite: 0,
     unite: "%",
     unite_phy: "%",
@@ -683,6 +723,7 @@ Td_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: dpt, #clé grib pour la température du point de rosée en niveaux isobares
+    instant : True,
     conversion_unite: -273.15, #passage de K à °C
     unite: °C,
     unite_phy: K,
@@ -701,6 +742,7 @@ Vertical_Velocity_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: w, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: 0,
     unite: Pa.s-1,
     unite_phy: Pa.s-1,
@@ -719,6 +761,7 @@ Geometric_Vertical_Velocity_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: wz, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: 0,
     unite: m.s-1,
     unite_phy: m.s-1,
@@ -737,6 +780,7 @@ Potential_Vorticity_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: pv, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: 0,
     unite: m2.kg-1.s-1,
     unite_phy: m2.kg-1.s-1,
@@ -755,6 +799,7 @@ Turbulent_Kinetic_Energy_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: tke, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: 0,
     unite: J.kg-1,
     unite_phy: J.kg-1,
@@ -773,6 +818,7 @@ Absolute_Vorticity_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: absv, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: 0,
     unite: s-1,
     unite_phy: s-1,
@@ -791,6 +837,7 @@ Vorticity_Relative_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: vo, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: 0,
     unite: s-1,
     unite_phy: s-1,
@@ -809,6 +856,7 @@ Pseudo_Adiabatic_Potential_Temperature_Iso: {
 ## Copié des parametres hindcasts
     niveaux: [100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 7500, 800, 850, 900, 925, 950, 1000],
     shortName_grib: papt, #clé grib pour la vitesse verticale en Pa.s-1
+    instant : True,
     conversion_unite: -273.15,
     unite: °C,
     unite_phy: K,
