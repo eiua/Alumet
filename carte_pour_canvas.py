@@ -26,8 +26,13 @@ import matplotlib.ticker as mticker
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from tkinter import *
 from math import floor
-from csv import reader
-from csv import DictReader
+import pandas as pd
+import metpy.calc as mpcalc
+from metpy.cbook import get_test_data
+from metpy.io import metar
+from metpy.plots.declarative import (BarbPlot, ContourPlot, FilledContourPlot, MapPanel,
+                                     PanelContainer, PlotObs)
+from metpy.units import units
 
 class AromeCartePourCanvas(Frame):
     """Exploiter les fichiers Arome 0.025°,
@@ -680,12 +685,53 @@ class CarteObservations(AromeCartePourCanvas):
 #            spamreader = reader(csvfile, delimiter=';', quotechar='|')
 #            for row in spamreader:
 #               print(', '.join(row))
+        obs_time = datetime(2022, 2, 12, 12)
+        df_sy= pd.read_csv("./synop.2022021212.csv",sep=';')
+        #print(df)
+        print(df_sy["date"].head())
+        df_sy.rename(columns={'numer_sta': 'station_id'}, inplace=True)
+        #df["date"]= datetime.strptime(df["date"], '%Y%m%d%H%M%S').strftime("%Y-%m-%d %H:%M:%S")
 
-        with open("./synop.2022021212.csv", newline='') as csvfile:
-            reader = DictReader(csvfile,delimiter=";")
-            for row in reader:
-                print(row)
-                print(row["numer_sta"], row["date"], row["pmer"], row["tend"] , row["cod_tend"], row["dd"], row["ff"], row["t"],row["td"], row["u"], row["vv"], row["ww"], row["w1"], row["w2"], row["n"], row["nbas"], row["hbas"], row["cl"], row["cm"], row["ch"], row["pres"], row["niv_bar"], row["geop"], row["tend24"], row["tn12"], row["tn24"], row["tx12"], row["tx24"], row["tminsol"], row["sw"], row["tw"], row["raf10"], row["rafper"], row["per"], row["etat_sol"], row["ht_neige"], row["ssfrai"], row["perssfrai"], row["rr1"], row["rr3"], row["rr6"], row["rr12"], row["rr24"], row["phenspe1"], row["phenspe2"], row["phenspe3"], row["phenspe4"], row["nnuage1"], row["ctype1"], row["hnuage1"], row["nnuage2"], row["ctype2"], row["hnuage2"], row["nnuage3"], row["ctype3"], row["hnuage3"], row["nnuage4"], row["ctype4"], row["hnuage4"])
+        df_loc= pd.read_csv("./postesSynop.csv",sep=';')
+        df_loc.rename(columns={'ID': 'station_id', "Latitude": "latitude", "Longitude": "longitude"}, inplace=True)
+
+        df_synop = pd.merge(df_sy, df_loc, on="station_id", how="left")
+
+        print(df_synop)
+
+        obs = PlotObs()
+        obs.data = df_synop
+        obs.time = obs_time
+        obs.time_window = timedelta(minutes=15)
+        obs.level = None
+        obs.fields = ["pmer", "t", "td", "n"]
+        obs.plot_units = [None, 'degC', 'degC', None]
+        obs.locations = ['NE', 'NW', 'SW', "C"]
+        obs.formats = [lambda v: format(v * 10, '.0f')[-3:], None, None, 'sky_cover']
+        obs.reduce_points = 0.75
+        #obs.vector_field = ['eastward_wind', 'northward_wind']
+
+        # Panel for plot with Map features
+        panel = MapPanel()
+        panel.layout = (1, 1, 1)
+        panel.projection = 'lcc'
+        panel.area = 'in'
+        panel.layers = ['states']
+        panel.title = f"Surface plot"#" for {obs_time}"
+        panel.plots = [obs]
+
+        # Bringing it all together
+        pc = PanelContainer()
+        pc.size = (10, 10)
+        pc.panels = [panel]
+
+        pc.show()
+
+#        with open("./synop.2022021212.csv", newline='') as csvfile:
+#            reader = DictReader(csvfile,delimiter=";")
+#            for row in reader:
+#                #print(row)
+#                print(row["numer_sta"])#, row["date"], row["pmer"], row["tend"] , row["cod_tend"], row["dd"], row["ff"], row["t"],row["td"], row["u"], row["vv"], row["ww"], row["w1"], row["w2"], row["n"], row["nbas"], row["hbas"], row["cl"], row["cm"], row["ch"], row["pres"], row["niv_bar"], row["geop"], row["tend24"], row["tn12"], row["tn24"], row["tx12"], row["tx24"], row["tminsol"], row["sw"], row["tw"], row["raf10"], row["rafper"], row["per"], row["etat_sol"], row["ht_neige"], row["ssfrai"], row["perssfrai"], row["rr1"], row["rr3"], row["rr6"], row["rr12"], row["rr24"], row["phenspe1"], row["phenspe2"], row["phenspe3"], row["phenspe4"], row["nnuage1"], row["ctype1"], row["hnuage1"], row["nnuage2"], row["ctype2"], row["hnuage2"], row["nnuage3"], row["ctype3"], row["hnuage3"], row["nnuage4"], row["ctype4"], row["hnuage4"])
 
 #        #Pour le vent, ajout de la composante méridienne
 ##        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
