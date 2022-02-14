@@ -27,12 +27,16 @@ from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from tkinter import *
 from math import floor
 import pandas as pd
-import metpy.calc as mpcalc
+#from metpy.calc import *
+from metpy.calc import wind_components
+#from metpy.calc import get_wind_components
 from metpy.cbook import get_test_data
 from metpy.io import metar
 from metpy.plots.declarative import (BarbPlot, ContourPlot, FilledContourPlot, MapPanel,
                                      PanelContainer, PlotObs)
-from metpy.units import units
+from metpy.units import (units, pandas_dataframe_to_unit_arrays)
+from metpy.plots import StationPlot
+from metpy.plots.wx_symbols import sky_cover, current_weather
 
 class AromeCartePourCanvas(Frame):
     """Exploiter les fichiers Arome 0.025°,
@@ -675,201 +679,68 @@ class CarteObservations(AromeCartePourCanvas):
 
     def envoyer_carte_vers_gui(self):
         print("CarteMonoParam",self.type_de_carte)
-#        self.load_config()
-#        self.construire_noms()
 
         if self.zoom >=1:
             coords = self.zones_zoom(self.zoom-1)
 
-#        with open("./synop.2022021212.csv", newline='') as csvfile:
-#            spamreader = reader(csvfile, delimiter=';', quotechar='|')
-#            for row in spamreader:
-#               print(', '.join(row))
         obs_time = datetime(2022, 2, 12, 12)
-        df_sy= pd.read_csv("./synop.2022021212.csv",sep=';')
-        #print(df)
-        print(df_sy["date"].head())
+        df_sy= pd.read_csv("./synop.2022021400.csv",sep=';', na_values="mq")
         df_sy.rename(columns={'numer_sta': 'station_id'}, inplace=True)
         #df["date"]= datetime.strptime(df["date"], '%Y%m%d%H%M%S').strftime("%Y-%m-%d %H:%M:%S")
 
-        df_loc= pd.read_csv("./postesSynop.csv",sep=';')
+        df_loc= pd.read_csv("./postesSynop.csv",sep=';', na_values="mq")
         df_loc.rename(columns={'ID': 'station_id', "Latitude": "latitude", "Longitude": "longitude"}, inplace=True)
 
         df_synop = pd.merge(df_sy, df_loc, on="station_id", how="left")
 
-        print(df_synop)
+        print(df_synop["n"])
+        u, v = wind_components((df_synop['ff'].values * units('m/s')).to('knots'),
+                                    df_synop['dd'].values * units.degree)
 
-        obs = PlotObs()
-        obs.data = df_synop
-        obs.time = obs_time
-        obs.time_window = timedelta(minutes=15)
-        obs.level = None
-        obs.fields = ["pmer", "t", "td", "n"]
-        obs.plot_units = [None, 'degC', 'degC', None]
-        obs.locations = ['NE', 'NW', 'SW', "C"]
-        obs.formats = [lambda v: format(v * 10, '.0f')[-3:], None, None, 'sky_cover']
-        obs.reduce_points = 0.75
-        #obs.vector_field = ['eastward_wind', 'northward_wind']
+        nebul_tot = df_synop["n"].fillna(130).values
+        nebul_tot = (8 * nebul_tot/100).astype(int)
+        print(nebul_tot)
 
-        # Panel for plot with Map features
-        panel = MapPanel()
-        panel.layout = (1, 1, 1)
-        panel.projection = 'lcc'
-        panel.area = 'in'
-        panel.layers = ['states']
-        panel.title = f"Surface plot"#" for {obs_time}"
-        panel.plots = [obs]
+        lons = df_synop['longitude'].values 
+        lats = df_synop['latitude'].values
 
-        # Bringing it all together
-        pc = PanelContainer()
-        pc.size = (10, 10)
-        pc.panels = [panel]
+        proj = ccrs.Robinson(central_longitude=0,globe=None)
 
-        pc.show()
+        f = Figure()#figsize=(15,15), dpi=300)
+        ax = f.add_subplot()#111)
 
-#        with open("./synop.2022021212.csv", newline='') as csvfile:
-#            reader = DictReader(csvfile,delimiter=";")
-#            for row in reader:
-#                #print(row)
-#                print(row["numer_sta"])#, row["date"], row["pmer"], row["tend"] , row["cod_tend"], row["dd"], row["ff"], row["t"],row["td"], row["u"], row["vv"], row["ww"], row["w1"], row["w2"], row["n"], row["nbas"], row["hbas"], row["cl"], row["cm"], row["ch"], row["pres"], row["niv_bar"], row["geop"], row["tend24"], row["tn12"], row["tn24"], row["tx12"], row["tx24"], row["tminsol"], row["sw"], row["tw"], row["raf10"], row["rafper"], row["per"], row["etat_sol"], row["ht_neige"], row["ssfrai"], row["perssfrai"], row["rr1"], row["rr3"], row["rr6"], row["rr12"], row["rr24"], row["phenspe1"], row["phenspe2"], row["phenspe3"], row["phenspe4"], row["nnuage1"], row["ctype1"], row["hnuage1"], row["nnuage2"], row["ctype2"], row["hnuage2"], row["nnuage3"], row["ctype3"], row["hnuage3"], row["nnuage4"], row["ctype4"], row["hnuage4"])
+        ax = plt.axes(projection=proj)
+        ax.set_global()
 
-#        #Pour le vent, ajout de la composante méridienne
-##        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
-##            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+        pays = cfeature.NaturalEarthFeature(category='cultural',
+                                            name='admin_0_countries',
+                                            scale='50m',facecolor='none')
+        ax.add_feature(pays,edgecolor='black',linewidth=(0.7))
 
-#        print("Échéance: ",self.echeance)
-#        print("indice échéance 1: ",indice_echeance)
+        fleuves = cfeature.NaturalEarthFeature(category='physical',
+                                               name='rivers_lake_centerlines',
+                                               scale='50m',
+                                               facecolor='none')
 
-#        ech_mois = str(gt.validityDate)[4:6]
-#        ech_jour = str(gt.validityDate)[6:8]
+        ax.add_feature(fleuves,edgecolor='blue',linewidth=(0.3))
 
-#        if gt.validityTime<1000:
-#            ech_heure = str(gt.validityTime)[0]
-#        else:
-#            ech_heure = str(gt.validityTime)[0:2]
+        stationplot = StationPlot(ax, lons, lats, transform=ccrs.PlateCarree(),
+                          fontsize=8)
 
-#        validite ="Prévision pour le " + ech_jour + "/" + ech_mois+ \
-#            " " + ech_heure + "H"
+        stationplot.plot_symbol('C', nebul_tot, sky_cover)
+        stationplot.plot_barb(u, v,linewidth=(0.3))
+        stationplot.plot_parameter('NW', df_synop["t"].values-273.15, color='black')
+        stationplot.plot_parameter('SW', df_synop["td"].values-273.15, color='red')
+        stationplot.plot_parameter('NE', df_synop["pmer"].values, formatter=lambda v: format(v, '.0f')[-4:-1], color='black')
+        stationplot.plot_parameter('E', df_synop["tend"].values, formatter=lambda v: format(v, '.0f')[:-1], color='black')
+        stationplot.plot_symbol('W', df_synop["ww"].fillna(0).values.astype(int), current_weather)
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        plt.show()
 
-#        if self.zoom == 0:
-#            tt, lats, lons = gt.data()#(lat1=43,lat2=47,lon1=2.25,lon2=7.5)
-#            if self.type_de_carte[0:4] == "Vent":
-#                tt2, lats,lons = gt2.data()
-#        elif self.zoom >= 1:
+        self.canev = FigureCanvasTk(f, self.master)
+        self.canev.show()
+        self.canev.get_tk_widget().pack(expand=True)
 
-#            lat11 = coords[1][0]
-#            print(lat11)
-#            lat22 = coords[1][1]
-#            lon11 = coords[1][2]
-#            lon22 = coords[1][3]
-
-#            tt, lats, lons = gt.data(lat1=lat11,lat2=lat22,
-#                                     lon1=lon11,lon2=lon22)
-#            if self.type_de_carte[0:4] == "Vent":
-#                tt2, lats, lons = gt2.data(lat1=lat11,lat2=lat22,
-#                                         lon1=lon11,lon2=lon22)
-#            print(lats[0,0],lats[-1,-1])
-#            print(lons[0,0],lons[-1,-1])
-
-#        print("Champ: ", gt.shortName, "    Validité: ", gt.validityDate,
-#              " à ",gt.validityTime)
-
-#        del gt
-#        grbs.close()
-#        if self.type_de_carte[0:4] == "Vent":
-#            tt = np.sqrt(tt**2 + tt2**2)*3.6 # fusion des composante et passage de m/s vers km/h
-
-#        tt = (tt + self.conversion_unite)
-#        tt = tt.astype(int)
-
-#        f,ax = self.dessiner_fond_carte(lons,lats)
-
-#        origin='lower'
-
-#        print(self.levels_colorbar)
-#        print(self.levels_colorbar[0])
-#        ln = int(self.levels_colorbar[0])
-#        lx = int(self.levels_colorbar[1])
-#        lst = float(self.levels_colorbar[2])
-#        levels = np.arange(ln,lx,lst)
-
-#        lln = int(self.levels_contours[0])
-#        llx = int(self.levels_contours[1])
-#        llst = float(self.levels_contours[2])
-#        levels_contour_2 = np.arange(lln,llx,llst)
-
-#        cc = ax.contour(lons, lats, tt, levels_contour_2,
-#                      colors=('k'),
-#                      linewidths=(0.15),
-#                      origin=origin,transform=ccrs.PlateCarree())
-
-#        if self.verification == 1:
-#            print("fin contour")
-
-#        if self.type_de_carte == "Neige_Cumul" or self.type_de_carte[0:4] == "Vent":
-#            nws_precip_colors = self.nws_precip_colors
-#            precip_colormap = mcolors.ListedColormap(nws_precip_colors)
-#            levels = self.levels
-#            norm = mcolors.BoundaryNorm(levels, len(levels))
-
-#            bb=plt.pcolormesh(lons, lats, tt, norm=norm, cmap=precip_colormap,
-#                          transform=ccrs.PlateCarree())
-#        else:
-#            bb = ax.pcolormesh(lons,lats,tt,vmin=ln,vmax=lx,
-#                               cmap=self.cmap_carte,
-#                               transform=ccrs.PlateCarree())
-
-#        csb = plt.colorbar(bb, shrink=0.9, pad=0, aspect=20)
-
-#        #csb.set_label("("+ self.unite +")")
-
-#        #csb.set_label("Module du Jet (m/s)")
-#        #ax.barbs(lons[::50],lats[::50], vent_zonal[::50], vent_meri[::50],
-#        #    transform=ccrs.PlateCarree(),length=5)
-
-#        lala_pvu = plt.clabel(cc, fontsize=8, fmt='%1.0f')
-
-#        gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
-#                          linewidth=0.2, color='k', alpha=1, linestyle='--')
-#        gl.xlabels_top = False
-#        gl.ylabels_left = False
-#        gl.xlines = True
-#        gl.xlocator = mticker.FixedLocator([-180, -135, -90, -45, 0, 45, 90, 135, 180])
-#        gl.ylocator = mticker.FixedLocator([-66.33, -45, -23.26, 0, 23.26, 45, 66.33])
-#        gl.xformatter = LONGITUDE_FORMATTER
-#        gl.yformatter = LATITUDE_FORMATTER
-#        gl.xlabel_style = {'size': 7, 'color': 'k'}
-#        gl.ylabel_style = {'size': 7, 'color': 'k'}
-##        gl.xlabel_style = {'color': 'red', 'weight': 'bold'}
-
-#        if self.verification == 1:
-#            print("fin contourf")
-
-#        if self.echeance < 10:
-#            titre = self.titre_0 + "\n" + validite
-#            nom = self.nom_0 + str(self.echeance)+'H.png'
-#        else:
-#            titre = self.titre_10 + "\n" + validite
-#            nom = self.nom_10 + str(self.echeance)+'H.png'
-#        plt.text(0.5,0.97,titre,horizontalalignment='center',
-#                 verticalalignment='center', transform = ax.transAxes)
-#        print(titre)
-#        print(nom)
-
-#        #plt.title(titre)
-#        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-#        plt.show()
-#        self.canev = FigureCanvasTk(f, self.master)
-#        self.canev.show()
-
-#        self.canev.get_tk_widget().pack(expand=True)
-
-#        toolbar = NavigationToolbar2Tk(self.canev, self.master)
-#        toolbar.update()
-#        self.canev._tkcanvas.pack(expand=True)
-
-#        plt.close()
-
-#        del tt
-#        del titre
-#        del nom
+        toolbar = NavigationToolbar2Tk(self.canev, self.master)
+        toolbar.update()
+        self.canev._tkcanvas.pack(expand=True)
