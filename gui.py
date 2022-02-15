@@ -8,12 +8,15 @@ Licence GPL euia / Lucas GRIGIS copyleft
 from tkinter import ttk
 from functools import partial
 import threading
+from datetime import date, timedelta
 
 # Import des librairies internes à Lumet
 from TelechargementModeles import *
 from carte_pour_canvas import *
 # Classe d'interface graphique, les objets de cette classe
 # sont appelées dans le main du projet.
+
+
 
 class Application(Tk):
     # Héritière de Tk, cette classe code pour une interface graphique.
@@ -81,6 +84,27 @@ class Application(Tk):
         comboExample.pack()
 
         comboExample.bind("<<ComboboxSelected>>", self.ReglerNiveauIso)
+
+        dates_obs = []
+        start_date = datetime(2022, 1, 1, 0)
+        end_date = datetime(2022, 2, 15, 12)
+        delta = timedelta(hours=3)
+        while start_date <= end_date:
+            #print(start_date.strftime("%Y-%m-%d %H")+"H")
+            dates_obs.append(start_date.strftime("%Y-%m-%d %H"))
+            start_date += delta
+
+        #print(dates_obs)
+
+        labelTop = Label(tab2,text = "Dates des observations de surface SYNOP")
+        labelTop.pack()
+        self.date_obs = StringVar()
+        comboExample = ttk.Combobox(tab2, values=dates_obs, textvariable=self.date_obs)
+        comboExample["state"] = "readonly"
+#        self.niv_iso = comboExample.current(1)
+        comboExample.pack()
+
+        comboExample.bind("<<ComboboxSelected>>", self.ReglerDateObs)
 
         # Initalisation de la case à cocher pour les niveaux isobares
         self.chk_iso = 0
@@ -564,6 +588,195 @@ class Application(Tk):
         menu_arpege.add_cascade(label="ARPEGE 0.5°",
                              underline=0,menu=menu_arpege_05_tout)
         menu_bar.add_cascade(label="ARPEGE", underline=0, menu=menu_arpege)
+        menu_export_arome = Menu(menu_bar, tearoff=0)
+        menu_export_arome_0025_tout = Menu(menu_export_arome, tearoff=0)
+        menu_export_arome_0025_surface = Menu(menu_export_arome_0025_tout, tearoff=0)
+        menu_export_arome_0025_surface.add_command(label="Température à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","T2m"))
+        menu_export_arome_0025_surface.add_command(label="Température point de rosée à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Td2m"))
+        menu_export_arome_0025_surface.add_command(label="Vent moyen à 10m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vent_Moy"))
+        menu_export_arome_0025_surface.add_command(label="Vent rafales à 10m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vent_Raf"))
+        menu_export_arome_0025_surface.add_command(label="Humidité relative à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu2m"))
+        menu_export_arome_0025_surface.add_command(label="Humidité spécifique à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu_Specifique_2m"))
+        menu_export_arome_0025_surface.add_command(label="Cumul de neige", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Neige_Cumul"))
+        menu_export_arome_0025_surface.add_command(label="Précipitations de neige", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Neige_Precips"))
+        menu_export_arome_0025_surface.add_command(label="Pression au niveau de la mer", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Pmer"))
+        menu_export_arome_0025_surface.add_command(label="Pression à la surface", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Psol"))
+        menu_export_arome_0025_surface.add_command(label="Précipitations", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Precips"))
+        menu_export_arome_0025_surface.add_command(label="Précipitations liquides", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Precips_Eau"))
+        menu_export_arome_0025_surface.add_command(label="Rayonnement visible descendant (SW)", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","DSW"))
+        menu_export_arome_0025_surface.add_command(label="Nébulosité basse", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","NebulBas"))
+        menu_export_arome_0025_surface.add_command(label="Nébulosité moyenne", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","NebulMoy"))
+        menu_export_arome_0025_surface.add_command(label="Nébulosité haute", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","NebulHaut"))
+        menu_export_arome_0025_surface.add_command(label="CAPE", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","CAPE_INS"))
+        menu_export_arome_0025_surface.add_command(label="Altitude de la couche limite", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Altitude_Couche_Limite"))
+        menu_export_arome_0025_surface.add_command(label="Contenu total vapeur d’eau colonne atmosphérique", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Colonne_Vapeur"))
+        menu_export_arome_0025_surface.add_command(label="Flux de chaleur latente à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Flux_Chaleur_latente_Surface"))
+        menu_export_arome_0025_surface.add_command(label="Flux de chaleur sensible à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Flux_Chaleur_sensible_Surface"))
+        menu_export_arome_0025_surface.add_command(label="Rayonnement Thermique descendant à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Thermique_Descendant_Surface"))
+        menu_export_arome_0025_surface.add_command(label="Rayonnement solaire net à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Solaire_Net_Surface"))
+        menu_export_arome_0025_surface.add_command(label="Rayonnement solaire net à la surface ciel clair", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Solaire_Net_Surface_Ciel_Clair"))
+        menu_export_arome_0025_surface.add_command(label="Rayonnement thermique net à la surface", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Thermique_Net_Surface"))
+        menu_export_arome_0025_surface.add_command(label="Rayonnement thermique net à la surface ciel clair", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.025","Rayonnement_Thermique_Net_Surface_Ciel_Clair"))
+        menu_export_arome_0025_tout.add_cascade(label="Surface",
+                             underline=0,menu=menu_export_arome_0025_surface)
+        menu_export_arome_0025_iso = Menu(menu_export_arome_0025_tout, tearoff=0)
+        menu_export_arome_0025_iso.add_command(label="Température", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","T_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Température du point de rosée", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Td_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Vent moyen", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vent_Moy_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Humidité relative", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Humidité spécifique", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Hu_Specifique_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Géopotentiel", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Geopotentiel_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Contenu spécifique en eau liquide des nuages", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Specific_Cloud_Liquid_Water_Content_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Contenu spécifique en cristaux de glace des nuages", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Specific_Cloud_Ice_Water_Content_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Contenu spécifique des gouttes d’eau précipitantes", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Specific_Rain_Water_Content_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Contenu spécifique des flocons de neige précipitants", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Specific_Snow_Water_Content_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Fraction nuageuse", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Cloud_Fraction_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Vitesse verticale en m/s", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Geometric_Vertical_Velocity_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Vitesse verticale en Pa/s", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vertical_Velocity_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Tourbillon potentiel", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Potential_Vorticity_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Tourbillon Absolu", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Absolute_Vorticity_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Tourbillon relatif", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Vorticity_Relative_Iso"))
+        menu_export_arome_0025_iso.add_command(label="TKE", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Turbulent_Kinetic_Energy_Iso"))
+        menu_export_arome_0025_iso.add_command(label="Theta’W", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.025","Pseudo_Adiabatic_Potential_Temperature_Iso"))
+        menu_export_arome_0025_tout.add_cascade(label="Niveaux isobares",
+                             underline=0,menu=menu_export_arome_0025_iso)
+        menu_export_arome.add_cascade(label="AROME 0.025°",
+                             underline=0,menu=menu_export_arome_0025_tout)
+        menu_export_arome_0001 = Menu(menu_export_arome, tearoff=0)
+        menu_export_arome_0001.add_command(label="Température à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","T2m"))
+        menu_export_arome_0001.add_command(label="Vent moyen à 10m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Vent_Moy"))
+        menu_export_arome_0001.add_command(label="Vent moyen à 100m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Vent_Moy_100m"))
+        menu_export_arome_0001.add_command(label="Vent rafales à 10m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Vent_Raf"))
+        menu_export_arome_0001.add_command(label="Humidité relative à 2m", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Hu2m"))
+#        menu_export_arome.add_command(label="Hauteur de neige", underline=3,
+#                               accelerator="CTRL+N",
+#                               command=partial(self.DessinerCarteMonoParam,
+#                                               "AROME","0.01","Neige"))
+        menu_export_arome_0001.add_command(label="Pression à la surface", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Psol"))
+        menu_export_arome_0001.add_command(label="Précipitations", underline=3,
+                               command=partial(self.DessinerCarteCumuls,
+                                               "AROME","0.01","Total_Water_Precips"))
+        menu_export_arome_0001.add_command(label="Nébulosité basse", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","NebulBas"))
+        menu_export_arome_0001.add_command(label="Nébulosité moyenne", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","NebulMoy"))
+        menu_export_arome_0001.add_command(label="Nébulosité haute", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","NebulHaut"))
+        menu_export_arome_0001.add_command(label="CAPE", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","CAPE_INS"))
+        menu_export_arome_0001.add_command(label="Température de brillance", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Temp_Brillance"))
+        menu_export_arome_0001.add_command(label="Altitude surface modèle, constante échéance 0h", underline=3,
+                               command=partial(self.DessinerCarteMonoParam,
+                                               "AROME","0.01","Altitude_Surface"))
+        menu_export_arome.add_cascade(label="AROME 0.01°",
+                             underline=0,menu=menu_export_arome_0001)
+        menu_bar.add_cascade(label="Export AROME", underline=0, menu=menu_export_arome)
         menu_obs = Menu(menu_bar, tearoff=0)
         menu_obs.add_command(label="SYNOP (surface)", underline=3,
                                command=partial(self.DessinerCarteObservations,None,None,"T2m"))
@@ -798,6 +1011,10 @@ class Application(Tk):
         self.chk_iso = self.niv_iso.get()
         print(self.chk_iso)
 
+    def ReglerDateObs(self,event):
+        self.chk_date_obs = self.date_obs.get()
+        print(self.chk_date_obs)
+
     def ReglerEcheance(self,f):
         """Réglage de l’échéance d’intérêt"""
 
@@ -839,6 +1056,7 @@ class Application(Tk):
 
         self.can.delete(ALL)
         self.Obs1 = CarteObservations(self,self.can,self.date_du_run,
+                           self.chk_date_obs,
                            modele=None,resolution=None,echeance=None,
                            type_carte=variable,zoom = self.chk,
                            niveau_iso = None,

@@ -38,7 +38,7 @@ from metpy.units import (units, pandas_dataframe_to_unit_arrays)
 from metpy.plots import StationPlot
 from metpy.plots.wx_symbols import sky_cover, current_weather
 
-class AromeCartePourCanvas(Frame):
+class CartePourCanvas(Frame):
     """Exploiter les fichiers Arome 0.025°,
     dessin de cartes usuelles en météo.
     """
@@ -276,7 +276,7 @@ class AromeCartePourCanvas(Frame):
 
         return zones_zoom[num_zone]
 
-class CarteMonoParam(AromeCartePourCanvas):
+class CarteMonoParam(CartePourCanvas):
     """Renvoie une carte à un seul paramètre météo."""
 
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
@@ -466,7 +466,7 @@ class CarteMonoParam(AromeCartePourCanvas):
         del titre
         del nom
 
-class CarteCumuls(AromeCartePourCanvas):
+class CarteCumuls(CartePourCanvas):
     """Renvoie une carte pour un paramètre à cumul, comme les précipitations
     ou le rayonnement visible descendant (DSW)."""
 
@@ -661,19 +661,20 @@ class CarteCumuls(AromeCartePourCanvas):
 
         print("coucou")
 
-class CarteObservations(AromeCartePourCanvas):
+class CarteObservations(CartePourCanvas):
     """Renvoie une carte des observations de surface in-situ essentielles SYNOP."""
 
-    def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
+    def __init__(self,boss,canev,date_du_run,date_des_obs,modele,resolution,echeance,
                  type_carte,zoom, niveau_iso, verification):
 
-        AromeCartePourCanvas.__init__(self,date_du_run,modele,resolution,
+        CartePourCanvas.__init__(self,date_du_run,modele,resolution,
                                          echeance,type_carte,zoom)
 
         Frame.__init__(self)
 
-        self.date_du_run = date_du_run
-        self.verification = verification
+        self.date_des_obs = date_des_obs
+#        self.date_du_run = date_du_run
+#        self.verification = verification
         self.canev=canev
         self.niveau_iso = niveau_iso
 
@@ -683,10 +684,17 @@ class CarteObservations(AromeCartePourCanvas):
         if self.zoom >=1:
             coords = self.zones_zoom(self.zoom-1)
 
+        print(int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S")))
+
         obs_time = datetime(2022, 2, 12, 12)
-        df_sy= pd.read_csv("./synop.2022021400.csv",sep=';', na_values="mq")
+        df_sy= pd.read_csv("./synop.csv",sep=';', na_values="mq")
         df_sy.rename(columns={'numer_sta': 'station_id'}, inplace=True)
         #df["date"]= datetime.strptime(df["date"], '%Y%m%d%H%M%S').strftime("%Y-%m-%d %H:%M:%S")
+
+        print(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').timestamp())
+#        print(df_sy["date"=="20220101000000"])
+#        print(df_sy[df_sy["date"=="20220101000000"]])
+        df_sy = df_sy[df_sy.values==int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S"))]
 
         df_loc= pd.read_csv("./postesSynop.csv",sep=';', na_values="mq")
         df_loc.rename(columns={'ID': 'station_id', "Latitude": "latitude", "Longitude": "longitude"}, inplace=True)
@@ -734,6 +742,11 @@ class CarteObservations(AromeCartePourCanvas):
         stationplot.plot_parameter('NE', df_synop["pmer"].values, formatter=lambda v: format(v, '.0f')[-4:-1], color='black')
         stationplot.plot_parameter('E', df_synop["tend"].values, formatter=lambda v: format(v, '.0f')[:-1], color='black')
         stationplot.plot_symbol('W', df_synop["ww"].fillna(0).values.astype(int), current_weather)
+
+        titre = "Observations à la surface SYNOP\n" + self.date_des_obs + "H"
+
+        plt.text(0.5,0.97,titre,horizontalalignment='center',
+                 verticalalignment='center', transform = ax.transAxes)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.show()
 
