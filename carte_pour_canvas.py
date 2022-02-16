@@ -754,7 +754,7 @@ class CarteObservations(CartePourCanvas):
         plt.show()
 
 
-        # supprimer le fichier décompresser, on ne garde que les fichiers compressés (10x plus légers)
+        # supprimer le fichier décompressé, on ne garde que les fichiers compressés (10x plus légers)
         subprocess.run(["rm","./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv"])
 
         self.canev = FigureCanvasTk(f, self.master)

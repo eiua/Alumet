@@ -29,9 +29,13 @@ class Application(Tk):
         tab1 = ttk.Frame(tabControl)
         tab2 = ttk.Frame(tabControl)
         tab3 = ttk.Frame(tabControl)
+        tab4 = ttk.Frame(tabControl)
+        tab5 = ttk.Frame(tabControl)
         tabControl.add(tab1, text = "Run")
         tabControl.add(tab2, text = "Échéances")
+        tabControl.add(tab4, text = "Niveaux verticaux")
         tabControl.add(tab3, text = "Zooms")
+        tabControl.add(tab5, text = "Date observations")
         tabControl.pack(expand = 1, fill ="both")
 
         self.date_du_run = self.ObtenirDateDuRun()
@@ -75,10 +79,10 @@ class Application(Tk):
 
         niveaux_iso = [100,125,150,175,200,225,250,275,300,350,400,450,500,550,600,650,700,750,800,850,900,925,950,1000]
 
-        labelTop = Label(tab2,text = "Niveaux verticaux (hPa)")
+        labelTop = Label(tab4,text = "Niveaux verticaux (hPa)")
         labelTop.pack()
         self.niv_iso = IntVar()
-        comboExample = ttk.Combobox(tab2, values=niveaux_iso, textvariable=self.niv_iso)
+        comboExample = ttk.Combobox(tab4, values=niveaux_iso, textvariable=self.niv_iso)
         comboExample["state"] = "readonly"
 #        self.niv_iso = comboExample.current(1)
         comboExample.pack()
@@ -96,10 +100,10 @@ class Application(Tk):
 
         #print(dates_obs)
 
-        labelTop = Label(tab2,text = "Dates des observations de surface SYNOP")
+        labelTop = Label(tab5,text = "Dates des observations de surface SYNOP")
         labelTop.pack()
         self.date_obs = StringVar()
-        comboExample = ttk.Combobox(tab2, values=dates_obs, textvariable=self.date_obs)
+        comboExample = ttk.Combobox(tab5, values=dates_obs, textvariable=self.date_obs)
         comboExample["state"] = "readonly"
 #        self.niv_iso = comboExample.current(1)
         comboExample.pack()
