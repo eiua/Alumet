@@ -86,7 +86,7 @@ class Application(Tk):
         comboExample.bind("<<ComboboxSelected>>", self.ReglerNiveauIso)
 
         dates_obs = []
-        start_date = datetime(2022, 1, 1, 0)
+        start_date = datetime(1996, 1, 1, 0)
         end_date = datetime(2022, 2, 15, 12)
         delta = timedelta(hours=3)
         while start_date <= end_date:

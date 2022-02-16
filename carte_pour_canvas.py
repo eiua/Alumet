@@ -26,6 +26,7 @@ import matplotlib.ticker as mticker
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from tkinter import *
 from math import floor
+import subprocess
 import pandas as pd
 #from metpy.calc import *
 from metpy.calc import wind_components
@@ -686,8 +687,10 @@ class CarteObservations(CartePourCanvas):
 
         print(int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S")))
 
-        obs_time = datetime(2022, 2, 12, 12)
-        df_sy= pd.read_csv("./synop.csv",sep=';', na_values="mq")
+        #Décompresser une archive d’obs synop au format .gz
+        subprocess.run(["gzip","-dfk","./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv.gz"])
+
+        df_sy= pd.read_csv("./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m")+ ".csv",sep=';', na_values="mq")
         df_sy.rename(columns={'numer_sta': 'station_id'}, inplace=True)
         #df["date"]= datetime.strptime(df["date"], '%Y%m%d%H%M%S').strftime("%Y-%m-%d %H:%M:%S")
 
@@ -696,7 +699,7 @@ class CarteObservations(CartePourCanvas):
 #        print(df_sy[df_sy["date"=="20220101000000"]])
         df_sy = df_sy[df_sy.values==int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S"))]
 
-        df_loc= pd.read_csv("./postesSynop.csv",sep=';', na_values="mq")
+        df_loc= pd.read_csv("./donnees/SYNOP/postesSynop.csv",sep=';', na_values="mq")
         df_loc.rename(columns={'ID': 'station_id', "Latitude": "latitude", "Longitude": "longitude"}, inplace=True)
 
         df_synop = pd.merge(df_sy, df_loc, on="station_id", how="left")
@@ -749,6 +752,10 @@ class CarteObservations(CartePourCanvas):
                  verticalalignment='center', transform = ax.transAxes)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.show()
+
+
+        # supprimer le fichier décompresser, on ne garde que les fichiers compressés (10x plus légers)
+        subprocess.run(["rm","./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv"])
 
         self.canev = FigureCanvasTk(f, self.master)
         self.canev.show()
