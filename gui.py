@@ -91,7 +91,7 @@ class Application(Tk):
 
         dates_obs = []
         start_date = datetime(1996, 1, 1, 0)
-        end_date = datetime(2022, 2, 15, 12)
+        end_date = datetime(2022, 2, 17, 15)
         delta = timedelta(hours=3)
         while start_date <= end_date:
             #print(start_date.strftime("%Y-%m-%d %H")+"H")
@@ -971,7 +971,7 @@ class Application(Tk):
 
         mod = "AROME"
         res = "0.025"
-        daterun = TelechargerDonneesModeles(modele=mod,
+        daterun = TelechargerDonneesModeles(date_du_run=0,modele=mod,
                                             resolution=res,
                                             verification = 0)
         return daterun.donner_date_du_run()
@@ -991,7 +991,7 @@ class Application(Tk):
         #mod = "AROME"
         #res = "0.025"
         paquet=paquet
-        self.telecharger_donnees = TelechargerDonneesModeles(modele=mod,
+        self.telecharger_donnees = TelechargerDonneesModeles(date_du_run=self.date_du_run,modele=mod,
                                                              resolution=res,
                                                              verification = 0)
         self.telecharger_donnees.telecharger_donnes_modeles(paquet)

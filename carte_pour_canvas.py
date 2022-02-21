@@ -283,7 +283,7 @@ class CarteMonoParam(CartePourCanvas):
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
                  type_carte,zoom, niveau_iso, verification):
 
-        AromeCartePourCanvas.__init__(self,date_du_run,modele,resolution,
+        CartePourCanvas.__init__(self,date_du_run,modele,resolution,
                                          echeance,type_carte,zoom)
 
         Frame.__init__(self)
@@ -292,6 +292,9 @@ class CarteMonoParam(CartePourCanvas):
         self.verification = verification
         self.canev=canev
         self.niveau_iso = niveau_iso
+
+    def arrondir(self,x, val=4):
+        return val * np.round(x/val)
 
     def envoyer_carte_vers_gui(self):
         print("CarteMonoParam",self.type_de_carte)
@@ -374,6 +377,7 @@ class CarteMonoParam(CartePourCanvas):
 
         tt = (tt + self.conversion_unite)
         tt = tt.astype(int)
+        #tt = arrondir(tt,4)
 
         f,ax = self.dessiner_fond_carte(lons,lats)
 
@@ -474,7 +478,7 @@ class CarteCumuls(CartePourCanvas):
     def __init__(self,boss,canev,date_du_run,modele,resolution,echeance,
                  type_carte,zoom,verification):
 
-        AromeCartePourCanvas.__init__(self,date_du_run,modele,resolution,
+        CartePourCanvas.__init__(self,date_du_run,modele,resolution,
                                          echeance,type_carte,zoom)
 
         Frame.__init__(self)
@@ -689,6 +693,7 @@ class CarteObservations(CartePourCanvas):
 
         #Décompresser une archive d’obs synop au format .gz
         subprocess.run(["gzip","-dfk","./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv.gz"])
+        subprocess.run(["gzip","-dfk","./donnees/SYNOP/marine." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv.gz"])
 
         df_sy= pd.read_csv("./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m")+ ".csv",sep=';', na_values="mq")
         df_sy.rename(columns={'numer_sta': 'station_id'}, inplace=True)
@@ -702,8 +707,15 @@ class CarteObservations(CartePourCanvas):
         df_loc= pd.read_csv("./donnees/SYNOP/postesSynop.csv",sep=';', na_values="mq")
         df_loc.rename(columns={'ID': 'station_id', "Latitude": "latitude", "Longitude": "longitude"}, inplace=True)
 
-        df_synop = pd.merge(df_sy, df_loc, on="station_id", how="left")
+        df_syn = pd.merge(df_sy, df_loc, on="station_id", how="left")
 
+        df_mar= pd.read_csv("./donnees/SYNOP/marine." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m")+ ".csv",sep=';', na_values="mq")
+        df_mar.rename(columns={'numer_sta': 'station_id', "lat": "latitude", "lon": "longitude"}, inplace=True)
+        df_mar = df_mar[df_mar.values==int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S"))]
+
+        #df_synop = pd.merge(df_syn, df_mar)
+        df_synop = pd.concat([df_syn, df_mar]) 
+        #df_synop = df_synop.reindex(columns=sorted(df_synop.columns, key=lambda x: int(x.split('_')[0])))
         print(df_synop["n"])
         u, v = wind_components((df_synop['ff'].values * units('m/s')).to('knots'),
                                     df_synop['dd'].values * units.degree)
@@ -756,6 +768,7 @@ class CarteObservations(CartePourCanvas):
 
         # supprimer le fichier décompressé, on ne garde que les fichiers compressés (10x plus légers)
         subprocess.run(["rm","./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv"])
+        subprocess.run(["rm","./donnees/SYNOP/marine." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m") + ".csv"])
 
         self.canev = FigureCanvasTk(f, self.master)
         self.canev.show()

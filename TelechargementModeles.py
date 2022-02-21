@@ -22,12 +22,12 @@ class TelechargerDonneesModeles():
     """Téléchargement des données modèles via requête sur le site des
     données publiques de Météo-France"""
 
-    def __init__(self,modele,resolution,verification):
+    def __init__(self,date_du_run,modele,resolution,verification):
         """Téléchargement des données des modèles de prévision à courte
         échéance de Météo-France. AROME 0.01° et 0.025°, ARPEGE 0.1°
         """
 
-        #self.date_du_run = date_du_run
+        self.date_utilisateur = date_du_run
         self.verification = verification
         self.modele = modele
         self.resolution = resolution
@@ -44,7 +44,7 @@ class TelechargerDonneesModeles():
         candidate = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, utc_now.hour) - \
             datetime.timedelta(hours=delay)
         run_time = datetime.datetime(candidate.year, candidate.month, candidate.day)
-        
+
         if self.modele == "AROME":
             for hour in np.flip(np.sort([0, 3, 6, 12, 18,])):
                 if candidate.hour >= hour:
@@ -114,10 +114,20 @@ class TelechargerDonneesModeles():
         candidate = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, utc_now.hour) - \
             datetime.timedelta(hours=delay)
         run_time = datetime.datetime(candidate.year, candidate.month, candidate.day)
-        for hour in np.flip(np.sort([3, 6, 12, 18])):
-            if candidate.hour >= hour:
-                run_time += datetime.timedelta(hours=int(hour))
-                break
+#        for hour in np.flip(np.sort([3, 6, 12, 18])):
+#            if candidate.hour >= hour:
+#                run_time += datetime.timedelta(hours=int(hour))
+#                break
+        if self.modele == "AROME":
+            for hour in np.flip(np.sort([0, 3, 6, 12, 18,])):
+                if candidate.hour >= hour:
+                    run_time += datetime.timedelta(hours=int(hour))
+                    break
+        else:
+            for hour in np.flip(np.sort([0, 6, 12, 18,])):
+                if candidate.hour >= hour:
+                    run_time += datetime.timedelta(hours=int(hour))
+                    break
         return run_time.strftime('%Y%m%d%H')
 
     def creer_nom_fichier(self,run_time, time_range='00H06H', package='SP1'):
@@ -131,7 +141,10 @@ class TelechargerDonneesModeles():
     def telecharger_donnes_modeles(self,paquet="SP1"):#,modele,resolution):
         """Lancer la requête sur le site des données publiques M-F"""
         self.load_config()
-        run_time = self.donner_date_du_dernier_run()
+        if self.donner_date_du_dernier_run() != datetime.datetime.strptime(self.date_utilisateur, '%Y%m%d%H').isoformat():
+            run_time = datetime.datetime.strptime(self.date_utilisateur, '%Y%m%d%H').isoformat()
+        else:
+            run_time = self.donner_date_du_dernier_run()
         print(run_time)
         time_range = self.donner_intervalle_temps(3)
         print(time_range)
