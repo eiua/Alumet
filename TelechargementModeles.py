@@ -114,10 +114,6 @@ class TelechargerDonneesModeles():
         candidate = datetime.datetime(utc_now.year, utc_now.month, utc_now.day, utc_now.hour) - \
             datetime.timedelta(hours=delay)
         run_time = datetime.datetime(candidate.year, candidate.month, candidate.day)
-#        for hour in np.flip(np.sort([3, 6, 12, 18])):
-#            if candidate.hour >= hour:
-#                run_time += datetime.timedelta(hours=int(hour))
-#                break
         if self.modele == "AROME":
             for hour in np.flip(np.sort([0, 3, 6, 12, 18,])):
                 if candidate.hour >= hour:
@@ -175,57 +171,3 @@ class TelechargerDonneesModeles():
         
         for cmd in [file['cmd'] for file in files]:
             subprocess.call(cmd, shell=True)
-
-
-    # def telecharger_donnes_modeles(self):#,modele,resolution):
-    #     """Lancer la requête sur le site des données publiques M-F"""
-    #     run_time = self.donner_date_du_dernier_run()
-    #     print(run_time)
-    #     time_range = self.donner_intervalle_temps(3)
-    #     print(time_range)
-
-    #     time_ranges = []
-    #     if self.modele == "AROME" and self.resolution == "0.025":
-    #         for batch_number in range(7):
-    #             time_ranges.append(self.donner_intervalle_temps(batch_number))
-    #     elif self.modele == "AROME" and self.resolution == "0.01":
-    #         for batch_number in range(43):
-    #             time_ranges.append(self.donner_intervalle_temps(batch_number))
-    #     else:
-    #         for batch_number in range(9):
-    #             time_ranges.append(self.donner_intervalle_temps(batch_number))
-    #     print(time_ranges)
-
-    #     files = []
-    #     for time_range in time_ranges:
-    #         url = self.creer_url(run_time, time_range)
-    #         if (self.modele == "AROME" and self.resolution == "0.025"):
-    #             url_sp1 = self.creer_url(run_time, time_range,"SP1")
-    #             file_name_sp1 = self.creer_nom_fichier(run_time,
-    #                                                    time_range,"SP1")
-    #             file_path = os.getcwd() + "/donnees/" + self.modele + \
-    #                 "_" + self.resolution + "/" + file_name_sp1
-    #             cmd = f'wget --output-document {file_path} {url_sp1}'
-    #             files.append({'url': url, 'file_name': file_name_sp1,
-    #                           'file_path': file_path, 'cmd': cmd})
-
-    #             url_ip5 = self.creer_url(run_time, time_range,"IP5")
-    #             file_name_ip5 = self.creer_nom_fichier(run_time,
-    #                                                    time_range,"IP5")
-    #             file_path = os.getcwd() + "/donnees/" + self.modele + \
-    #                 "_" + self.resolution + "/" + file_name_ip5
-    #             cmd = f'wget --output-document {file_path} {url_ip5}'
-    #             files.append({'url': url, 'file_name': file_name_ip5,
-    #                           'file_path': file_path, 'cmd': cmd})
-    #         else:
-    #             url = self.creer_url(run_time, time_range,"SP1")
-    #             file_name = self.creer_nom_fichier(run_time, time_range)
-    #             file_path = os.getcwd() + "/donnees/" + self.modele + \
-    #                 "_" + self.resolution + "/" + file_name
-    #             cmd = f'wget --output-document {file_path} {url}'
-    #             files.append({'url': url, 'file_name': file_name,
-    #                           'file_path': file_path, 'cmd': cmd})
-    #     print(files[0])  # let's display the first item from the list
-        
-    #     for cmd in [file['cmd'] for file in files]:
-    #         subprocess.call(cmd, shell=True)

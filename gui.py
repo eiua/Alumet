@@ -16,8 +16,6 @@ from carte_pour_canvas import *
 # Classe d'interface graphique, les objets de cette classe
 # sont appelées dans le main du projet.
 
-
-
 class Application(Tk):
     # Héritière de Tk, cette classe code pour une interface graphique.
 
@@ -91,7 +89,7 @@ class Application(Tk):
 
         dates_obs = []
         start_date = datetime(1996, 1, 1, 0)
-        end_date = datetime(2022, 2, 17, 15)
+        end_date = datetime(2022, 2, 21, 18)
         delta = timedelta(hours=3)
         while start_date <= end_date:
             #print(start_date.strftime("%Y-%m-%d %H")+"H")
@@ -988,8 +986,6 @@ class Application(Tk):
     def TelechargementModeles(self,mod,res,paquet):
         """Téléchargement des données des modèles météos."""
 
-        #mod = "AROME"
-        #res = "0.025"
         paquet=paquet
         self.telecharger_donnees = TelechargerDonneesModeles(date_du_run=self.date_du_run,modele=mod,
                                                              resolution=res,
@@ -1002,14 +998,6 @@ class Application(Tk):
         #self.chk = self.ck.get()
         self.chk = zone
         self.event_generate('<Control-Z>')
-
-#    def ReglerNiveauIso(self,niveau):
-#        """Réglage de la zone de zoom"""
-
-#        #self.chk_iso = self.ck_iso.get()
-#        self.chk_iso = niveau
-#        print(self.chk_iso)
-#        self.event_generate('<Control-Z>')
 
     def ReglerNiveauIso(self,event):
         self.chk_iso = self.niv_iso.get()

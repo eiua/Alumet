@@ -204,7 +204,7 @@ class CartePourCanvas(Frame):
             print("nom_fichier1:",nom_fichier1)
 
 #        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau" or self.type_de_carte == "Neige_Precips":
-        if not self.instant:
+        if self.instant == "cumul":
             print("coucoucouou")
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
@@ -317,7 +317,7 @@ class CarteMonoParam(CartePourCanvas):
             print("self.niveau_iso: ",self.niveau_iso)
             print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
             gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
-#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
+
             if self.type_de_carte[0:4] == "Vent":
                 gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
         elif self.paquet[0] == "H":
@@ -328,10 +328,6 @@ class CarteMonoParam(CartePourCanvas):
             gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
             if self.type_de_carte[0:4] == "Vent":
                 gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
-
-        #Pour le vent, ajout de la composante méridienne
-#        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
-#            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
 
         print("Échéance: ",self.echeance)
         print("indice échéance 1: ",indice_echeance)
@@ -437,7 +433,6 @@ class CarteMonoParam(CartePourCanvas):
         gl.yformatter = LATITUDE_FORMATTER
         gl.xlabel_style = {'size': 7, 'color': 'k'}
         gl.ylabel_style = {'size': 7, 'color': 'k'}
-#        gl.xlabel_style = {'color': 'red', 'weight': 'bold'}
 
         if self.verification == 1:
             print("fin contourf")
@@ -571,9 +566,6 @@ class CarteCumuls(CartePourCanvas):
 
         tete = tt2 - tt1
 
-#        if self.type_de_carte == "Precips":
-#            tete = tete
-
         del tt1
         del tt2
 
@@ -610,8 +602,6 @@ class CarteCumuls(CartePourCanvas):
             nws_precip_colors = self.nws_precip_colors
             precip_colormap = mcolors.ListedColormap(nws_precip_colors)
             levels = self.levels
-#            levels = [0.1, 0.2, 0.5, 1, 2, 3, 5, 7.5, 10, 20, 30, 50,
-#            60, 80, 100, 200]
             norm = mcolors.BoundaryNorm(levels, len(levels))
 
             cs=plt.pcolormesh(lons, lats, tt, norm=norm, cmap=precip_colormap,
@@ -678,8 +668,6 @@ class CarteObservations(CartePourCanvas):
         Frame.__init__(self)
 
         self.date_des_obs = date_des_obs
-#        self.date_du_run = date_du_run
-#        self.verification = verification
         self.canev=canev
         self.niveau_iso = niveau_iso
 
@@ -697,11 +685,9 @@ class CarteObservations(CartePourCanvas):
 
         df_sy= pd.read_csv("./donnees/SYNOP/synop." + datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m")+ ".csv",sep=';', na_values="mq")
         df_sy.rename(columns={'numer_sta': 'station_id'}, inplace=True)
-        #df["date"]= datetime.strptime(df["date"], '%Y%m%d%H%M%S').strftime("%Y-%m-%d %H:%M:%S")
 
         print(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').timestamp())
-#        print(df_sy["date"=="20220101000000"])
-#        print(df_sy[df_sy["date"=="20220101000000"]])
+
         df_sy = df_sy[df_sy.values==int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S"))]
 
         df_loc= pd.read_csv("./donnees/SYNOP/postesSynop.csv",sep=';', na_values="mq")
@@ -713,9 +699,8 @@ class CarteObservations(CartePourCanvas):
         df_mar.rename(columns={'numer_sta': 'station_id', "lat": "latitude", "lon": "longitude"}, inplace=True)
         df_mar = df_mar[df_mar.values==int(datetime.strptime(self.date_des_obs, '%Y-%m-%d %H').strftime("%Y%m%d%H%M%S"))]
 
-        #df_synop = pd.merge(df_syn, df_mar)
         df_synop = pd.concat([df_syn, df_mar]) 
-        #df_synop = df_synop.reindex(columns=sorted(df_synop.columns, key=lambda x: int(x.split('_')[0])))
+
         print(df_synop["n"])
         u, v = wind_components((df_synop['ff'].values * units('m/s')).to('knots'),
                                     df_synop['dd'].values * units.degree)
