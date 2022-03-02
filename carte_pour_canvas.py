@@ -412,7 +412,7 @@ class CarteMonoParam(CartePourCanvas):
                                cmap=self.cmap_carte,
                                transform=ccrs.PlateCarree())
 
-        csb = plt.colorbar(bb, shrink=0.9, pad=0, aspect=20)
+        #csb = plt.colorbar(bb, shrink=0.9, pad=0, aspect=20)
 
         #csb.set_label("("+ self.unite +")")
 
@@ -450,7 +450,9 @@ class CarteMonoParam(CartePourCanvas):
 
         #plt.title(titre)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        plt.savefig(nom,dpi=300)
         plt.show()
+
         self.canev = FigureCanvasTk(f, self.master)
         self.canev.show()
 
@@ -638,6 +640,7 @@ class CarteCumuls(CartePourCanvas):
                  verticalalignment='center', transform = ax.transAxes)
         #plt.title(titre)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        plt.savefig(nom,dpi=300)
         plt.show()
 
         #self.canev.get_tk_widget().destroy()

@@ -9,10 +9,13 @@ from tkinter import ttk
 from functools import partial
 import threading
 from datetime import date, timedelta
-
+from multiprocessing import Pool
+from multiprocessing import Queue
+from multiprocessing import Process
 # Import des librairies internes à Lumet
 from TelechargementModeles import *
 from carte_pour_canvas import *
+from cartes_export import *
 # Classe d'interface graphique, les objets de cette classe
 # sont appelées dans le main du projet.
 
@@ -594,8 +597,8 @@ class Application(Tk):
         menu_export_arome_0025_tout = Menu(menu_export_arome, tearoff=0)
         menu_export_arome_0025_surface = Menu(menu_export_arome_0025_tout, tearoff=0)
         menu_export_arome_0025_surface.add_command(label="Température à 2m", underline=3,
-                               command=partial(self.DessinerCarteMonoParam,
-                                               "AROME","0.025","T2m"))
+                               command=threading.Thread(target=partial(self.DessinerToutesCartesMonoParam,
+                                               "AROME","0.025","T2m")).start)
         menu_export_arome_0025_surface.add_command(label="Température point de rosée à 2m", underline=3,
                                command=partial(self.DessinerCarteMonoParam,
                                                "AROME","0.025","Td2m"))
@@ -1054,3 +1057,58 @@ class Application(Tk):
                            niveau_iso = None,
                            verification = 0)
         self.Obs1.envoyer_carte_vers_gui()
+
+    def DessinerToutesCartesMonoParam(self,modele,resolution,variable):
+        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+        print("self.date_du_run ",self.date_du_run)
+        print("modele ",modele)
+        print("resolution ",resolution)
+        print("type_de_carte/variable ",variable)
+        print("zoom ",self.chk)
+        print("niveau_iso ",self.chk_iso)
+
+        self.export1 = LancerExport(date_du_run=self.date_du_run,
+                           modele=modele,resolution=resolution,
+                           type_carte=variable,zoom=self.chk,
+                           niveau_iso=self.chk_iso)
+        self.export1.ToutesCartesMonoParam()
+
+#    def CarteCumulsParEcheance(self,modele,resolution,variable,echeance):
+#        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+#        ech = echeance
+#        self.c2 = CarteCumuls(self,self.can,self.date_du_run,
+#                           modele,resolution,echeance=ech,
+#                           type_carte=variable,zoom = self.chk,
+#                           verification = 0)
+#        self.c2.envoyer_carte_vers_gui()
+
+#    def CarteMonoParamParEcheance(self,modele,resolution,variable,echeance):
+#        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+#        ech = echeance
+#        self.c2 = CartesMonoParamExport(self,self.date_du_run,
+#                           modele,resolution,echeance=ech,
+#                           type_carte=variable,zoom = self.chk,
+#                           niveau_iso = self.chk_iso,
+#                           verification = 0)
+#        self.c2.envoyer_carte_vers_gui()
+
+#    def DessinerToutesCartesMonoParam(self,modele,resolution,variable):
+#        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+#        echeance = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+#        with Pool(10) as p:
+#            print(p.map(self.CarteMonoParamParEcheance, (modele,resolution,variable,echeance,)))
+
+#    def DessinertoutesCarteCumuls(self,modele,resolution,variable):
+#        """Ajout de cartes à un seul paramètre dans un canevas"""
+
+#        self.can.delete(ALL)
+#        self.c2 = CarteCumuls(self,self.can,self.date_du_run,
+#                           modele,resolution,echeance=self.echh,
+#                           type_carte=variable,zoom = self.chk,
+#                           verification = 0)
+#        self.c2.envoyer_carte_vers_gui()
