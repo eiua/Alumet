@@ -68,7 +68,7 @@ class CartesPourExport():
         #output forecasts files naming:
         #self.category = ha.load_config("category")
         self.shortName_grib = ha.load_config("shortName_grib")
-        print("self.shortName_grib:",self.shortName_grib)
+#        print("self.shortName_grib:",self.shortName_grib)
         self.instant = ha.load_config("instant")
         self.conversion_unite = ha.load_config("conversion_unite")
         self.unite = ha.load_config("unite")
@@ -123,7 +123,7 @@ class CartesPourExport():
             "/"+self.date_du_run[0:4]
 
         self.nom_0 = "./figures/" + self.modele + "_" + self.resolution +\
-            "_J_run_" + self.date_du_run[-2:] + "_0"
+            "_J_run_" + self.date_du_run[-2:] + "_"
         self.nom_10 = "./figures/" + self.modele + "_" + self.resolution+\
             "_J_run_" + self.date_du_run[-2:] + "_"
 
@@ -167,6 +167,44 @@ class CartesPourExport():
             print("t_fichier:",t_fichier1)
             print("nom_fichier:",nom_fichier1)
 
+        elif self.resolution == "0.5":
+            for i in range(len(self.t_fichiers)):
+                t_fichier2 = self.t_fichiers[i]
+                if ((self.echeance*3 >= int(t_fichier2[0:2])) and 
+                    (self.echeance*3 <= int(t_fichier2[3:5]))):
+                    print("#######################")
+                    print("int(t_fichier[3:5])",int(t_fichier2[3:5]))
+                    print("échéance*3:",self.echeance*3)
+                    print("i:",i)
+                    print("t_fichier2",t_fichier2)
+                    # t_fichier = self.t_fichiers[i]
+                    indice_echeance_2 = int(self.echeance - int(t_fichier2[0:2])/3)
+                    print("indice_echeance_2",indice_echeance_2)
+                    if indice_echeance_2 == 0:
+                        if self.echeance >0:
+                            t_fichier1 = self.t_fichiers[i-1]
+                            indice_echeance_1 = int(self.echeance - 
+                                                 int(self.t_fichiers[i-1][0:2])/3)
+                        elif self.echeance ==0:
+                            t_fichier1 = t_fichier2
+                            indice_echeance_1 = indice_echeance_2
+                    else:
+                        indice_echeance_1 = indice_echeance_2 - 1
+                        t_fichier1 = t_fichier2
+                    break
+                else:
+                    del(t_fichier2)
+
+#            print("t_fichier2:",t_fichier2)
+            nom_fichier2 = self.nom_fichier_1 + t_fichier2 + \
+                self.nom_fichier_2
+            print("nom_fichier:",nom_fichier2)
+ #           print("t_fichier1:",t_fichier1)
+            nom_fichier1 = self.nom_fichier_1 + t_fichier1 + \
+                self.nom_fichier_2
+#            print("nom_fichier1:",nom_fichier1)
+            print("#######################")
+
         else:
             for i in range(len(self.t_fichiers)):
                 t_fichier2 = self.t_fichiers[i]
@@ -204,7 +242,7 @@ class CartesPourExport():
             print("nom_fichier1:",nom_fichier1)
 
 #        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau" or self.type_de_carte == "Neige_Precips":
-        if not self.instant:
+        if self.instant == "cumul":
             print("coucoucouou")
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
@@ -291,7 +329,7 @@ class CartesMonoParamExport(CartesPourExport):
         self.niveau_iso = niveau_iso
 
     def envoyer_carte_vers_gui(self):
-        print("CarteMonoParam",self.type_de_carte)
+        #print("CarteMonoParam",self.type_de_carte)
         self.load_config()
         self.construire_noms()
 
@@ -307,9 +345,9 @@ class CartesMonoParamExport(CartesPourExport):
 #            print(g.level,g)
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
-            print("self.shortName_grib: ",self.shortName_grib)
-            print("self.niveau_iso: ",self.niveau_iso)
-            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
+            #print("self.shortName_grib: ",self.shortName_grib)
+            #print("self.niveau_iso: ",self.niveau_iso)
+            #print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
             gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
 #            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
             if self.type_de_carte[0:4] == "Vent":
@@ -327,8 +365,8 @@ class CartesMonoParamExport(CartesPourExport):
 #        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
 #            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
 
-        print("Échéance: ",self.echeance)
-        print("indice échéance 1: ",indice_echeance)
+        #print("Échéance: ",self.echeance)
+        #print("indice échéance 1: ",indice_echeance)
 
         ech_mois = str(gt.validityDate)[4:6]
         ech_jour = str(gt.validityDate)[6:8]
@@ -348,7 +386,7 @@ class CartesMonoParamExport(CartesPourExport):
         elif self.zoom >= 1:
 
             lat11 = coords[1][0]
-            print(lat11)
+#            print(lat11)
             lat22 = coords[1][1]
             lon11 = coords[1][2]
             lon22 = coords[1][3]
@@ -358,11 +396,11 @@ class CartesMonoParamExport(CartesPourExport):
             if self.type_de_carte[0:4] == "Vent":
                 tt2, lats, lons = gt2.data(lat1=lat11,lat2=lat22,
                                          lon1=lon11,lon2=lon22)
-            print(lats[0,0],lats[-1,-1])
-            print(lons[0,0],lons[-1,-1])
+#            print(lats[0,0],lats[-1,-1])
+#            print(lons[0,0],lons[-1,-1])
 
-        print("Champ: ", gt.shortName, "    Validité: ", gt.validityDate,
-              " à ",gt.validityTime)
+        #print("Champ: ", gt.shortName, "    Validité: ", gt.validityDate,
+#              " à ",gt.validityTime)
 
         del gt
         grbs.close()
@@ -376,8 +414,8 @@ class CartesMonoParamExport(CartesPourExport):
 
         origin='lower'
 
-        print(self.levels_colorbar)
-        print(self.levels_colorbar[0])
+#        print(self.levels_colorbar)
+#        print(self.levels_colorbar[0])
         ln = int(self.levels_colorbar[0])
         lx = int(self.levels_colorbar[1])
         lst = float(self.levels_colorbar[2])
@@ -393,8 +431,8 @@ class CartesMonoParamExport(CartesPourExport):
                       linewidths=(0.15),
                       origin=origin,transform=ccrs.PlateCarree())
 
-        if self.verification == 1:
-            print("fin contour")
+#        if self.verification == 1:
+#            print("fin contour")
 
         if self.type_de_carte == "Neige_Cumul" or self.type_de_carte[0:4] == "Vent":
             nws_precip_colors = self.nws_precip_colors
@@ -432,19 +470,19 @@ class CartesMonoParamExport(CartesPourExport):
         gl.ylabel_style = {'size': 7, 'color': 'k'}
 #        gl.xlabel_style = {'color': 'red', 'weight': 'bold'}
 
-        if self.verification == 1:
-            print("fin contourf")
+#        if self.verification == 1:
+#            print("fin contourf")
 
         if self.echeance < 10:
             titre = self.titre_0 + "\n" + validite
-            nom = self.nom_0 + str(self.echeance)+'H.png'
+            nom = self.nom_0 + "+" + str(self.echeance)+'H.png'
         else:
             titre = self.titre_10 + "\n" + validite
-            nom = self.nom_10 + str(self.echeance)+'H.png'
+            nom = self.nom_10 + "+" + str(self.echeance)+'H.png'
         plt.text(0.5,0.97,titre,horizontalalignment='center',
                  verticalalignment='center', transform = ax.transAxes)
-        print(titre)
-        print(nom)
+#        print(titre)
+#        print(nom)
 
         #plt.title(titre)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -618,10 +656,10 @@ class CartesCumulsExport(CartesPourExport):
 
         if self.echeance < 10:
             titre = self.titre_0 + "\n" + validite
-            nom = self.nom_0 + str(self.echeance)+'H.png'
+            nom = self.nom_0 + "+" + str(self.echeance)+'H.png'
         else:
             titre = self.titre_10 + "\n" + validite
-            nom = self.nom_10 + str(self.echeance)+'H.png'
+            nom = self.nom_10 + "+" + str(self.echeance)+'H.png'
 
         if self.verification == 1:
             print(titre)
@@ -679,9 +717,9 @@ class LancerExport():
     def ToutesCartesMonoParam(self):
         """Export des cartes à un seul paramètre"""
 
-        echeance = (0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-                    21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
-                    39,40,41,42,)
+        echeance = range(0,60,1)#0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+                    #21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
+                    #39,40,41,42,)
         with Pool(10) as p:
             print(p.map(self.CarteMonoParamParEcheance,echeance))
 

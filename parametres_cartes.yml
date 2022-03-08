@@ -137,9 +137,9 @@ Hu2m: {
     conversion_unite: 0,
     unite: "%",
     unite_phy: r/r_sat,
-    levels_colorbar: [0,100,10],
-    levels_contours: [0,100,10],
-    cmap_carte: Purples,
+    levels_colorbar: [90,100,10],
+    levels_contours: [60,100,10],
+    cmap_carte: RdPu, #Purples,
     nws_precip_colors: 0,
     levels: 0,
     paquet_AROME_0.025: SP1,
@@ -235,7 +235,7 @@ Neige_Precips: {
 Neige_Cumul: {
     #niveau: 0002m,
     shortName_grib: sprate, #clé grib pour le cumul de neige
-    instant : cumul,
+    instant : True,
     conversion_unite: 0,
     unite: kg.m-2,
     unite_phy: kg.m-2,

@@ -167,6 +167,44 @@ class CartePourCanvas(Frame):
             print("t_fichier:",t_fichier1)
             print("nom_fichier:",nom_fichier1)
 
+        elif self.resolution == "0.5":
+            for i in range(len(self.t_fichiers)):
+                t_fichier2 = self.t_fichiers[i]
+                if ((self.echeance*3 >= int(t_fichier2[0:2])) and 
+                    (self.echeance*3 <= int(t_fichier2[3:5]))):
+                    print("###########################")
+                    print("int(t_fichier[3:5])",int(t_fichier2[3:5]))
+                    print("échéance*3:",self.echeance*3)
+                    print("i:",i)
+                    print("t_fichier2",t_fichier2)
+                    # t_fichier = self.t_fichiers[i]
+                    indice_echeance_2 = int(self.echeance - int(t_fichier2[0:2])/3)
+                    print("indice_echeance_2",indice_echeance_2)
+                    if indice_echeance_2 == 0:
+                        if self.echeance >0:
+                            t_fichier1 = self.t_fichiers[i-1]
+                            indice_echeance_1 = int(self.echeance - 
+                                                 int(self.t_fichiers[i-1][0:2])/3)
+                        elif self.echeance ==0:
+                            t_fichier1 = t_fichier2
+                            indice_echeance_1 = indice_echeance_2
+                    else:
+                        indice_echeance_1 = indice_echeance_2 - 1
+                        t_fichier1 = t_fichier2
+                    break
+                else:
+                    del(t_fichier2)
+
+            print("indice_echeance_1: ",indice_echeance_1)
+#            print("t_fichier2:",t_fichier2)
+            nom_fichier2 = self.nom_fichier_1 + t_fichier2 + \
+                self.nom_fichier_2
+            print("nom_fichier:",nom_fichier2)
+#            print("t_fichier1:",t_fichier1)
+            nom_fichier1 = self.nom_fichier_1 + t_fichier1 + \
+                self.nom_fichier_2
+            print("nom_fichier1:",nom_fichier1)
+            print("###########################")
         else:
             for i in range(len(self.t_fichiers)):
                 t_fichier2 = self.t_fichiers[i]
@@ -205,7 +243,7 @@ class CartePourCanvas(Frame):
 
 #        if self.type_de_carte == "DSW" or self.type_de_carte == "Flux_Chaleur_latente_Surface" or self.type_de_carte == "Flux_Chaleur_sensible_Surface" or self.type_de_carte == "Rayonnement_Thermique_Descendant_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface" or self.type_de_carte == "Rayonnement_Solaire_Net_Surface_Ciel_Clair" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface" or self.type_de_carte == "Rayonnement_Thermique_Net_Surface_Ciel_Clair" or self.type_de_carte == "Precips" or self.type_de_carte == "Total_Water_Precips" or self.type_de_carte == "Precips_Eau" or self.type_de_carte == "Neige_Precips":
         if self.instant == "cumul":
-            print("coucoucouou")
+#            print("coucoucouou")
             return (indice_echeance_1,indice_echeance_2,
                    nom_fichier1,nom_fichier2)
         else:
@@ -297,7 +335,7 @@ class CarteMonoParam(CartePourCanvas):
         return val * np.round(x/val)
 
     def envoyer_carte_vers_gui(self):
-        print("CarteMonoParam",self.type_de_carte)
+#        print("CarteMonoParam",self.type_de_carte)
         self.load_config()
         self.construire_noms()
 
@@ -308,14 +346,14 @@ class CarteMonoParam(CartePourCanvas):
 
         grbs = pygrib.open(nom_fichier)
         
-        for g in grbs:
-            print(g.shortName,g)
+#        for g in grbs:
+#            print(g.shortName,g)
 #            print(g.level,g)
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
-            print("self.shortName_grib: ",self.shortName_grib)
-            print("self.niveau_iso: ",self.niveau_iso)
-            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
+#            print("self.shortName_grib: ",self.shortName_grib)
+#            print("self.niveau_iso: ",self.niveau_iso)
+#            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
             gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
 
             if self.type_de_carte[0:4] == "Vent":
@@ -329,8 +367,8 @@ class CarteMonoParam(CartePourCanvas):
             if self.type_de_carte[0:4] == "Vent":
                 gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
 
-        print("Échéance: ",self.echeance)
-        print("indice échéance 1: ",indice_echeance)
+#        print("Échéance: ",self.echeance)
+#        print("indice échéance 1: ",indice_echeance)
 
         ech_mois = str(gt.validityDate)[4:6]
         ech_jour = str(gt.validityDate)[6:8]
@@ -360,11 +398,11 @@ class CarteMonoParam(CartePourCanvas):
             if self.type_de_carte[0:4] == "Vent":
                 tt2, lats, lons = gt2.data(lat1=lat11,lat2=lat22,
                                          lon1=lon11,lon2=lon22)
-            print(lats[0,0],lats[-1,-1])
-            print(lons[0,0],lons[-1,-1])
+#            print(lats[0,0],lats[-1,-1])
+#            print(lons[0,0],lons[-1,-1])
 
-        print("Champ: ", gt.shortName, "    Validité: ", gt.validityDate,
-              " à ",gt.validityTime)
+#        print("Champ: ", gt.shortName, "    Validité: ", gt.validityDate,
+#              " à ",gt.validityTime)
 
         del gt
         grbs.close()
@@ -379,8 +417,8 @@ class CarteMonoParam(CartePourCanvas):
 
         origin='lower'
 
-        print(self.levels_colorbar)
-        print(self.levels_colorbar[0])
+#        print(self.levels_colorbar)
+#        print(self.levels_colorbar[0])
         ln = int(self.levels_colorbar[0])
         lx = int(self.levels_colorbar[1])
         lst = float(self.levels_colorbar[2])
@@ -396,8 +434,8 @@ class CarteMonoParam(CartePourCanvas):
                       linewidths=(0.15),
                       origin=origin,transform=ccrs.PlateCarree())
 
-        if self.verification == 1:
-            print("fin contour")
+#        if self.verification == 1:
+#            print("fin contour")
 
         if self.type_de_carte == "Neige_Cumul" or self.type_de_carte[0:4] == "Vent":
             nws_precip_colors = self.nws_precip_colors
@@ -434,8 +472,8 @@ class CarteMonoParam(CartePourCanvas):
         gl.xlabel_style = {'size': 7, 'color': 'k'}
         gl.ylabel_style = {'size': 7, 'color': 'k'}
 
-        if self.verification == 1:
-            print("fin contourf")
+#        if self.verification == 1:
+#            print("fin contourf")
 
         if self.echeance < 10:
             titre = self.titre_0 + "\n" + validite
@@ -445,8 +483,8 @@ class CarteMonoParam(CartePourCanvas):
             nom = self.nom_10 + str(self.echeance)+'H.png'
         plt.text(0.5,0.97,titre,horizontalalignment='center',
                  verticalalignment='center', transform = ax.transAxes)
-        print(titre)
-        print(nom)
+#        print(titre)
+#        print(nom)
 
         #plt.title(titre)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -486,14 +524,14 @@ class CarteCumuls(CartePourCanvas):
         self.echeance = echeance
 
     def envoyer_carte_vers_gui(self):
-        print("CarteCumuls: ",self.type_de_carte)
+#        print("CarteCumuls: ",self.type_de_carte)
         self.load_config()
         self.construire_noms()
 
         if self.zoom >=1:
             coords = self.zones_zoom(self.zoom-1)
 
-        print(self.trouver_indice_echeance())
+#        print(self.trouver_indice_echeance())
 
         indice_echeance_1,indice_echeance_2,nom_fichier1,nom_fichier2 = self.\
             trouver_indice_echeance()
@@ -516,15 +554,15 @@ class CarteCumuls(CartePourCanvas):
         else:
             ech_heure = str(gt_2.validityTime)[0:2]
 
-        print("Champ: ",gt_2.shortName,"  Validité: ",gt_2.validityDate,
-              " à ",gt_2.validityTime)
+#        print("Champ: ",gt_2.shortName,"  Validité: ",gt_2.validityDate,
+#              " à ",gt_2.validityTime)
 
         validite ="Prévision pour le " + ech_jour + "/" + ech_mois+ \
             " " + ech_heure + "H"
 
-        if self.verification == 1:
-            print(gt_1)
-            print(gt_2)
+#        if self.verification == 1:
+#            print(gt_1)
+#            print(gt_2)
 
         if self.echeance == 0:
             if self.zoom == 0:
@@ -581,8 +619,8 @@ class CarteCumuls(CartePourCanvas):
 
         origin='lower'
 
-        print(self.levels_colorbar)
-        print(self.levels_colorbar[0])
+#        print(self.levels_colorbar)
+#        print(self.levels_colorbar[0])
         ln = int(self.levels_colorbar[0])
         lx = int(self.levels_colorbar[1])
         lst = float(self.levels_colorbar[2])
@@ -633,9 +671,9 @@ class CarteCumuls(CartePourCanvas):
             titre = self.titre_10 + "\n" + validite
             nom = self.nom_10 + str(self.echeance)+'H.png'
 
-        if self.verification == 1:
-            print(titre)
-            print(nom)
+#        if self.verification == 1:
+#            print(titre)
+#            print(nom)
         plt.text(0.5,0.97,titre,horizontalalignment='center',
                  verticalalignment='center', transform = ax.transAxes)
         #plt.title(titre)
