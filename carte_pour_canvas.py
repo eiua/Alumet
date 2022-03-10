@@ -359,14 +359,14 @@ class CarteMonoParam(CartePourCanvas):
 #            print("self.shortName_grib: ",self.shortName_grib)
 #            print("self.niveau_iso: ",self.niveau_iso)
 #            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
-            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso,forecastTime = self.echeance)[0]#)[indice_echeance]
 
             if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso,forecastTime = self.echeance)[0]#,)[indice_echeance]
         elif self.paquet[0] == "H":
-            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso,forecastTime = self.echeance)[0]#)[indice_echeance]
             if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso,forecastTime = self.echeance)[0]#)[indice_echeance]
         else:
 #            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
 #            if self.type_de_carte[0:4] == "Vent":
@@ -376,7 +376,7 @@ class CarteMonoParam(CartePourCanvas):
             print(type(self.echeance))
             print(gt)
             if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+                gt2 = grbs.select(shortName = self.shortName_grib_2,forecastTime = self.echeance)[0]#)[indice_echeance]
 
 #        print("Échéance: ",self.echeance)
 #        print("indice échéance 1: ",indice_echeance)
@@ -686,7 +686,7 @@ class CarteCumuls(CartePourCanvas):
 #            print(titre)
 #            print(nom)
         plt.text(0.5,0.97,titre,horizontalalignment='center',
-                 verticalalignment='center', transform = ax.transAxes)
+                 verticalalignment='center', transform = ax.transAxes,color="black",fontweight="bold",bbox=dict(boxstyle="round", fc="white", ec="k", lw=1,alpha=0.5))
         #plt.title(titre)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.savefig(nom,dpi=300)

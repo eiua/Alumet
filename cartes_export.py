@@ -167,43 +167,43 @@ class CartesPourExport():
             print("t_fichier:",t_fichier1)
             print("nom_fichier:",nom_fichier1)
 
-        elif self.resolution == "0.5":
-            for i in range(len(self.t_fichiers)):
-                t_fichier2 = self.t_fichiers[i]
-                if ((self.echeance*3 >= int(t_fichier2[0:2])) and 
-                    (self.echeance*3 <= int(t_fichier2[3:5]))):
-                    print("#######################")
-                    print("int(t_fichier[3:5])",int(t_fichier2[3:5]))
-                    print("échéance*3:",self.echeance*3)
-                    print("i:",i)
-                    print("t_fichier2",t_fichier2)
-                    # t_fichier = self.t_fichiers[i]
-                    indice_echeance_2 = int(self.echeance - int(t_fichier2[0:2])/3)
-                    print("indice_echeance_2",indice_echeance_2)
-                    if indice_echeance_2 == 0:
-                        if self.echeance >0:
-                            t_fichier1 = self.t_fichiers[i-1]
-                            indice_echeance_1 = int(self.echeance - 
-                                                 int(self.t_fichiers[i-1][0:2])/3)
-                        elif self.echeance ==0:
-                            t_fichier1 = t_fichier2
-                            indice_echeance_1 = indice_echeance_2
-                    else:
-                        indice_echeance_1 = indice_echeance_2 - 1
-                        t_fichier1 = t_fichier2
-                    break
-                else:
-                    del(t_fichier2)
+#        elif self.resolution == "0.5":
+#            for i in range(len(self.t_fichiers)):
+#                t_fichier2 = self.t_fichiers[i]
+#                if ((self.echeance*3 >= int(t_fichier2[0:2])) and 
+#                    (self.echeance*3 <= int(t_fichier2[3:5]))):
+#                    print("#######################")
+#                    print("int(t_fichier[3:5])",int(t_fichier2[3:5]))
+#                    print("échéance*3:",self.echeance*3)
+#                    print("i:",i)
+#                    print("t_fichier2",t_fichier2)
+#                    # t_fichier = self.t_fichiers[i]
+#                    indice_echeance_2 = int(self.echeance - int(t_fichier2[0:2])/3)
+#                    print("indice_echeance_2",indice_echeance_2)
+#                    if indice_echeance_2 == 0:
+#                        if self.echeance >0:
+#                            t_fichier1 = self.t_fichiers[i-1]
+#                            indice_echeance_1 = int(self.echeance - 
+#                                                 int(self.t_fichiers[i-1][0:2])/3)
+#                        elif self.echeance ==0:
+#                            t_fichier1 = t_fichier2
+#                            indice_echeance_1 = indice_echeance_2
+#                    else:
+#                        indice_echeance_1 = indice_echeance_2 - 1
+#                        t_fichier1 = t_fichier2
+#                    break
+#                else:
+#                    del(t_fichier2)
 
-#            print("t_fichier2:",t_fichier2)
-            nom_fichier2 = self.nom_fichier_1 + t_fichier2 + \
-                self.nom_fichier_2
-            print("nom_fichier:",nom_fichier2)
- #           print("t_fichier1:",t_fichier1)
-            nom_fichier1 = self.nom_fichier_1 + t_fichier1 + \
-                self.nom_fichier_2
-#            print("nom_fichier1:",nom_fichier1)
-            print("#######################")
+##            print("t_fichier2:",t_fichier2)
+#            nom_fichier2 = self.nom_fichier_1 + t_fichier2 + \
+#                self.nom_fichier_2
+#            print("nom_fichier:",nom_fichier2)
+# #           print("t_fichier1:",t_fichier1)
+#            nom_fichier1 = self.nom_fichier_1 + t_fichier1 + \
+#                self.nom_fichier_2
+##            print("nom_fichier1:",nom_fichier1)
+#            print("#######################")
 
         else:
             for i in range(len(self.t_fichiers)):
@@ -340,27 +340,57 @@ class CartesMonoParamExport(CartesPourExport):
 
         grbs = pygrib.open(nom_fichier)
         
+##        for g in grbs:
+##            print(g.shortName,g)
+##            print(g.level,g)
+
+#        if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
+#            #print("self.shortName_grib: ",self.shortName_grib)
+#            #print("self.niveau_iso: ",self.niveau_iso)
+#            #print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
+#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
+##            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
+#        elif self.paquet[0] == "H":
+#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
+#        else:
+#            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
 #        for g in grbs:
 #            print(g.shortName,g)
 #            print(g.level,g)
+#            print(g.validityDate,g)
+#            print(g["forecastTime"],g)
+#            print(g.forecastTime,g)
+#            print(g.validDate,g)
+#            print(g["fcst time"],g)
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
-            #print("self.shortName_grib: ",self.shortName_grib)
-            #print("self.niveau_iso: ",self.niveau_iso)
-            #print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
-            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
-#            gt = grbs.select(shortName = self.shortName_grib, level = self.niveaux[self.niveau_Iso])[indice_echeance]
-            if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
-        elif self.paquet[0] == "H":
-            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso)[indice_echeance]
-            if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
-        else:
-            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
-            if self.type_de_carte[0:4] == "Vent":
-                gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+#            print("self.shortName_grib: ",self.shortName_grib)
+#            print("self.niveau_iso: ",self.niveau_iso)
+#            print("self.type_de_carte[0:4]: ", self.type_de_carte[0:4])
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso,forecastTime = self.echeance)[0]#)[indice_echeance]
 
+            if self.type_de_carte[0:4] == "Vent":
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso,forecastTime = self.echeance)[0]#,)[indice_echeance]
+        elif self.paquet[0] == "H":
+            gt = grbs.select(shortName = self.shortName_grib, level = self.niveau_iso,forecastTime = self.echeance)[0]#)[indice_echeance]
+            if self.type_de_carte[0:4] == "Vent":
+                gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso,forecastTime = self.echeance)[0]#)[indice_echeance]
+        else:
+#            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+            gt = grbs.select(shortName = self.shortName_grib, forecastTime = self.echeance)[0]
+            print(self.echeance)
+            print(type(self.echeance))
+            print(gt)
+            if self.type_de_carte[0:4] == "Vent":
+                gt2 = grbs.select(shortName = self.shortName_grib_2,forecastTime = self.echeance)[0]#)[indice_echeance]
         #Pour le vent, ajout de la composante méridienne
 #        if self.type_de_carte == "Vent_Moy" or self.type_de_carte == "Vent_Raf" or self.type_de_carte == "Vent_Moy_100m" or :
 #            gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
@@ -428,7 +458,7 @@ class CartesMonoParamExport(CartesPourExport):
 
         cc = ax.contour(lons, lats, tt, levels_contour_2,
                       colors=('k'),
-                      linewidths=(0.15),
+                      linewidths=(0.1),
                       origin=origin,transform=ccrs.PlateCarree())
 
 #        if self.verification == 1:
@@ -455,7 +485,7 @@ class CartesMonoParamExport(CartesPourExport):
         #ax.barbs(lons[::50],lats[::50], vent_zonal[::50], vent_meri[::50],
         #    transform=ccrs.PlateCarree(),length=5)
 
-        lala_pvu = plt.clabel(cc, fontsize=8, fmt='%1.0f')
+        lala_pvu = plt.clabel(cc, fontsize=4, fmt='%1.0f')
 
         gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
                           linewidth=0.2, color='k', alpha=1, linestyle='--')
@@ -480,7 +510,7 @@ class CartesMonoParamExport(CartesPourExport):
             titre = self.titre_10 + "\n" + validite
             nom = self.nom_10 + "+" + str(self.echeance)+'H.png'
         plt.text(0.5,0.97,titre,horizontalalignment='center',
-                 verticalalignment='center', transform = ax.transAxes)
+                 verticalalignment='center', transform = ax.transAxes,color="black",fontweight="bold",bbox=dict(boxstyle="round", fc="white", ec="k", lw=1,alpha=0.5))
 #        print(titre)
 #        print(nom)
 
@@ -665,7 +695,7 @@ class CartesCumulsExport(CartesPourExport):
             print(titre)
             print(nom)
         plt.text(0.5,0.97,titre,horizontalalignment='center',
-                 verticalalignment='center', transform = ax.transAxes)
+                 verticalalignment='center', transform = ax.transAxes,color="black",fontweight="bold",bbox=dict(boxstyle="round", fc="white", ec="k", lw=1,alpha=0.5))
         #plt.title(titre)
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.savefig(nom,dpi=300)
@@ -717,9 +747,10 @@ class LancerExport():
     def ToutesCartesMonoParam(self):
         """Export des cartes à un seul paramètre"""
 
-        echeance = range(0,60,1)#0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-                    #21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,
-                    #39,40,41,42,)
+        if self.resolution == "0.5":
+            echeance = range(0,96,3)
+        else:
+            echeance = range(0,96,1)
         with Pool(10) as p:
             print(p.map(self.CarteMonoParamParEcheance,echeance))
 
