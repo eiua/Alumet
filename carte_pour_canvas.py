@@ -167,44 +167,44 @@ class CartePourCanvas(Frame):
             print("t_fichier:",t_fichier1)
             print("nom_fichier:",nom_fichier1)
 
-        elif self.resolution == "0.5":
-            for i in range(len(self.t_fichiers)):
-                t_fichier2 = self.t_fichiers[i]
-                if ((self.echeance*3 >= int(t_fichier2[0:2])) and 
-                    (self.echeance*3 <= int(t_fichier2[3:5]))):
-                    print("###########################")
-                    print("int(t_fichier[3:5])",int(t_fichier2[3:5]))
-                    print("échéance*3:",self.echeance*3)
-                    print("i:",i)
-                    print("t_fichier2",t_fichier2)
-                    # t_fichier = self.t_fichiers[i]
-                    indice_echeance_2 = int(self.echeance - int(t_fichier2[0:2])/3)
-                    print("indice_echeance_2",indice_echeance_2)
-                    if indice_echeance_2 == 0:
-                        if self.echeance >0:
-                            t_fichier1 = self.t_fichiers[i-1]
-                            indice_echeance_1 = int(self.echeance - 
-                                                 int(self.t_fichiers[i-1][0:2])/3)
-                        elif self.echeance ==0:
-                            t_fichier1 = t_fichier2
-                            indice_echeance_1 = indice_echeance_2
-                    else:
-                        indice_echeance_1 = indice_echeance_2 - 1
-                        t_fichier1 = t_fichier2
-                    break
-                else:
-                    del(t_fichier2)
+#        elif self.resolution == "0.5":
+#            for i in range(len(self.t_fichiers)):
+#                t_fichier2 = self.t_fichiers[i]
+#                if ((self.echeance*3 >= int(t_fichier2[0:2])) and 
+#                    (self.echeance*3 <= int(t_fichier2[3:5]))):
+#                    print("###########################")
+#                    print("int(t_fichier[3:5])",int(t_fichier2[3:5]))
+#                    print("échéance*3:",self.echeance*3)
+#                    print("i:",i)
+#                    print("t_fichier2",t_fichier2)
+#                    # t_fichier = self.t_fichiers[i]
+#                    indice_echeance_2 = int(self.echeance - int(t_fichier2[0:2])/3)
+#                    print("indice_echeance_2",indice_echeance_2)
+#                    if indice_echeance_2 == 0:
+#                        if self.echeance >0:
+#                            t_fichier1 = self.t_fichiers[i-1]
+#                            indice_echeance_1 = int(self.echeance - 
+#                                                 int(self.t_fichiers[i-1][0:2])/3)
+#                        elif self.echeance ==0:
+#                            t_fichier1 = t_fichier2
+#                            indice_echeance_1 = indice_echeance_2
+#                    else:
+#                        indice_echeance_1 = indice_echeance_2 - 1
+#                        t_fichier1 = t_fichier2
+#                    break
+#                else:
+#                    del(t_fichier2)
 
-            print("indice_echeance_1: ",indice_echeance_1)
-#            print("t_fichier2:",t_fichier2)
-            nom_fichier2 = self.nom_fichier_1 + t_fichier2 + \
-                self.nom_fichier_2
-            print("nom_fichier:",nom_fichier2)
-#            print("t_fichier1:",t_fichier1)
-            nom_fichier1 = self.nom_fichier_1 + t_fichier1 + \
-                self.nom_fichier_2
-            print("nom_fichier1:",nom_fichier1)
-            print("###########################")
+#            print("indice_echeance_1: ",indice_echeance_1)
+##            print("t_fichier2:",t_fichier2)
+#            nom_fichier2 = self.nom_fichier_1 + t_fichier2 + \
+#                self.nom_fichier_2
+#            print("nom_fichier:",nom_fichier2)
+##            print("t_fichier1:",t_fichier1)
+#            nom_fichier1 = self.nom_fichier_1 + t_fichier1 + \
+#                self.nom_fichier_2
+#            print("nom_fichier1:",nom_fichier1)
+#            print("###########################")
         else:
             for i in range(len(self.t_fichiers)):
                 t_fichier2 = self.t_fichiers[i]
@@ -349,6 +349,11 @@ class CarteMonoParam(CartePourCanvas):
 #        for g in grbs:
 #            print(g.shortName,g)
 #            print(g.level,g)
+#            print(g.validityDate,g)
+#            print(g["forecastTime"],g)
+#            print(g.forecastTime,g)
+#            print(g.validDate,g)
+#            print(g["fcst time"],g)
 
         if self.paquet[0] == "I": # si niveaux isobares ou hauteur, on charge les niveaux
 #            print("self.shortName_grib: ",self.shortName_grib)
@@ -363,7 +368,13 @@ class CarteMonoParam(CartePourCanvas):
             if self.type_de_carte[0:4] == "Vent":
                 gt2 = grbs.select(shortName = self.shortName_grib_2, level = self.niveau_iso)[indice_echeance]
         else:
-            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
+#            gt = grbs.select(shortName = self.shortName_grib)[indice_echeance]
+#            if self.type_de_carte[0:4] == "Vent":
+#                gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
+            gt = grbs.select(shortName = self.shortName_grib, forecastTime = self.echeance)[0]
+            print(self.echeance)
+            print(type(self.echeance))
+            print(gt)
             if self.type_de_carte[0:4] == "Vent":
                 gt2 = grbs.select(shortName = self.shortName_grib_2)[indice_echeance]
 
@@ -482,7 +493,7 @@ class CarteMonoParam(CartePourCanvas):
             titre = self.titre_10 + "\n" + validite
             nom = self.nom_10 + str(self.echeance)+'H.png'
         plt.text(0.5,0.97,titre,horizontalalignment='center',
-                 verticalalignment='center', transform = ax.transAxes)
+                 verticalalignment='center', transform = ax.transAxes,color="black",fontweight="bold",bbox=dict(boxstyle="round", fc="white", ec="k", lw=1,alpha=0.5))
 #        print(titre)
 #        print(nom)
 
